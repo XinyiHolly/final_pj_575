@@ -1,0 +1,62 @@
+<html>
+      <head>
+        <meta charset="UTF-8">
+        <title>CHANGELOG.md</title>
+      </head>
+      <body>
+        <h1 id="version-2-7-3">Version 2.7.3</h1>
+<ul>
+<li>Fixed options in TypeScript definition</li>
+</ul>
+<h1 id="version-2-7-2">Version 2.7.2</h1>
+<ul>
+<li>Removed Bower support</li>
+<li>Modified library into a more more palatable architecture, where the Bitap portion is now its own separate module.</li>
+</ul>
+<h3 id="breaking-changes">BREAKING CHANGES</h3>
+<ul>
+<li>Removed <code>include</code> option in favor of more explicit booleans: <code>includeScore</code> and <code>includeMatches</code>. Both are <code>false</code> by default.</li>
+<li>Removed <code>searchFn</code> option, as this (for now) will remain a Bitap based solution</li>
+</ul>
+<h1 id="version-2-6-2">Version 2.6.2</h1>
+<ul>
+<li>Fix typings based on TypeScript guidelines (#129)</li>
+</ul>
+<h1 id="version-2-6-0">Version 2.6.0</h1>
+<ul>
+<li>Added Typescript definition</li>
+<li>Added ability to set min/max matched character lengths when returning the matched indices (#122)</li>
+</ul>
+<h1 id="version-2-5-0">Version 2.5.0</h1>
+<ul>
+<li>Added option to search by matching all tokens (in every record) when <code>matchAllTokens:true</code> (#95)</li>
+</ul>
+<h1 id="version-2-3-0">Version 2.3.0</h1>
+<ul>
+<li>Added token separator to options, when <code>tokenize:true</code> (#93)</li>
+<li>General code clean up (#88)</li>
+<li>Bunch of other bug fixes</li>
+</ul>
+<h1 id="version-2-2-0">Version 2.2.0</h1>
+<ul>
+<li>Added option to include matched indices (#6)</li>
+<li>Added ability to search with weighted keys (#62)</li>
+</ul>
+<h1 id="version-2-1-0-beta">Version 2.1.0-beta</h1>
+<ul>
+<li>Added ability to search with weighted keys (#62)</li>
+</ul>
+<h1 id="version-2-0-0">Version 2.0.0</h1>
+<ul>
+<li>Modified search algorithm to search individual words AND the full string, computing the final score as a function of both. This yields better scoring accuracy (#41)</li>
+<li>Changed exact substrings to not have a score of zero. That is searching for &quot;hell&quot; in &quot;hello&quot; will not yield a score of zero, while searching for &quot;hello&quot; will (#63)</li>
+<li>Added <code>verbose</code> option, which will print to the console useful information, mostly for debugging</li>
+<li>Improved code structure.</li>
+<li>Added version information within Fuse itself</li>
+<li>Added this Changelog (#64)</li>
+<li>Added fallback when pattern length is greater than machine word length (i.e, &gt; 32 characters) (#38)</li>
+<li>Allowed results with a value of 0 to be returned (#73)</li>
+</ul>
+
+      </body>
+    </html>
