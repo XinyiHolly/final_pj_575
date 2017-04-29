@@ -416,11 +416,11 @@ function dehighlightAirport(props){
 		});   
 	});
 	
-	//intro window
+	//create grayout background
 	d3.select(".container2")
-	.append("div")
-	.attr("class","grayOut")
-			
+		.append("div")
+		.attr("class","grayOut")
+	//create intro window and fade out effect	
 	d3.select("body")
 		.append("div").attr("class","OverviewBox")
 		.html("<span class='OverviewBoxTitle'><p>Welcome to U.S. Delay Flight Tracker</p></span><span class='OverviewBoxContent'><p>This interactive map is for exploring the temporal and spatial trends of delay domestic flights within the U.S. from 2014 to 2016. We believe that users will make better and smarter itinerary decisions by comparing the historic differences in delay frequencies between airlines.<br> To detect more insights, you can use the filters on the left-hand side to investigate information such as the percentage of delay flights per airport, average delay time per airport, delay patterns across time and airlines, types of flight delay, etc.<br> If you want to get a more intuitive guide on how to use this map, please watch this <a href='tutorial.html' target='_blank'>tutorial</a>.</p></span>")
@@ -431,35 +431,43 @@ function dehighlightAirport(props){
 			$(".grayOut").fadeOut(350)
 	})
 	
+	//display intro window again 
+	$(".menu-button1").on("click",function(){
+		$(".OverviewBox").fadeIn(350)
+		$(".grayOut").fadeIn(350)
+	})
+
 	//set up hover effect for resetter buttons
 	$(".resetter").hover(function(){
 		$(this).toggleClass('hovered')
-		}, function(){
-		$(this).toggleClass('hovered')
-	})
+		})
 	
 	//reset for proportional symbol filter
-	var divClone1=$("#proportion-panel").clone();
 	$(".return_default1").on("click",function(){
-		$("#proportion-panel").replaceWith(divClone1)
+		var radioButton1=$("input[id=percentage]");
+		radioButton1.prop("checked",true);
 	})
-		
+	
 	//reset for time filter
-	var divClone2=$("#time-panel").clone();
 	$(".return_default2").on("click",function(){
-		$("#time-panel").replaceWith(divClone2)
+		var slider1=$("input[id=yearInput]");
+		var slider2=$("input[id=monthInput]");
+		var slider3=$("input[id=dayInput]");
+		slider1.jRange("setValue", "2014,2015"); 
+		slider2.jRange("setValue","0,6"); 
+		slider3.jRange("setValue","1,4"); 
 	})
 	
 	//reset for delay filter
-	var divClone3=$("#delay-panel").clone();
 	$(".return_default3").on("click",function(){
-		$("#delay-panel").replaceWith(divClone3)
+		var showAllButton=$("input[id=all]");
+		showAllButton.prop("checked",true);
 	})
 	
 	//reset for airline filter
-	var divClone4=$("#airline-panel").clone();
 	$(".return_default4").on("click",function(){
-		$("#airline-panel").replaceWith(divClone4)
+		var checkBoxes = $("input[name=airline]");
+		checkBoxes.prop("checked",true);
 	})
 	
 	//fuzzy search
