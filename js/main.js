@@ -378,10 +378,10 @@ function dehighlightAirport(props){
 	//create grayout background
 	d3.select(".container2")
 		.append("div")
-		.attr("class","grayOut")
+		.attr("class","grayOut col-md-12 col-lg-12 col-sm-12")
 	//create intro window and fade out effect
 	d3.select("body")
-		.append("div").attr("class","OverviewBox")
+		.append("div").attr("class","OverviewBox col-md-12 col-lg-12 col-sm-12")
 		.html("<span class='OverviewBoxTitle'><p>Welcome to U.S. Delay Flight Tracker</p></span><span class='OverviewBoxContent'><p>This interactive map is for exploring the temporal and spatial trends of delay domestic flights within the U.S. from 2014 to 2016. We believe that users will make better and smarter itinerary decisions by comparing the historic differences in delay frequencies between airlines.<br> To detect more insights, you can use the filters on the left-hand side to investigate information such as the percentage of delay flights per airport, average delay time per airport, delay patterns across time and airlines, types of flight delay, etc.<br> If you want to get a more intuitive guide on how to use this map, please watch this <a href='tutorial.html' target='_blank'>tutorial</a>.</p></span>")
 		.append("button").attr("class","OverviewButton")
 		.text("Click Here to Enter the Map")
