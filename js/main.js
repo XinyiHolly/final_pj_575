@@ -214,8 +214,7 @@ function lines(data){
 
 	var arcs = map.append("svg:g")
     	.attr("id", "arcs")
-    	.attr("class", "arcs")
-    	.moveToBack();
+    	.attr("class", "arcs");
 
 	arcs.selectAll("arc")
 		.data(links)
@@ -245,8 +244,6 @@ function lines(data){
 		// .style({'stroke': "#252525", "stroke-linejoin":"round", "cursor": "pointer"})
 		.style('stroke-width', function(d) {return lineStroke(d.total_delayed)})
 		.call(lineTransition);
-	d3.select(".states")
-		.moveToBack();
 };
 
 function highlightAirport(props){
