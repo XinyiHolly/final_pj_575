@@ -120,9 +120,9 @@ span a{
 .sexy_line{
 	display:block;
     border:none;
-    color:white;
+    color:#5fbfef;
     height:1px;
-    background:black;
+    background:#2b669a;
     background: -webkit-gradient(radial, 50% 50%, 0, 50% 50%, 350, from(#2b669a), to(#5fbfef));
 }
 
