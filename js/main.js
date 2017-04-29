@@ -23,7 +23,7 @@ function setMap(){
         .attr("class", "map")
         .attr("width", width)
         .attr("height", height);
-    
+
     //create Albers equal area conic projection
     projection = d3.geoAlbers()
         .center([-0.8, 39.96])
@@ -39,7 +39,7 @@ function setMap(){
     d3.queue()
         .defer(d3.json, "data/states.topojson") //load background states
         .await(callback);
-	
+
     function callback(error,states){
         //Translate the topojson
         var states_topo = topojson.feature(states, states.objects.collection);
@@ -58,50 +58,6 @@ function setStateOverlay(states_topo, map, path){
         .attr("d", path);
 };
 
-// function getFirstAirportDelays(map){
-//     $.ajax({
-//         url: airportsURL,
-//         data: {
-//             type: 1,
-//             fyr: 2014,
-//             lyr: 2014,
-//             fmth: 1,
-//             lmth: 12,
-//             fdow: 1,
-//             ldow: 1,
-//             airlines: eval([19393,19930]).join(",")
-//         },
-//         error: function() {
-//             console.log("error");
-//         },
-//         dataType: 'json',
-//         success: function(data) {
-//         	console.log(data)
-//             setAirportDelays(data.data,map);
-//         },
-//         type: 'GET'
-//     });
-// }
-
-// function setAirportDelays(airports,map){
-// 	for (i = 0; i < airports.length; i++) {
-//             var location = [+airports[i].lng, +airports[i].lat]
-//             var position = projection(location)
-//             airports[i]["position"] = position
-//         }
-
-//     var circles = map.append("svg")
-//         .attr("id", "circles");
-//     circles.selectAll("circles")
-//         .data(airports)
-//         .enter()
-//         .append("circle")
-//             .attr('cx', function(d) {return d.position[0]})
-//             .attr('cy', function(d) { return d.position[1]})
-//             .attr("r", function(d) { return d.stats.delayed/3;})
-//             .attr("id",function(d) { return d.code});
-// }
-
 var changeTimer = false;
 $("input[name=proportional_symbol],#yearInput,#monthInput,#dayInput,input[name=delay],input[name=airline],input[name=checkBtn]" ).on("change",function(){
     if(changeTimer !== false) clearTimeout(changeTimer);
@@ -119,7 +75,7 @@ $("input[name=proportional_symbol],#yearInput,#monthInput,#dayInput,input[name=d
 			return parseInt(this.value);
 		}).get();
 
-	//Do ajax call	
+	//Do ajax call
 	$.ajax({
         url: airportsURL,
         data: {
@@ -335,7 +291,7 @@ function dehighlightAirport(props){
 	$(".nav-item").click(function(){
 		$(".nav-item").removeClass("active")
 		$(this).addClass("active")
-		
+
 		//figure out what to display
 		$(".navbar-panel").css({'display': "none"})
 		_thisData = $(this).data('panel')
@@ -361,13 +317,13 @@ function dehighlightAirport(props){
 		$(".control-panel").css({'display': "none"})
 		$(".nav-item").removeClass("active")
 	})
-	
+
 	//dehighlight the return icon once mouse is moved out
 	$("#navbar-return").mouseout(function(){
 		$(".nav-item").removeClass("active")
 	})
 	*/
-	
+
 	//range sliders
 	$(".range-slider1").jRange({
 		from:2014,
@@ -379,7 +335,7 @@ function dehighlightAirport(props){
 		isRange:true,
 		snap:true
 	})
-	
+
 	$(".range-slider2").jRange({
 		from:1,
 		to:12,
@@ -390,7 +346,7 @@ function dehighlightAirport(props){
 		isRange:true,
 		snap:true
 	})
-	
+
 	$(".range-slider3").jRange({
 		from:1,
 		to:7,
@@ -401,7 +357,7 @@ function dehighlightAirport(props){
 		isRange:true,
 		snap:true
 	})
-	
+
 	//airline checkboxes
 	$(document).ready(function() {
 		var checkBoxes = $("input[name=airline]");
@@ -413,14 +369,14 @@ function dehighlightAirport(props){
 			$(this).val("Uncheck All")}
 		else{
 			$(this).val("Check All")}
-		});   
+		});
 	});
-	
+
 	//create grayout background
 	d3.select(".container2")
 		.append("div")
 		.attr("class","grayOut")
-	//create intro window and fade out effect	
+	//create intro window and fade out effect
 	d3.select("body")
 		.append("div").attr("class","OverviewBox")
 		.html("<span class='OverviewBoxTitle'><p>Welcome to U.S. Delay Flight Tracker</p></span><span class='OverviewBoxContent'><p>This interactive map is for exploring the temporal and spatial trends of delay domestic flights within the U.S. from 2014 to 2016. We believe that users will make better and smarter itinerary decisions by comparing the historic differences in delay frequencies between airlines.<br> To detect more insights, you can use the filters on the left-hand side to investigate information such as the percentage of delay flights per airport, average delay time per airport, delay patterns across time and airlines, types of flight delay, etc.<br> If you want to get a more intuitive guide on how to use this map, please watch this <a href='tutorial.html' target='_blank'>tutorial</a>.</p></span>")
@@ -430,8 +386,8 @@ function dehighlightAirport(props){
 			$(".OverviewBox").fadeOut(350)
 			$(".grayOut").fadeOut(350)
 	})
-	
-	//display intro window again 
+
+	//display intro window again
 	$(".menu-button1").on("click",function(){
 		$(".OverviewBox").fadeIn(350)
 		$(".grayOut").fadeIn(350)
@@ -441,35 +397,35 @@ function dehighlightAirport(props){
 	$(".resetter").hover(function(){
 		$(this).toggleClass('hovered')
 		})
-	
+
 	//reset for proportional symbol filter
 	$(".return_default1").on("click",function(){
 		var radioButton1=$("input[id=percentage]");
 		radioButton1.prop("checked",true);
 	})
-	
+
 	//reset for time filter
 	$(".return_default2").on("click",function(){
 		var slider1=$("input[id=yearInput]");
 		var slider2=$("input[id=monthInput]");
 		var slider3=$("input[id=dayInput]");
-		slider1.jRange("setValue", "2014,2015"); 
-		slider2.jRange("setValue","0,6"); 
-		slider3.jRange("setValue","1,4"); 
+		slider1.jRange("setValue", "2014,2015");
+		slider2.jRange("setValue","0,6");
+		slider3.jRange("setValue","1,4");
 	})
-	
+
 	//reset for delay filter
 	$(".return_default3").on("click",function(){
 		var showAllButton=$("input[id=all]");
 		showAllButton.prop("checked",true);
 	})
-	
+
 	//reset for airline filter
 	$(".return_default4").on("click",function(){
 		var checkBoxes = $("input[name=airline]");
 		checkBoxes.prop("checked",true);
 	})
-	
+
 	//fuzzy search
 	// var options = {
 	// 	shouldSort: true,
@@ -487,5 +443,5 @@ function dehighlightAirport(props){
 	// };
 	// var fuse = new Fuse(airports, options); // "list" is the item array
 	// var result = fuse.search("");
-	
+
 })();
