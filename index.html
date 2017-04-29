@@ -80,15 +80,17 @@
 					<input type="reset" id="return_default">
 				</div>
 			</div-->
-			
-			<div id="search-panel" class="navbar-panel control-panel col-md-4 col-sm-6 col-lg-8">
+		<div class="navbar-panel control-panel col-md-4 col-sm-6 col-lg-8">
+			<div id="search-panel">
 				<h3 class="title">Search An Airport:</h3>
 				<div>
 					<input type="text" id="airport_search" placeholder="Search your destination airport (e.g. 'DEN')" style="width:100%">
 				</div>
 			</div>
 			
-			<div id="proportion-panel" class="navbar-panel control-panel col-md-4 col-sm-6 col-lg-8">
+			<hr id="Division1" class="sexy_line">
+			
+			<div id="proportion-panel">
 				<h3 class="title">Proportional Symbol By:</h3>
 				<div>
 					<input type="radio" id="percentage" name="proportional_symbol" value=1 checked>
@@ -103,7 +105,9 @@
 				</div>
 			</div>
 			
-			<div id="time-panel" class="navbar-panel control-panel col-md-4 col-sm-6 col-lg-8">
+			<hr id="Division2" class="sexy_line">
+			
+			<div id="time-panel">
 				<h3 class="title">Filter Year(s):</h3>
 				<div>
 					<input class="range-slider1" id="yearInput" type="hidden" value="2014,2015"/>
@@ -123,7 +127,9 @@
 				</div>
 			</div>
 			
-			<div id="delay-panel" class="navbar-panel control-panel col-md-4 col-sm-6 col-lg-8">
+			<hr id="Division3" class="sexy_line">
+			
+			<div id="delay-panel">
 				<h3 class="title">Show Types of Delay:</h3>
 				<div id="radioDelay">
 					<input type="radio" id="carrier" value="weather" name="delay">
@@ -150,7 +156,9 @@
 				</div>
 			</div>
 			
-			<div id="airline-panel" class="navbar-panel control-panel col-md-4 col-sm-6 col-lg-8">
+			<hr id="Division4" class="sexy_line">
+			
+			<div id="airline-panel">
 				<h3 class="title">Filter Airline(s):</h3>
 				<div id="checkboxAirline">
 					<input type="checkbox" id="19930" name="airline" value="19930" checked="checked">
@@ -221,7 +229,6 @@
 		<script type="text/javascript" src="lib/d3-queue/d3-queue.js"></script>
 		<script type="text/javascript" src="lib/topojson/topojson.js"></script>
 		<script type="text/javascript" src="lib/d3-geo-projection/d3-geo-projection.js"></script>
-		<script src="lib/d3-extended.min.js"></script>
 		<script type="text/javascript" src="lib/Fuse/dist/fuse.min.js"></script>
 		<script type="text/javascript" src="js/main.js"></script>
 	</body>
