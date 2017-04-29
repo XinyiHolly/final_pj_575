@@ -244,7 +244,7 @@ function dehighlightAirport(props){
 		$(".OverviewBox").fadeIn(350)
 		$(".grayOut").fadeIn(350)
 	})
-	
+
 	//set up hover effect for resetter buttons
 	$(".resetter").hover(function(){
 		$(this).toggleClass('hovered')
