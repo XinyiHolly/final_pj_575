@@ -72,6 +72,7 @@
             transform: rotate(360deg);  /* Firefox 16+, IE 10+, Opera */
         }
     }
+/*loader codes end*/
 
 .grayOut{
 	background-color:#333;
@@ -119,6 +120,64 @@ span a{
 	height:10%;
 	font-size:15px;
 	font-weight:bold;
+}
+
+.ContactBox{
+	background:linear-gradient(#5fbfef,#519adb);
+	box-shadow: 0 4px 20px 0 rgba(0, 0, 0, 0.5);
+	padding:15px;
+	font-family:Gill Sans MT;
+	/*font-size:20px;*/
+	position:absolute;
+	top:6%;
+	left:30%;
+	width:55%;
+	height:90%;
+	border-radius:25px;
+}
+
+.ContactButton{
+	position:relative;
+	top:-6%;
+	left:43%;
+	width:30%;
+	height:5%;
+	font-size:15px;
+	font-weight:bold;
+}
+
+.TutorialBox{
+	background:linear-gradient(#5fbfef,#519adb);
+	box-shadow: 0 4px 20px 0 rgba(0, 0, 0, 0.5);
+	padding:15px;
+	font-family:Gill Sans MT;
+	/*font-size:20px;*/
+	position:absolute;
+	top:25%;
+	left:35%;
+	width:40%;
+	height:50%;
+	border-radius:25px;
+}
+
+.TutorialButton{
+	position:relative;
+	top:80%;
+	width:100%;
+	height:10%;
+	font-size:15px;
+	font-weight:bold;
+}
+
+.footerDiv{
+	position:absolute;
+	top:15%;
+	margin-left:4%;
+	color:white;
+}
+
+.foot-button1{
+	cursor:pointer;
 }
 
 .navbar-brand{
@@ -226,6 +285,123 @@ h3.title{
 	text-align:left;
 	/*padding-top:10px;*/
 }
+
+/*codes for styling contact window*/
+h3{
+	font-weight:bold;
+	text-align:center;
+}
+
+.Contact_Title{
+	position:absolute;
+	top:-1%;
+	left:10%;
+	font-family:Gill Sans MT;
+	font-size:100%;
+}
+/*
+.Author_Intro{
+	position:relative;
+	top:9%;	
+	left:80%;
+}
+*/
+.GeneralIntro1{
+	text-align:center;
+	font-size:18px;
+}
+
+#Division{
+	position:relative;
+	top:5.5%;
+}
+
+.ChrisPic{
+	border-radius:50%
+}
+
+.XinyiPic{
+	border-radius:50%;
+}
+
+.BeichenPic{
+	border-radius:50%;
+}
+
+.Author_Detail{
+	position:absolute;
+	top:10%;
+	left:50%;
+	font-family:Gill Sans MT;
+	font-size:100%;
+}
+
+p.tag{
+	position:relative;
+	font-family:Gill Sans MT;
+	font-size:25px;
+}
+
+p.description{
+	position:relative;
+	font-family:Gill Sans MT;
+	font-size:16px;
+}
+
+p.Describe{
+	font-family:Gill Sans MT;
+	color:black;
+	font-size:16px;
+}
+
+.team{
+	position:relative;
+	top:5%;
+	text-align:center;
+}
+
+.Chris{
+	position:relative;
+	left:-13%;
+	width:75%;
+	margin-top:6%;
+	margin-bottom:1%;
+}
+
+.Xinyi{
+	position:relative;
+	left:-13%;
+	width:75%;
+	margin-bottom:1%;
+}
+
+.Beichen{
+	position:relative;
+	left:-13%;
+	width:75%;
+}
+
+.ChrisDetails{
+	position:relative;
+	left:-20%;
+	width:80%;
+	margin-top:5%;
+	margin-bottom:24%;
+}
+
+.XinyiDetails{
+	position:relative;
+	left:-20%;
+	width:80%;
+	margin-bottom:23%;
+}
+
+.BeichenDetails{
+	position:relative;
+	left:-20%;
+	width:80%;
+}
+/*codes for contact window end*/
 
 .resetter{
 	cursor:pointer;

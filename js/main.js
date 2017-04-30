@@ -349,7 +349,7 @@ function dehighlightAirport(props){
 			$(".loader").show();
 	})
 
-	//create loader
+	//create start page loader
 	d3.select("body")
 		.append("div")
 		.attr("class","loader")
@@ -363,12 +363,42 @@ function dehighlightAirport(props){
 		});
 	}
 	
-	//display intro window again
+	//display intro window and grayout background again when 'About' is clicked
 	$(".menu-button1").on("click",function(){
 		$(".OverviewBox").fadeIn(350)
 		$(".grayOut").fadeIn(350)
 	})
 
+	//append button to contact window and set up fade out effect
+	d3.select(".ContactBox")
+		.append("button").attr("class","ContactButton")
+		.text("Click Here to Enter the Map")
+		.on("click",function(){
+			$(".ContactBox").fadeOut(350);
+			$(".grayOut").fadeOut(350);
+		})
+	
+	//display contact window and grayout background again when 'Contact' is clicked
+	$(".menu-button2").on("click",function(){
+		$(".ContactBox").fadeIn(350)
+		$(".grayOut").fadeIn(350)
+	})
+	
+	//append button to tutorial window and set up fade out effect
+		d3.select(".TutorialBox")
+		.append("button").attr("class","TutorialButton")
+		.text("Click Here to Enter the Map")
+		.on("click",function(){
+			$(".TutorialBox").fadeOut(350);
+			$(".grayOut").fadeOut(350);
+		})
+	
+	//display tutorial window and grayout background again when 'Tutorial' is clicked
+	$(".foot-button1").on("click",function(){
+		$(".TutorialBox").fadeIn(350)
+		$(".grayOut").fadeIn(350)
+	})
+	
 	//set up hover effect for resetter buttons
 	$(".resetter").hover(function(){
 		$(this).toggleClass('hovered')
