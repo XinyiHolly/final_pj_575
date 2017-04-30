@@ -109,34 +109,34 @@ function updateAirportDelays(airports,delayType,params){
             airports[i]["position"] = position
         }
 
-    map.selectAll("svg#circles").remove();
-    var circles = map.append("svg")
+  map.selectAll("svg#circles").remove();
+  var circles = map.append("svg")
     	.attr("id", "circles");
 
-	circles.selectAll("circles")
-        .data(airports)
-        .enter()
-        .append("circle")
-	        .attr('cx', function(d) {return d.position[0]})
+	circles.selectAll(".circles")
+      .data(airports)
+      .enter()
+      .append("circle")
+          .attr("class", function(d) { return ("airports_" + d.origincode)})
+	        .attr('cx', function(d) { return d.position[0]})
 	        .attr('cy', function(d) { return d.position[1]})
 	        .attr("r", function(d) { return d.stats.delayed/3;})
 	        .style("fill",'blue')
 	        .style("fill-opacity",'0.5')
 
 	        // generate arcs
-            .on("click", function (d) {
-            	console.log(d)
-                $.ajax({
-                    url: routesURL,
-                    data: {
-			            type: params.type,
-			            fyr: params.fyr,
-			            lyr: params.lyr,
-			            fmth: params.fmth,
-			            lmth: params.lmth,
-			            fdow: params.fdow,
-			            ldow: params.ldow,
-			            airlines: eval(params.airline).join(","),
+          .on("click", function (d) {
+              $.ajax({
+                  url: routesURL,
+                  data: {
+			              type: params.type,
+			              fyr: params.fyr,
+			              lyr: params.lyr,
+			              fmth: params.fmth,
+			              lmth: params.lmth,
+			              fdow: params.fdow,
+			              ldow: params.ldow,
+			              airlines: eval(params.airline).join(","),
                         dest: d.origincode
                     },
                     error: function() {
@@ -149,9 +149,94 @@ function updateAirportDelays(airports,delayType,params){
                         lines(data)
                     },
                     type: 'GET'
-                });
-            });
+              });
+          })
+          .on("mouseover", function(d){
+              console.log(d);
+              highlightAirport(d.origincode);
+          })
+          .on("mouseout", function(d){
+              dehighlightAirport(d.origincode)
+          })
+          .on("mousemove", moveLabel);
+      // select all the airport circles
+      var airports = circles.selectAll("circle")
+      airports.append("desc")
+          .text('{"fill": "blue", "stroke-width": "0.5px", "stroke-opacity": "0.65"}');
+
+      //var arcs = d3.selectAll(".arcs");
+
 }
+
+//function to highlight enumeration units and bars
+function highlightAirport(code){
+
+    //change stroke
+    var selected = d3.selectAll(".airports_" + code)
+        .style("fill", "#000080")
+        .moveToFront();
+
+    //call set label
+    retrieveInfor(code);
+    //changeChart(expressed,code,1,selected.style('fill'));
+};
+
+//function to get information window
+function retrieveInfor(code){
+    //label content
+    var labelAttribute = "<h3>" + code + "</h3><b>total</b>";
+
+    //create info label div
+    var infolabel = d3.select("#row")
+        .append("div")
+        .attr("class", "infolabel")
+        .attr("id", code + "_label")
+        .html(labelAttribute);
+};
+
+//function to reset the element style on mouseout
+function dehighlightAirport(code){
+    var selected = d3.selectAll(".airports_" + code)
+        .style("fill", function(){
+            return getStyle(this, "fill")
+        });
+
+    d3.select(".infolabel")
+        .remove();
+
+    function getStyle(element, styleName){
+        var styleText = d3.select(element)
+            .select("desc")
+            .text();
+
+        var styleObject = JSON.parse(styleText);
+
+        return styleObject[styleName];
+    };
+};
+
+function moveLabel(){
+    //get width of label
+    var labelWidth = d3.select(".infolabel")
+        .node()
+        .getBoundingClientRect()
+        .width;
+
+    //use coordinates of mousemove event to set label coordinates
+    var x1 = d3.event.clientX + 10,
+        y1 = d3.event.clientY - 75,
+        x2 = d3.event.clientX - labelWidth - 10,
+        y2 = d3.event.clientY + 25;
+
+    //horizontal label coordinate, testing for overflow
+    var x = d3.event.clientX > window.innerWidth - labelWidth - 20 ? x2 : x1;
+    //vertical label coordinate, testing for overflow
+    var y = d3.event.clientY < 75 ? y2 : y1;
+
+    d3.select(".infolabel")
+        .style("left", x + "px")
+        .style("top", y + "px");
+};
 
 function drawLinesOut(){
 	//clear flow lines
@@ -204,7 +289,7 @@ function lines(data){
 			type: "LineString",
 			coordinates: coords,
 			total_delayed: dl,
- 			name: origins[i].name,
+ 			origincode: origins[i].origincode,
 			//units: units
 		});
 	}
@@ -220,7 +305,7 @@ function lines(data){
 		.data(links)
 		.enter()
 		.append("path")
-		.attr('class', 'arc')
+		.attr('class', function(d) { return ("arc " + d.origincode)})
 		// .append("svg:arc")
 		.style('fill', 'none')
 		.attr("d", function(d){
@@ -244,31 +329,54 @@ function lines(data){
 		// .style({'stroke': "#252525", "stroke-linejoin":"round", "cursor": "pointer"})
 		.style('stroke-width', function(d) {return lineStroke(d.total_delayed)})
 		.call(lineTransition);
+
+  var paths = d3.selectAll("path")
+          .on("mouseover", function(d){
+              highlightRoute(d.origincode);
+          })
+          .on("mouseout", function(d){
+              dehighlightRoute(d.origincode)
+          })
+          .on("mousemove", moveLabel)
+          .append("desc")
+          .text('{"stroke": "#252525"}');
 };
 
-function highlightAirport(props){
+//function to highlight enumeration units and bars
+function highlightRoute(code){
+
     //change stroke
-    var selected = d3.selectAll("#" + props.iata)
-        .style("stroke", "yellow")
-        .style("stroke-width", "5")
-        .style("stroke-opacity", "1");
+    var selected = d3.selectAll("." + code)
+        .style("stroke", "#000080")
+        .moveToFront();
 
     //call set label
-    //setLabel(props);
-
+    retrieveRoute(code);
+    //changeChart(expressed,code,1,selected.style('fill'));
 };
 
-function dehighlightAirport(props){
-    var selected = d3.selectAll("#" + props.iata)
+//function to get information window
+function retrieveRoute(code){
+    //label content
+    var labelAttribute = "<h3>" + code + "</h3><b>total</b>";
+
+    //create info label div
+    var infolabel = d3.select("#row")
+        .append("div")
+        .attr("class", "infolabel")
+        .attr("id", code + "_label")
+        .html(labelAttribute);
+};
+
+//function to reset the element style on mouseout
+function dehighlightRoute(code){
+    var selected = d3.selectAll("." + code)
         .style("stroke", function(){
             return getStyle(this, "stroke")
-        })
-        .style("stroke-width", function(){
-            return getStyle(this, "stroke-width")
         });
 
-    // d3.select(".infolabel")
-    //     .remove();
+    d3.select(".infolabel")
+        .remove();
 
     function getStyle(element, styleName){
         var styleText = d3.select(element)
@@ -280,49 +388,6 @@ function dehighlightAirport(props){
         return styleObject[styleName];
     };
 };
-	/*
-	//navigation bar controls
-	$(".nav-item").hover(function(){
-	$(this).toggleClass('navbar-hovered')
-	}, function(){
-	$(this).toggleClass('navbar-hovered')
-	})
-
-	$(".nav-item").click(function(){
-		$(".nav-item").removeClass("active")
-		$(this).addClass("active")
-
-		//figure out what to display
-		$(".navbar-panel").css({'display': "none"})
-		_thisData = $(this).data('panel')
-		if (_thisData == "search"){
-			$("#search-panel").slideToggle()
-		}else if (_thisData == "proportion"){
-			$("#proportion-panel").slideToggle()
-		}else if (_thisData == "time"){
-			$("#time-panel").slideToggle()
-		}else if (_thisData == "delay"){
-			$("#delay-panel").slideToggle()
-		}else if (_thisData == "airline"){
-			$("#airline-panel").slideToggle()
-		}else{
-			return
-		}
-
-	})
-	*/
-	/*
-	//close filter panel when user clicks outside the panel
-	$("#mapDiv").click(function(){
-		$(".control-panel").css({'display': "none"})
-		$(".nav-item").removeClass("active")
-	})
-
-	//dehighlight the return icon once mouse is moved out
-	$("#navbar-return").mouseout(function(){
-		$(".nav-item").removeClass("active")
-	})
-	*/
 
 	//range sliders
 	$(".range-slider1").jRange({

@@ -53,7 +53,7 @@ span a{
 	/*left:0.5%;*/
 }
 
-.navbar-default .navbar-brand{  									
+.navbar-default .navbar-brand{
 	font-family:Gill Sans MT;
 	font-size: 25px;
 	font-weight:bold;
@@ -284,6 +284,7 @@ h3.title{
 .arc {
     fill: none;
     stroke: #252525;
+		stroke-opacity: 0.5;
     stroke-linejoin: round;
     cursor: pointer;
 }
