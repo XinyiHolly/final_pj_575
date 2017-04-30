@@ -29,13 +29,12 @@ span a{
 	font-family:Gill Sans MT;
 	font-size:20px;
 	position:absolute;
-	//z-index:2932939239293923;
+	/*z-index:2932939239293923;*/
 	top:30%;
 	left:30%;
 	width:50%;
-	height:35%;
+	height:32%;
 	border-radius:25px;
-	/*border-style:ridge;*/
 }
 
 .OverviewButton{
@@ -73,14 +72,6 @@ span a{
 	cursor:pointer;
 }
 
-/*
-.navbar2{
-	position:absolute;
-	top:10%;
-	left:0%;
-}
-*/
-
 #navbar-list-group{
 	height:10%;
 	min-width: 100px !important;
@@ -88,7 +79,6 @@ span a{
 	z-index:2932939239293923;
 	margin:0px;
 	padding:0px;
-	border-style:ridge;
 }
 
 .container-footer{
@@ -115,16 +105,45 @@ span a{
 }
 
 .control-panel{
-	width:300px;
+	position:absolute;
+	width:19%;
+	height:100%;
+	left:0%;
+	background:linear-gradient(#5fbfef,#519adb);
 	/*background-color: white;*/
 	/*position: absolute;*/
 	/*z-index:1000000002383823;*/
 	/*top: 10%;*/
 	/*left: 100px;*/
-	/*display: none;*/
-	//border-style:ridge;
-	/*background-image:url('../img/cloudground.jpg');*/
-	background:linear-gradient(#5fbfef,#519adb);
+}
+
+.sexy_line{
+	display:block;
+    border:none;
+    color:#5fbfef;
+    height:1px;
+    background:#2b669a;
+    background: -webkit-gradient(radial, 50% 50%, 0, 50% 50%, 350, from(#2b669a), to(#5fbfef));
+}
+
+#Division1{
+	position:relative;
+	top:12%;
+}
+
+#Division2{
+	position:relative;
+	top:20%;
+}
+
+#Division3{
+	position:relative;
+	top:36%;
+}
+
+#Division4{
+	position:relative;
+	top:54%;
 }
 
 h3.title{
@@ -143,79 +162,73 @@ h3.title{
 }
 
 .hovered{
-	/*background-color:#519adb;*/
 	background:linear-gradient(#3a8ad1,#81cef4);
 	cursor: pointer;
 }
 
 .return_default1{
-	top:10%;
+	top:12%;
 	left:90%;
 }
 
 .return_default2{
-	top:5%;
+	top:22%;
 	left:90%;
 }
 
 .return_default3{
-	top:5%;
+	top:40%;
 	left:90%;
 }
 
 .return_default4{
-	top:5%;
+	top:60%;
 	left:90%;
 }
 
 #search-panel{
-	height:9.7%;
+	height:0%;
 	font-family:Gill Sans MT;
 	padding-left:20px;
-	padding-right:20px;
-	position:absolute;
-	top:5.3%;
-	left:0%;
+	padding-right:18px;
+	position:relative;
+	top:6%;
 }
 
 #proportion-panel{
-	height:12%;
+	height:0%;
 	font-family:Gill Sans MT;
 	padding-left:20px;
 	padding-right:20px;
-	position:absolute;
-	top:15%;
-	left:0%;
+	position:relative;
+	top:12%;
 }
 
 #time-panel{
-	height:21%;
+	height:0%;
 	font-family:Gill Sans MT;
 	padding-left:20px;
 	padding-right:20px;
-	position:absolute;
-	top:27%;
-	left:0%;
+	position:relative;
+	top:19%;
 }
 
 #delay-panel{
-	height:23%;
+	height:0%;
 	font-family:Gill Sans MT;
 	padding-left:20px;
 	padding-right:20px;
-	position:absolute;
-	top:48%;
-	left:0%;
+	position:relative;
+	top:35%;
 }
 
 #airline-panel{
-	height:26%;
+	height:0%;
 	font-family:Gill Sans MT;
 	padding-left:20px;
 	padding-right:20px;
-	position:absolute;
-	top:71%;
-	left:0%;
+	position:relative;
+	top:53%;
 }
 
 #checkboxAirline{
@@ -227,8 +240,8 @@ h3.title{
 	position:absolute;
 	margin-bottom: 20px;
 	top:3%;
-	left:13%;
-	width:85%;
+	left:18%;
+	width:82%;
 	height:95%;
 }
 
@@ -237,7 +250,7 @@ h3.title{
 	height:100%;
 }
 
-.states {
+.states{
     fill-opacity: 0;
     stroke: #666666;
     stroke-width: 0.5px;
