@@ -159,7 +159,7 @@ h3{
 	position:absolute;
 	text-align:center;
 	top:200%;
-	left:-130%;
+	left:-150%;
 }
 
 .ChrisPic{
@@ -170,7 +170,7 @@ h3{
 	position:absolute;
 	text-align:center;
 	top:650%;
-	left:-130%;
+	left:-150%;
 }
 
 .XinyiPic{
@@ -181,7 +181,7 @@ h3{
 	position:absolute;
 	text-align:center;
 	top:1100%;
-	left:-130%;
+	left:-150%;
 }
 
 .BeichenPic{
@@ -191,7 +191,7 @@ h3{
 
 .Author_Detail{
 	position:absolute;
-	top:20%;
+	top:15%;
 	left:55%;
 	font-family:Gill Sans MT;
 	font-size:100%;
@@ -212,22 +212,22 @@ p.description{
 .ChrisDetails{
 	position:relative;
 	left:-15%;
-	width:70%;
+	width:60%;
 	margin-top:5%;
-	margin-bottom:19%;
+	margin-bottom:18%;
 }
 
 .XinyiDetails{
 	position:relative;
 	left:-15%;
-	width:70%;
-	margin-bottom:17%;
+	width:60%;
+	margin-bottom:15%;
 }
 
 .BeichenDetails{
 	position:relative;
 	left:-15%;
-	width:70%;
+	width:60%;
 }
 
 .hovered{

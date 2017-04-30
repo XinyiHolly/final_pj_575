@@ -283,49 +283,7 @@ function dehighlightAirport(props){
         return styleObject[styleName];
     };
 };
-	/*
-	//navigation bar controls
-	$(".nav-item").hover(function(){
-	$(this).toggleClass('navbar-hovered')
-	}, function(){
-	$(this).toggleClass('navbar-hovered')
-	})
 
-	$(".nav-item").click(function(){
-		$(".nav-item").removeClass("active")
-		$(this).addClass("active")
-
-		//figure out what to display
-		$(".navbar-panel").css({'display': "none"})
-		_thisData = $(this).data('panel')
-		if (_thisData == "search"){
-			$("#search-panel").slideToggle()
-		}else if (_thisData == "proportion"){
-			$("#proportion-panel").slideToggle()
-		}else if (_thisData == "time"){
-			$("#time-panel").slideToggle()
-		}else if (_thisData == "delay"){
-			$("#delay-panel").slideToggle()
-		}else if (_thisData == "airline"){
-			$("#airline-panel").slideToggle()
-		}else{
-			return
-		}
-
-	})
-	*/
-	/*
-	//close filter panel when user clicks outside the panel
-	$("#mapDiv").click(function(){
-		$(".control-panel").css({'display': "none"})
-		$(".nav-item").removeClass("active")
-	})
-
-	//dehighlight the return icon once mouse is moved out
-	$("#navbar-return").mouseout(function(){
-		$(".nav-item").removeClass("active")
-	})
-	*/
 
 	//range sliders
 	$(".range-slider1").jRange({
@@ -386,10 +344,25 @@ function dehighlightAirport(props){
 		.append("button").attr("class","OverviewButton")
 		.text("Click Here to Enter the Map")
 		.on("click",function(){
-			$(".OverviewBox").fadeOut(350)
-			$(".grayOut").fadeOut(350)
+			$(".OverviewBox").fadeOut(350);
+			$(".grayOut").fadeOut(350);
+			$(".loader").show();
 	})
 
+	//create loader
+	d3.select("body")
+		.append("div")
+		.attr("class","loader")
+		.style("display","none")
+	$(window).on("load",function(){
+		setTimeout(removeLoader,5000)
+	});
+	function removeLoader(){
+		$(".loader").fadeOut(3800,function(){
+			$(".loader").remove();
+		});
+	}
+	
 	//display intro window again
 	$(".menu-button1").on("click",function(){
 		$(".OverviewBox").fadeIn(350)
