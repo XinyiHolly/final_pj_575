@@ -393,6 +393,7 @@ function dehighlightRoute(code){
     };
 };
 
+
 	//range sliders
 	$(".range-slider1").jRange({
 		from:2014,
@@ -452,16 +453,61 @@ function dehighlightRoute(code){
 		.append("button").attr("class","OverviewButton")
 		.text("Click Here to Enter the Map")
 		.on("click",function(){
-			$(".OverviewBox").fadeOut(350)
-			$(".grayOut").fadeOut(350)
+			$(".OverviewBox").fadeOut(350);
+			$(".grayOut").fadeOut(350);
+			$(".loader").show();
 	})
 
-	//display intro window again
+	//create start page loader
+	d3.select("body")
+		.append("div")
+		.attr("class","loader")
+		.style("display","none")
+	$(window).on("load",function(){
+		setTimeout(removeLoader,5000)
+	});
+	function removeLoader(){
+		$(".loader").fadeOut(3800,function(){
+			$(".loader").remove();
+		});
+	}
+	
+	//display intro window and grayout background again when 'About' is clicked
 	$(".menu-button1").on("click",function(){
 		$(".OverviewBox").fadeIn(350)
 		$(".grayOut").fadeIn(350)
 	})
 
+	//append button to contact window and set up fade out effect
+	d3.select(".ContactBox")
+		.append("button").attr("class","ContactButton")
+		.text("Click Here to Enter the Map")
+		.on("click",function(){
+			$(".ContactBox").fadeOut(350);
+			$(".grayOut").fadeOut(350);
+		})
+	
+	//display contact window and grayout background again when 'Contact' is clicked
+	$(".menu-button2").on("click",function(){
+		$(".ContactBox").fadeIn(350)
+		$(".grayOut").fadeIn(350)
+	})
+	
+	//append button to tutorial window and set up fade out effect
+		d3.select(".TutorialBox")
+		.append("button").attr("class","TutorialButton")
+		.text("Click Here to Enter the Map")
+		.on("click",function(){
+			$(".TutorialBox").fadeOut(350);
+			$(".grayOut").fadeOut(350);
+		})
+	
+	//display tutorial window and grayout background again when 'Tutorial' is clicked
+	$(".foot-button1").on("click",function(){
+		$(".TutorialBox").fadeIn(350)
+		$(".grayOut").fadeIn(350)
+	})
+	
 	//set up hover effect for resetter buttons
 	$(".resetter").hover(function(){
 		$(this).toggleClass('hovered')
