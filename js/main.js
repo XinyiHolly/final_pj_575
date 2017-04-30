@@ -330,9 +330,8 @@ function lines(data){
 		// .style({'stroke': "#252525", "stroke-linejoin":"round", "cursor": "pointer"})
 		.style('stroke-width', function(d) {return lineStroke(d.total_delayed)})
 		.call(lineTransition);
-<<<<<<< HEAD
 
-  var paths = d3.selectAll("path")
+  		var paths = d3.selectAll("path")
           .on("mouseover", function(d){
               highlightRoute(d.origincode);
           })
@@ -342,10 +341,9 @@ function lines(data){
           .on("mousemove", moveLabel)
           .append("desc")
           .text('{"stroke": "#252525"}');
-=======
+
 		d3.select(".states")
 		.moveToBack();
->>>>>>> origin/master
 };
 
 //function to highlight enumeration units and bars
@@ -496,23 +494,4 @@ function dehighlightRoute(code){
 		var checkBoxes = $("input[name=airline]");
 		checkBoxes.prop("checked",true);
 	})
-
-	//fuzzy search
-	// var options = {
-	// 	shouldSort: true,
-	// 	includeMatches: true,
-	// 	threshold: 0.5,
-	// 	location: 0,
-	// 	distance: 100,
-	// 	maxPatternLength: 24,
-	// 	minMatchCharLength: 3,
-	// 	keys:[
-	// 	"name",
-	// 	"city",
-	// 	"iata"
-	// 	]
-	// };
-	// var fuse = new Fuse(airports, options); // "list" is the item array
-	// var result = fuse.search("");
-
 })();
