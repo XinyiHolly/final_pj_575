@@ -29,11 +29,11 @@ span a{
 	font-family:Gill Sans MT;
 	font-size:20px;
 	position:absolute;
-	//z-index:2932939239293923;
+	/*z-index:2932939239293923;*/
 	top:30%;
 	left:30%;
 	width:50%;
-	height:35%;
+	height:32%;
 	border-radius:25px;
 }
 
@@ -241,7 +241,7 @@ h3.title{
 	margin-bottom: 20px;
 	top:3%;
 	left:18%;
-	width:85%;
+	width:82%;
 	height:95%;
 }
 
