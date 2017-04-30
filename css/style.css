@@ -29,11 +29,11 @@ span a{
 	font-family:Gill Sans MT;
 	font-size:20px;
 	position:absolute;
-	//z-index:2932939239293923;
+	/*z-index:2932939239293923;*/
 	top:30%;
 	left:30%;
 	width:50%;
-	height:35%;
+	height:32%;
 	border-radius:25px;
 }
 
@@ -52,7 +52,7 @@ span a{
 	/*left:0.5%;*/
 }
 
-.navbar-default .navbar-brand{  									
+.navbar-default .navbar-brand{
 	font-family:Gill Sans MT;
 	font-size: 25px;
 	font-weight:bold;
@@ -190,7 +190,7 @@ h3.title{
 	height:0%;
 	font-family:Gill Sans MT;
 	padding-left:20px;
-	//padding-right:20px;
+	padding-right:18px;
 	position:relative;
 	top:6%;
 }
@@ -240,8 +240,8 @@ h3.title{
 	position:absolute;
 	margin-bottom: 20px;
 	top:3%;
-	left:13%;
-	width:85%;
+	left:18%;
+	width:82%;
 	height:95%;
 }
 
@@ -297,6 +297,7 @@ h3.title{
 .arc {
     fill: none;
     stroke: #252525;
+		stroke-opacity: 0.5;
     stroke-linejoin: round;
     cursor: pointer;
 }
