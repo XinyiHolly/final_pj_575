@@ -66,15 +66,16 @@ function setStateOverlay(states_topo, map, path){
 function populateAutocomplete(){
 	input = document.getElementById("airport_search")
 	autocomplete = new Awesomplete(input, {
+		list:"#mylist",
 		data: function (item, input) {
 			return { label: item.origincode+" - "+item.originname, value: item.origincode};},
 		minChars: 2,
 		maxItems: 5
 	});
 	//Add events for displaying routes and clearing search window
-	input.addEventListener('awesomplete-select', function (e) {
-		console.log(e.target.value)
-		callRoutes(e.target.value);
+	input.addEventListener('awesomplete-select', function () {
+		console.log(this.selected);
+		callRoutes(this.value);
 	}, false);
 	input.addEventListener('awesomplete-selectcomplete', function (e) {
 		this.selected = e.target.value;
@@ -168,7 +169,7 @@ function callAirports (){
         },
         dataType: 'json',
         success: function(data) {
-            updateAirportDelays(data.data,params.delay,params);
+            updateAirportDelays(data.data,params.delay);
             autocomplete.list = data.data;
         },
         type: 'GET'
@@ -195,13 +196,13 @@ function callRoutes(destination){
 		dataType: 'json',
 		success: function(data) {
 			drawLinesOut();
-			lines(data)
+			lines(data,params.delay)
 		},
 		type: 'GET'
 	});
 }
 
-function updateAirportDelays(airports,delayType,params){
+function updateAirportDelays(airports,delayType){
 	for (i = 0; i < airports.length; i++) {
 		var location = [+airports[i].lng, +airports[i].lat]
 		var position = projection(location)
@@ -211,7 +212,6 @@ function updateAirportDelays(airports,delayType,params){
 	map.selectAll("svg#circles").remove();
 	var circles = map.append("svg")
 		.attr("id", "circles");
-
 	circles.selectAll(".circles")
 		.data(airports)
 		.enter()
@@ -219,7 +219,22 @@ function updateAirportDelays(airports,delayType,params){
 			.attr("class", function(d) { return ("airports_" + d.origincode)})
 			.attr('cx', function(d) { return d.position[0]})
 			.attr('cy', function(d) { return d.position[1]})
-			.attr("r", function(d) { return d.stats.delayed/3;})
+			.attr("r", function(d) {
+				var scale = 3;
+				if (delayType == 'carrier'){
+					return d.stats.carrierd/scale;
+				}else if(delayType == 'weather'){
+					return d.stats.weatherd/scale;
+				}else if(delayType == 'security'){
+					return d.stats.securityd/scale;
+				}else if(delayType == 'nas'){
+					return d.stats.nasd/scale;
+				}else if(delayType == 'arriving_late'){
+					return d.stats.lateaircraftd/scale;
+				}else{
+					return d.stats.delayed/scale;
+				}
+			})
 			.style("fill",'blue')
 			.style("fill-opacity",'0.5')
 			//Add airport events for click and highlight
@@ -314,7 +329,7 @@ function drawLinesOut(){
 	d3.selectAll(".arc").remove();
 };
 
-function lines(data){
+function lines(data,delayType){
 	//draw flow lines
 	var array = d3.values(data);
 	//Create list containing only field_goal_attempts
@@ -355,7 +370,21 @@ function lines(data){
 		// (note: loop until length - 1 since we're getting the next
 		//  item with i+1)
 		var coords = [[ origins[i].originlng, origins[i].originlat ],[ origins[i].desetlng, origins[i].destlat ]]
-		var dl = origins[i].stats.delayed
+
+		if (delayType == 'carrier'){
+				var dl = origins[i].stats.carrier
+			}else if(delayType == 'weather'){
+				var dl = origins[i].stats.weatherd;
+			}else if(delayType == 'security'){
+				var dl = origins[i].stats.securityd;
+			}else if(delayType == 'nas'){
+				var dl = origins[i].stats.nasd;
+			}else if(delayType == 'arriving_late'){
+				var dl = origins[i].stats.lateaircraftd
+			}else{
+				var dl = origins[i].stats.delayed;
+			}
+
 		links.push({
 			type: "LineString",
 			coordinates: coords,
@@ -399,7 +428,9 @@ function lines(data){
 			projection(d.coordinates[1])[1]
 		})
 		// .style({'stroke': "#252525", "stroke-linejoin":"round", "cursor": "pointer"})
-		.style('stroke-width', function(d) {return lineStroke(d.total_delayed)})
+		.style('stroke-width', function(d) {
+			return d.total_delayed;
+		})
 		.call(lineTransition);
 
   		var paths = d3.selectAll("path")
