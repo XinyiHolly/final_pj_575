@@ -17,6 +17,7 @@
 		<link rel="stylesheet" href="css/style.css">
 		<link rel="stylesheet" href="lib/jRange/jquery.range.css">
 		<link rel="stylesheet" href="css/animate.css">
+		<link rel="stylesheet" href="css/awesomplete.css">
 	</head>
 	
 	<body>		
@@ -58,7 +59,7 @@
 			<hr id="Division1" class="sexy_line">
 			
 			<div id="proportion-panel">
-				<h3 class="title">Proportional Symbol By:</h3>
+				<h3 class="title">Symbolize By:</h3>
 				<div>
 					<input type="radio" id="percentage" name="proportional_symbol" value=1 checked>
 					<label for="percentage">Percentage of Delay Flights</label>
@@ -75,17 +76,17 @@
 			<hr id="Division2" class="sexy_line">
 			
 			<div id="time-panel">
-				<h3 class="title">Filter Year(s):</h3>
+				<h3 class="title">Year(s):</h3>
 				<div>
 					<input class="range-slider1" id="yearInput" type="hidden" value="2014,2015"/>
 				</div>
 				
-				<h3 class="title">Filter Month(s):</h3>
+				<h3 class="title">Month(s):</h3>
 				<div>
 					<input class="range-slider2" id="monthInput" type="hidden" value="0,6"/>
 				</div>
 				
-				<h3 class="title">Filter Day(s):</h3>
+				<h3 class="title">Day(s):</h3>
 				<div>
 					<input class="range-slider3" id="dayInput" type="hidden" value="1,4"/>
 				</div>
@@ -97,7 +98,7 @@
 			<hr id="Division3" class="sexy_line">
 			
 			<div id="delay-panel">
-				<h3 class="title">Show Types of Delay:</h3>
+				<h3 class="title">Type(s) of Delay:</h3>
 				<div id="radioDelay">
 					<input type="radio" id="carrier" value="weather" name="delay">
 					<label for="carrier">Air Carrier</label><br>
@@ -127,7 +128,7 @@
 			<hr id="Division4" class="sexy_line">
 			
 			<div id="airline-panel">
-				<h3 class="title">Filter Airline(s):</h3>
+				<h3 class="title">Airline(s):</h3>
 				<div id="checkboxAirline">
 					<input type="checkbox" id="19930" name="airline" value="19930" checked="checked">
 					<label for="19930">Alaska</label><br>
@@ -146,7 +147,7 @@
 				
 					<input type="checkbox" id="20436" name="airline" value="20436" checked="checked">
 					<label for="20436">Frontier</label><br>
-					
+
 					<input type="checkbox" id="20409" name="airline" value="20409" checked="checked">
 					<label for="20409">JetBlue</label><br>
 				</div>
@@ -244,7 +245,7 @@
 		<script type="text/javascript" src="lib/topojson/topojson.js"></script>
 		<script type="text/javascript" src="lib/d3-geo-projection/d3-geo-projection.js"></script>
 		<script type="text/javascript" src="lib/d3-extended.min.js"></script>
-		<script type="text/javascript" src="lib/Fuse/dist/fuse.min.js"></script>
+		<script type="text/javascript" src="lib/awesomplete.min.js"></script>
 		<script type="text/javascript" src="js/main.js"></script>
 	</body>
 	
