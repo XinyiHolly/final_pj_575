@@ -334,8 +334,29 @@ function lines(data,delayType){
 	var array = d3.values(data);
 	//Create list containing only field_goal_attempts
 	var origins = array[2];
-	var min = d3.min(origins, function(d) {return d.stats.delayed});
-	var max = d3.max(origins, function(d) {return d.stats.delayed});
+
+	if (delayType == 'carrier'){
+		var min = d3.min(origins, function(d) {return d.stats.carrier});
+		var max = d3.max(origins, function(d) {return d.stats.carrier});
+	}else if(delayType == 'weather'){
+		var min = d3.min(origins, function(d) {return d.stats.weatherd});
+		var max = d3.max(origins, function(d) {return d.stats.weatherd});
+	}else if(delayType == 'security'){
+		var min = d3.min(origins, function(d) {return d.stats.securityd});
+		var max = d3.max(origins, function(d) {return d.stats.securityd});
+	}else if(delayType == 'nas'){
+		var min = d3.min(origins, function(d) {return d.stats.nasd});
+		var max = d3.max(origins, function(d) {return d.stats.nasd});
+	}else if(delayType == 'arriving_late'){
+		var min = d3.min(origins, function(d) {return d.stats.lateaircraftd});
+		var max = d3.max(origins, function(d) {return d.stats.lateaircraftd});
+	}else{
+		var min = d3.min(origins, function(d) {return d.stats.delayed});
+		var max = d3.max(origins, function(d) {return d.stats.delayed});
+		console.log(min)
+		console.log(max)
+	}
+	
 	var domain = [min, max];
 	var direction = "to"
 
@@ -372,18 +393,18 @@ function lines(data,delayType){
 		var coords = [[ origins[i].originlng, origins[i].originlat ],[ origins[i].desetlng, origins[i].destlat ]]
 
 		if (delayType == 'carrier'){
-				var dl = origins[i].stats.carrier
-			}else if(delayType == 'weather'){
-				var dl = origins[i].stats.weatherd;
-			}else if(delayType == 'security'){
-				var dl = origins[i].stats.securityd;
-			}else if(delayType == 'nas'){
-				var dl = origins[i].stats.nasd;
-			}else if(delayType == 'arriving_late'){
-				var dl = origins[i].stats.lateaircraftd
-			}else{
-				var dl = origins[i].stats.delayed;
-			}
+			var dl = origins[i].stats.carrierd;
+		}else if(delayType == 'weather'){
+			var dl = origins[i].stats.weatherd;
+		}else if(delayType == 'security'){
+			var dl = origins[i].stats.securityd;
+		}else if(delayType == 'nas'){
+			var dl = origins[i].stats.nasd;
+		}else if(delayType == 'arriving_late'){
+			var dl = origins[i].stats.lateaircraftd
+		}else{
+			var dl = origins[i].stats.delayed;
+		}
 
 		links.push({
 			type: "LineString",
@@ -428,9 +449,7 @@ function lines(data,delayType){
 			projection(d.coordinates[1])[1]
 		})
 		// .style({'stroke': "#252525", "stroke-linejoin":"round", "cursor": "pointer"})
-		.style('stroke-width', function(d) {
-			return d.total_delayed;
-		})
+		.style('stroke-width', function(d) {return lineStroke(d.total_delayed)})
 		.call(lineTransition);
 
   		var paths = d3.selectAll("path")
