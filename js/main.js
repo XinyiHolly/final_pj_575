@@ -2,10 +2,11 @@
 (function(){
 
 var map,projection;
-
+var params = {}; //object for storing filter params
+var autocomplete; //used for updating the list
+//Delay APIs
 var airportsURL = 'http://144.92.235.47:4040/airports'
 var routesURL = 'http://144.92.235.47:4040/routes'
-
 
 //begin script when window loads
 window.onload = setMap();
@@ -44,9 +45,12 @@ function setMap(){
         //Translate the topojson
         var states_topo = topojson.feature(states, states.objects.collection);
 
-        //Generate map
+        //Generate app
         setStateOverlay(states_topo, map, path);
-        //getFirstAirportDelays(map);
+        setParams();
+        setFilterChangeEvents()
+        populateAutocomplete();
+        callAirports ();
     };
 };
 
@@ -58,11 +62,28 @@ function setStateOverlay(states_topo, map, path){
         .attr("d", path);
 };
 
-var changeTimer = false;
-$("input[name=proportional_symbol],#yearInput,#monthInput,#dayInput,input[name=delay],input[name=airline],input[name=checkBtn]" ).on("change",function(){
-    if(changeTimer !== false) clearTimeout(changeTimer);
-    changeTimer = setTimeout(function(){
-    	var params = {}
+//create autocomplete for search
+function populateAutocomplete(){
+	input = document.getElementById("airport_search")
+	autocomplete = new Awesomplete(input, {
+		data: function (item, input) {
+			return { label: item.origincode+" - "+item.originname, value: item.origincode};},
+		minChars: 2,
+		maxItems: 5
+	});
+	//Add events for displaying routes and clearing search window
+	input.addEventListener('awesomplete-select', function (e) {
+		console.log(e.target.value)
+		callRoutes(e.target.value);
+	}, false);
+	input.addEventListener('awesomplete-selectcomplete', function (e) {
+		this.selected = e.target.value;
+		e.target.value = null;
+	}, false);
+}
+
+//Set the params variables
+function setParams(){
         params['type'] = $('input[name=proportional_symbol]:checked').val()
         params['fyr'] = $('#yearInput').val().split(",")[0]
         params['lyr'] = $('#yearInput').val().split(",")[1]
@@ -73,8 +94,62 @@ $("input[name=proportional_symbol],#yearInput,#monthInput,#dayInput,input[name=d
         params['delay'] = $('input[name=delay]:checked').val()
         params['airline'] = $("input[name=airline]:checked").map(function() {
 			return parseInt(this.value);
-		}).get();
+		}).get();	
+}
 
+//Sets separate filter change events
+function setFilterChangeEvents(){
+	var changeTimer1=changeTimer2=changeTimer3=changeTimer4=changeTimer5=false;
+	$("input[name=proportional_symbol]" ).on("change",function(){
+		if(changeTimer1 !== false) clearTimeout(changeTimer1);
+		changeTimer1 = setTimeout(function(){
+			params['type'] = $('input[name=proportional_symbol]:checked').val()
+			callAirports();
+			changeTimer1 = false;
+		},50);
+	});
+	$("#yearInput,#monthInput,#dayInput" ).on("change",function(){
+		if(changeTimer2 !== false) clearTimeout(changeTimer2);
+		changeTimer2 = setTimeout(function(){
+			params['fyr'] = $('#yearInput').val().split(",")[0]
+        	params['lyr'] = $('#yearInput').val().split(",")[1]
+        	params['fmth'] = $('#monthInput').val().split(",")[0]
+        	params['lmth'] = $('#monthInput').val().split(",")[1]
+        	params['fdow'] = $('#dayInput').val().split(",")[0]
+        	params['ldow'] = $('#dayInput').val().split(",")[1]
+			callAirports();
+			changeTimer2 = false;
+		},200);
+	});
+	$("input[name=delay]" ).on("change",function(){
+		if(changeTimer3 !== false) clearTimeout(changeTimer3);
+		changeTimer3 = setTimeout(function(){
+			params['delay'] = $('input[name=delay]:checked').val()
+			callAirports();
+			changeTimer3 = false;
+		},50);
+	});
+	$("input[name=airline]" ).on("change",function(){
+		if(changeTimer4 !== false) clearTimeout(changeTimer4);
+		changeTimer4 = setTimeout(function(){
+			params['airline'] = $("input[name=airline]:checked").map(function() {
+				return parseInt(this.value);
+			}).get();
+			callAirports();
+			changeTimer4 = false;
+		},200);
+	});
+	$(".resetter" ).on("click",function(){
+		if(changeTimer5 !== false) clearTimeout(changeTimer5);
+		changeTimer5 = setTimeout(function(){
+			setParams();
+			callAirports();
+			changeTimer5 = false;
+		},50);
+	});
+}
+
+function callAirports (){
 	//Do ajax call
 	$.ajax({
         url: airportsURL,
@@ -94,78 +169,74 @@ $("input[name=proportional_symbol],#yearInput,#monthInput,#dayInput,input[name=d
         dataType: 'json',
         success: function(data) {
             updateAirportDelays(data.data,params.delay,params);
+            autocomplete.list = data.data;
         },
         type: 'GET'
-    });
+    });	
+}
 
-            changeTimer = false;
-        },150);
-});
+function callRoutes(destination){
+	$.ajax({
+		url: routesURL,
+		data: {
+			type: params.type,
+			fyr: params.fyr,
+			lyr: params.lyr,
+			fmth: params.fmth,
+			lmth: params.lmth,
+			fdow: params.fdow,
+			ldow: params.ldow,
+			airlines: eval(params.airline).join(","),
+			dest: destination
+		},
+		error: function() {
+			console.log("error");
+		},
+		dataType: 'json',
+		success: function(data) {
+			drawLinesOut();
+			lines(data)
+		},
+		type: 'GET'
+	});
+}
 
 function updateAirportDelays(airports,delayType,params){
 	for (i = 0; i < airports.length; i++) {
-            var location = [+airports[i].lng, +airports[i].lat]
-            var position = projection(location)
-            airports[i]["position"] = position
-        }
+		var location = [+airports[i].lng, +airports[i].lat]
+		var position = projection(location)
+		airports[i]["position"] = position
+	}
 
-  map.selectAll("svg#circles").remove();
-  var circles = map.append("svg")
-    	.attr("id", "circles");
+	map.selectAll("svg#circles").remove();
+	var circles = map.append("svg")
+		.attr("id", "circles");
 
 	circles.selectAll(".circles")
-      .data(airports)
-      .enter()
-      .append("circle")
-          .attr("class", function(d) { return ("airports_" + d.origincode)})
-	        .attr('cx', function(d) { return d.position[0]})
-	        .attr('cy', function(d) { return d.position[1]})
-	        .attr("r", function(d) { return d.stats.delayed/3;})
-	        .style("fill",'blue')
-	        .style("fill-opacity",'0.5')
-
-	        // generate arcs
-          .on("click", function (d) {
-              $.ajax({
-                  url: routesURL,
-                  data: {
-			              type: params.type,
-			              fyr: params.fyr,
-			              lyr: params.lyr,
-			              fmth: params.fmth,
-			              lmth: params.lmth,
-			              fdow: params.fdow,
-			              ldow: params.ldow,
-			              airlines: eval(params.airline).join(","),
-                        dest: d.origincode
-                    },
-                    error: function() {
-                        console.log("error");
-                    },
-                    dataType: 'json',
-                    success: function(data) {
-                        console.log(data);
-                        drawLinesOut();
-                        lines(data)
-                    },
-                    type: 'GET'
-              });
-          })
-          .on("mouseover", function(d){
-              console.log(d);
-              highlightAirport(d.origincode);
-          })
-          .on("mouseout", function(d){
-              dehighlightAirport(d.origincode)
-          })
-          .on("mousemove", moveLabel);
+		.data(airports)
+		.enter()
+		.append("circle")
+			.attr("class", function(d) { return ("airports_" + d.origincode)})
+			.attr('cx', function(d) { return d.position[0]})
+			.attr('cy', function(d) { return d.position[1]})
+			.attr("r", function(d) { return d.stats.delayed/3;})
+			.style("fill",'blue')
+			.style("fill-opacity",'0.5')
+			//Add airport events for click and highlight
+			.on("click", function (d) {
+				callRoutes(d.origincode);
+			})
+			.on("mouseover", function(d){
+				highlightAirport(d.origincode);
+			})
+			.on("mouseout", function(d){
+				dehighlightAirport(d.origincode)
+			})
+          //.on("mousemove", moveLabel);
       // select all the airport circles
       var airports = circles.selectAll("circle")
       airports.append("desc")
           .text('{"fill": "blue", "stroke-width": "0.5px", "stroke-opacity": "0.65"}');
-
-      //var arcs = d3.selectAll(".arcs");
-
 }
 
 //function to highlight enumeration units and bars
@@ -338,7 +409,7 @@ function lines(data){
           .on("mouseout", function(d){
               dehighlightRoute(d.origincode)
           })
-          .on("mousemove", moveLabel)
+          //.on("mousemove", moveLabel)
           .append("desc")
           .text('{"stroke": "#252525"}');
 
@@ -392,6 +463,7 @@ function dehighlightRoute(code){
         return styleObject[styleName];
     };
 };
+
 
 	//range sliders
 	$(".range-slider1").jRange({
@@ -452,16 +524,61 @@ function dehighlightRoute(code){
 		.append("button").attr("class","OverviewButton")
 		.text("Click Here to Enter the Map")
 		.on("click",function(){
-			$(".OverviewBox").fadeOut(350)
-			$(".grayOut").fadeOut(350)
+			$(".OverviewBox").fadeOut(350);
+			$(".grayOut").fadeOut(350);
+			$(".loader").show();
 	})
 
-	//display intro window again
+	//create start page loader
+	d3.select("body")
+		.append("div")
+		.attr("class","loader")
+		.style("display","none")
+	$(window).on("load",function(){
+		setTimeout(removeLoader,5000)
+	});
+	function removeLoader(){
+		$(".loader").fadeOut(3800,function(){
+			$(".loader").remove();
+		});
+	}
+	
+	//display intro window and grayout background again when 'About' is clicked
 	$(".menu-button1").on("click",function(){
 		$(".OverviewBox").fadeIn(350)
 		$(".grayOut").fadeIn(350)
 	})
 
+	//append button to contact window and set up fade out effect
+	d3.select(".ContactBox")
+		.append("button").attr("class","ContactButton")
+		.text("Click Here to Enter the Map")
+		.on("click",function(){
+			$(".ContactBox").fadeOut(350);
+			$(".grayOut").fadeOut(350);
+		})
+	
+	//display contact window and grayout background again when 'Contact' is clicked
+	$(".menu-button2").on("click",function(){
+		$(".ContactBox").fadeIn(350)
+		$(".grayOut").fadeIn(350)
+	})
+	
+	//append button to tutorial window and set up fade out effect
+		d3.select(".TutorialBox")
+		.append("button").attr("class","TutorialButton")
+		.text("Click Here to Enter the Map")
+		.on("click",function(){
+			$(".TutorialBox").fadeOut(350);
+			$(".grayOut").fadeOut(350);
+		})
+	
+	//display tutorial window and grayout background again when 'Tutorial' is clicked
+	$(".foot-button1").on("click",function(){
+		$(".TutorialBox").fadeIn(350)
+		$(".grayOut").fadeIn(350)
+	})
+	
 	//set up hover effect for resetter buttons
 	$(".resetter").hover(function(){
 		$(this).toggleClass('hovered')
