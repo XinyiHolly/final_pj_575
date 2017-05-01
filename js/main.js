@@ -520,7 +520,7 @@ function dehighlightRoute(code){
 	//create intro window and fade out effect
 	d3.select("body")
 		.append("div").attr("class","OverviewBox col-md-12 col-lg-12 col-sm-12")
-		.html("<span class='OverviewBoxTitle'><p>Welcome to U.S. Delay Flight Tracker</p></span><span class='OverviewBoxContent'><p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;This interactive map is for exploring the temporal and spatial trends of delay domestic flights within the U.S. from 2014 to 2016. We believe that users will make better and smarter itinerary decisions by comparing the historic differences in delay frequencies between airlines.<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;To detect more insights, you can use the filters on the left-hand side to investigate information such as the percentage of delay flights per airport, average delay time per airport, delay patterns across time and airlines, types of flight delay, etc. If you want to get a more intuitive guide on how to use this map, please watch this <a href='tutorial.html' target='_blank'>tutorial</a>.</p></span>")
+		.html("<span class='OverviewBoxTitle'><p>Welcome to U.S. Delay Flight Tracker</p></span><span class='OverviewBoxContent'><p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;This interactive map is for exploring the temporal and spatial trends of delay domestic flights within the U.S. from 2014 to 2016. We believe that users will make better and smarter itinerary decisions by comparing the historic differences in delay frequencies between airlines.<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;To detect more insights, you can use the filters on the left-hand side to investigate information such as the percentage of delay flights per airport, average delay time per airport, delay patterns across time and airlines, types of flight delay, etc. If you want to get a more intuitive guide on how to use this map, please watch this <a class='tutorial-Button'>tutorial</a>.</p></span>")
 		.append("button").attr("class","OverviewButton")
 		.text("Click Here to Enter the Map")
 		.on("click",function(){
@@ -529,6 +529,12 @@ function dehighlightRoute(code){
 			$(".loader").show();
 	})
 
+	//tutorial button interaction
+	$(".tutorial-Button").on("click",function(){
+		$(".OverviewBox").fadeOut(350);
+		$(".TutorialBox").fadeIn(350);
+	})
+	
 	//create start page loader
 	d3.select("body")
 		.append("div")
@@ -545,8 +551,10 @@ function dehighlightRoute(code){
 	
 	//display intro window and grayout background again when 'About' is clicked
 	$(".menu-button1").on("click",function(){
-		$(".OverviewBox").fadeIn(350)
-		$(".grayOut").fadeIn(350)
+		$(".TutorialBox").fadeOut(350);
+		$(".ContactBox").fadeOut(350);
+		$(".OverviewBox").fadeIn(350);
+		$(".grayOut").fadeIn(350);
 	})
 
 	//append button to contact window and set up fade out effect
@@ -560,8 +568,10 @@ function dehighlightRoute(code){
 	
 	//display contact window and grayout background again when 'Contact' is clicked
 	$(".menu-button2").on("click",function(){
-		$(".ContactBox").fadeIn(350)
-		$(".grayOut").fadeIn(350)
+		$(".TutorialBox").fadeOut(350);
+		$(".OverviewBox").fadeOut(350);
+		$(".ContactBox").fadeIn(350);
+		$(".grayOut").fadeIn(350);
 	})
 	
 	//append button to tutorial window and set up fade out effect
@@ -575,6 +585,8 @@ function dehighlightRoute(code){
 	
 	//display tutorial window and grayout background again when 'Tutorial' is clicked
 	$(".foot-button1").on("click",function(){
+		$(".OverviewBox").fadeOut(350);
+		$(".ContactBox").fadeOut(350);
 		$(".TutorialBox").fadeIn(350)
 		$(".grayOut").fadeIn(350)
 	})
