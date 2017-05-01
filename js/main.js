@@ -334,8 +334,29 @@ function lines(data,delayType){
 	var array = d3.values(data);
 	//Create list containing only field_goal_attempts
 	var origins = array[2];
-	var min = d3.min(origins, function(d) {return d.stats.delayed});
-	var max = d3.max(origins, function(d) {return d.stats.delayed});
+
+	if (delayType == 'carrier'){
+		var min = d3.min(origins, function(d) {return d.stats.carrier});
+		var max = d3.max(origins, function(d) {return d.stats.carrier});
+	}else if(delayType == 'weather'){
+		var min = d3.min(origins, function(d) {return d.stats.weatherd});
+		var max = d3.max(origins, function(d) {return d.stats.weatherd});
+	}else if(delayType == 'security'){
+		var min = d3.min(origins, function(d) {return d.stats.securityd});
+		var max = d3.max(origins, function(d) {return d.stats.securityd});
+	}else if(delayType == 'nas'){
+		var min = d3.min(origins, function(d) {return d.stats.nasd});
+		var max = d3.max(origins, function(d) {return d.stats.nasd});
+	}else if(delayType == 'arriving_late'){
+		var min = d3.min(origins, function(d) {return d.stats.lateaircraftd});
+		var max = d3.max(origins, function(d) {return d.stats.lateaircraftd});
+	}else{
+		var min = d3.min(origins, function(d) {return d.stats.delayed});
+		var max = d3.max(origins, function(d) {return d.stats.delayed});
+		console.log(min)
+		console.log(max)
+	}
+	
 	var domain = [min, max];
 	var direction = "to"
 
@@ -372,18 +393,18 @@ function lines(data,delayType){
 		var coords = [[ origins[i].originlng, origins[i].originlat ],[ origins[i].desetlng, origins[i].destlat ]]
 
 		if (delayType == 'carrier'){
-				var dl = origins[i].stats.carrier
-			}else if(delayType == 'weather'){
-				var dl = origins[i].stats.weatherd;
-			}else if(delayType == 'security'){
-				var dl = origins[i].stats.securityd;
-			}else if(delayType == 'nas'){
-				var dl = origins[i].stats.nasd;
-			}else if(delayType == 'arriving_late'){
-				var dl = origins[i].stats.lateaircraftd
-			}else{
-				var dl = origins[i].stats.delayed;
-			}
+			var dl = origins[i].stats.carrierd;
+		}else if(delayType == 'weather'){
+			var dl = origins[i].stats.weatherd;
+		}else if(delayType == 'security'){
+			var dl = origins[i].stats.securityd;
+		}else if(delayType == 'nas'){
+			var dl = origins[i].stats.nasd;
+		}else if(delayType == 'arriving_late'){
+			var dl = origins[i].stats.lateaircraftd
+		}else{
+			var dl = origins[i].stats.delayed;
+		}
 
 		links.push({
 			type: "LineString",
@@ -428,9 +449,7 @@ function lines(data,delayType){
 			projection(d.coordinates[1])[1]
 		})
 		// .style({'stroke': "#252525", "stroke-linejoin":"round", "cursor": "pointer"})
-		.style('stroke-width', function(d) {
-			return d.total_delayed;
-		})
+		.style('stroke-width', function(d) {return lineStroke(d.total_delayed)})
 		.call(lineTransition);
 
   		var paths = d3.selectAll("path")
@@ -551,7 +570,7 @@ function dehighlightRoute(code){
 	//create intro window and fade out effect
 	d3.select("body")
 		.append("div").attr("class","OverviewBox col-md-12 col-lg-12 col-sm-12")
-		.html("<span class='OverviewBoxTitle'><p>Welcome to U.S. Delay Flight Tracker</p></span><span class='OverviewBoxContent'><p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;This interactive map is for exploring the temporal and spatial trends of delay domestic flights within the U.S. from 2014 to 2016. We believe that users will make better and smarter itinerary decisions by comparing the historic differences in delay frequencies between airlines.<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;To detect more insights, you can use the filters on the left-hand side to investigate information such as the percentage of delay flights per airport, average delay time per airport, delay patterns across time and airlines, types of flight delay, etc. If you want to get a more intuitive guide on how to use this map, please watch this <a href='tutorial.html' target='_blank'>tutorial</a>.</p></span>")
+		.html("<span class='OverviewBoxTitle'><p>Welcome to U.S. Delay Flight Tracker</p></span><span class='OverviewBoxContent'><p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;This interactive map is for exploring the temporal and spatial trends of delay domestic flights within the U.S. from 2014 to 2016. We believe that users will make better and smarter itinerary decisions by comparing the historic differences in delay frequencies between airlines.<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;To detect more insights, you can use the filters on the left-hand side to investigate information such as the percentage of delay flights per airport, average delay time per airport, delay patterns across time and airlines, types of flight delay, etc. If you want to get a more intuitive guide on how to use this map, please watch this <a class='tutorial-Button'>tutorial</a>.</p></span>")
 		.append("button").attr("class","OverviewButton")
 		.text("Click Here to Enter the Map")
 		.on("click",function(){
@@ -560,6 +579,12 @@ function dehighlightRoute(code){
 			$(".loader").show();
 	})
 
+	//tutorial button interaction
+	$(".tutorial-Button").on("click",function(){
+		$(".OverviewBox").fadeOut(350);
+		$(".TutorialBox").fadeIn(350);
+	})
+	
 	//create start page loader
 	d3.select("body")
 		.append("div")
@@ -576,8 +601,10 @@ function dehighlightRoute(code){
 	
 	//display intro window and grayout background again when 'About' is clicked
 	$(".menu-button1").on("click",function(){
-		$(".OverviewBox").fadeIn(350)
-		$(".grayOut").fadeIn(350)
+		$(".TutorialBox").fadeOut(350);
+		$(".ContactBox").fadeOut(350);
+		$(".OverviewBox").fadeIn(350);
+		$(".grayOut").fadeIn(350);
 	})
 
 	//append button to contact window and set up fade out effect
@@ -591,8 +618,10 @@ function dehighlightRoute(code){
 	
 	//display contact window and grayout background again when 'Contact' is clicked
 	$(".menu-button2").on("click",function(){
-		$(".ContactBox").fadeIn(350)
-		$(".grayOut").fadeIn(350)
+		$(".TutorialBox").fadeOut(350);
+		$(".OverviewBox").fadeOut(350);
+		$(".ContactBox").fadeIn(350);
+		$(".grayOut").fadeIn(350);
 	})
 	
 	//append button to tutorial window and set up fade out effect
@@ -606,6 +635,8 @@ function dehighlightRoute(code){
 	
 	//display tutorial window and grayout background again when 'Tutorial' is clicked
 	$(".foot-button1").on("click",function(){
+		$(".OverviewBox").fadeOut(350);
+		$(".ContactBox").fadeOut(350);
 		$(".TutorialBox").fadeIn(350)
 		$(".grayOut").fadeIn(350)
 	})
