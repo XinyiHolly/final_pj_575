@@ -168,6 +168,7 @@ span a{
 	border-radius:25px;
 }
 
+/*tutorial button on the tutorial box*/
 .TutorialButton{
 	position:relative;
 	top:5%;
@@ -175,6 +176,11 @@ span a{
 	height:8%;
 	font-size:15px;
 	font-weight:bold;
+}
+
+/*tutorial button on the overview box*/
+.tutorial-Button{
+	cursor:pointer;
 }
 
 .video{
