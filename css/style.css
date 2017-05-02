@@ -1,4 +1,3 @@
-/* Stylesheet by Xinyi Liu, 2017 */
 .loader {
     display: block;
     position: absolute;
@@ -49,7 +48,7 @@
     }
 
     @-webkit-keyframes spin {
-        0%   { 
+        0%   {
             -webkit-transform: rotate(0deg);  /* Chrome, Opera 15+, Safari 3.1+ */
             -ms-transform: rotate(0deg);  /* IE 9 */
             transform: rotate(0deg);  /* Firefox 16+, IE 10+, Opera */
@@ -61,7 +60,7 @@
         }
     }
     @keyframes spin {
-        0%   { 
+        0%   {
             -webkit-transform: rotate(0deg);  /* Chrome, Opera 15+, Safari 3.1+ */
             -ms-transform: rotate(0deg);  /* IE 9 */
             transform: rotate(0deg);  /* Firefox 16+, IE 10+, Opera */
@@ -322,7 +321,7 @@ h3{
 /*
 .Author_Intro{
 	position:relative;
-	top:9%;	
+	top:9%;
 	left:80%;
 }
 */
@@ -570,4 +569,17 @@ p.Describe{
 	stroke-opacity: 0.5;
     stroke-linejoin: round;
     cursor: pointer;
+}
+
+.infolabel {
+    position: absolute;
+    min-height: 50px;
+    min-width: 100px;
+    border: solid thin black;
+    border-radius: 10px;
+    color: black;
+    background-color: white;
+    opacity:0.75;
+    padding: 5px 10px;
+    top: -75px;
 }
