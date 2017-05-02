@@ -48,9 +48,13 @@ function setMap(){
         //Generate app
         setStateOverlay(states_topo, map, path);
         setParams();
-        setFilterChangeEvents()
+        //setFilterChangeEvents()
         populateAutocomplete();
         callAirports ();
+
+        $("button[name=submitBtn]" ).on("click",function(){
+        	requestAirports();
+		});
     };
 };
 
@@ -85,70 +89,87 @@ function populateAutocomplete(){
 
 //Set the params variables
 function setParams(){
-        params['type'] = $('input[name=proportional_symbol]:checked').val()
-        params['fyr'] = $('#yearInput').val().split(",")[0]
-        params['lyr'] = $('#yearInput').val().split(",")[1]
-        params['fmth'] = $('#monthInput').val().split(",")[0]
-        params['lmth'] = $('#monthInput').val().split(",")[1]
-        params['fdow'] = $('#dayInput').val().split(",")[0]
-        params['ldow'] = $('#dayInput').val().split(",")[1]
-        params['delay'] = $('input[name=delay]:checked').val()
-        params['airline'] = $("input[name=airline]:checked").map(function() {
-			return parseInt(this.value);
-		}).get();	
+    params['type'] = $('input[name=proportional_symbol]:checked').val()
+    params['fyr'] = $('#yearInput').val().split(",")[0]
+    params['lyr'] = $('#yearInput').val().split(",")[1]
+    params['fmth'] = $('#monthInput').val().split(",")[0]
+    params['lmth'] = $('#monthInput').val().split(",")[1]
+    params['fdow'] = $('#dayInput').val().split(",")[0]
+    params['ldow'] = $('#dayInput').val().split(",")[1]
+    params['delay'] = $('input[name=delay]:checked').val()
+    params['airline'] = $("input[name=airline]:checked").map(function() {
+		return parseInt(this.value);
+	}).get();	
+}
+
+
+function requestAirports(){
+    params['type'] = $('input[name=proportional_symbol]:checked').val()
+    params['fyr'] = $('#yearInput').val().split(",")[0]
+    params['lyr'] = $('#yearInput').val().split(",")[1]
+    params['fmth'] = $('#monthInput').val().split(",")[0]
+    params['lmth'] = $('#monthInput').val().split(",")[1]
+    params['fdow'] = $('#dayInput').val().split(",")[0]
+    params['ldow'] = $('#dayInput').val().split(",")[1]
+    params['delay'] = $('input[name=delay]:checked').val()
+    params['airline'] = $("input[name=airline]:checked").map(function() {
+		return parseInt(this.value);
+	}).get();
+
+    callAirports();
 }
 
 //Sets separate filter change events
-function setFilterChangeEvents(){
-	var changeTimer1=changeTimer2=changeTimer3=changeTimer4=changeTimer5=false;
-	$("input[name=proportional_symbol]" ).on("change",function(){
-		if(changeTimer1 !== false) clearTimeout(changeTimer1);
-		changeTimer1 = setTimeout(function(){
-			params['type'] = $('input[name=proportional_symbol]:checked').val()
-			callAirports();
-			changeTimer1 = false;
-		},50);
-	});
-	$("#yearInput,#monthInput,#dayInput" ).on("change",function(){
-		if(changeTimer2 !== false) clearTimeout(changeTimer2);
-		changeTimer2 = setTimeout(function(){
-			params['fyr'] = $('#yearInput').val().split(",")[0]
-        	params['lyr'] = $('#yearInput').val().split(",")[1]
-        	params['fmth'] = $('#monthInput').val().split(",")[0]
-        	params['lmth'] = $('#monthInput').val().split(",")[1]
-        	params['fdow'] = $('#dayInput').val().split(",")[0]
-        	params['ldow'] = $('#dayInput').val().split(",")[1]
-			callAirports();
-			changeTimer2 = false;
-		},200);
-	});
-	$("input[name=delay]" ).on("change",function(){
-		if(changeTimer3 !== false) clearTimeout(changeTimer3);
-		changeTimer3 = setTimeout(function(){
-			params['delay'] = $('input[name=delay]:checked').val()
-			callAirports();
-			changeTimer3 = false;
-		},50);
-	});
-	$("input[name=airline]" ).on("change",function(){
-		if(changeTimer4 !== false) clearTimeout(changeTimer4);
-		changeTimer4 = setTimeout(function(){
-			params['airline'] = $("input[name=airline]:checked").map(function() {
-				return parseInt(this.value);
-			}).get();
-			callAirports();
-			changeTimer4 = false;
-		},200);
-	});
-	$(".resetter" ).on("click",function(){
-		if(changeTimer5 !== false) clearTimeout(changeTimer5);
-		changeTimer5 = setTimeout(function(){
-			setParams();
-			callAirports();
-			changeTimer5 = false;
-		},50);
-	});
-}
+// function setFilterChangeEvents(){
+// 	var changeTimer1=changeTimer2=changeTimer3=changeTimer4=changeTimer5=false;
+// 	$("input[name=proportional_symbol]" ).on("change",function(){
+// 		if(changeTimer1 !== false) clearTimeout(changeTimer1);
+// 		changeTimer1 = setTimeout(function(){
+// 			params['type'] = $('input[name=proportional_symbol]:checked').val()
+// 			callAirports();
+// 			changeTimer1 = false;
+// 		},50);
+// 	});
+// 	$("#yearInput,#monthInput,#dayInput" ).on("change",function(){
+// 		if(changeTimer2 !== false) clearTimeout(changeTimer2);
+// 		changeTimer2 = setTimeout(function(){
+// 			params['fyr'] = $('#yearInput').val().split(",")[0]
+//         	params['lyr'] = $('#yearInput').val().split(",")[1]
+//         	params['fmth'] = $('#monthInput').val().split(",")[0]
+//         	params['lmth'] = $('#monthInput').val().split(",")[1]
+//         	params['fdow'] = $('#dayInput').val().split(",")[0]
+//         	params['ldow'] = $('#dayInput').val().split(",")[1]
+// 			callAirports();
+// 			changeTimer2 = false;
+// 		},200);
+// 	});
+// 	$("input[name=delay]" ).on("change",function(){
+// 		if(changeTimer3 !== false) clearTimeout(changeTimer3);
+// 		changeTimer3 = setTimeout(function(){
+// 			params['delay'] = $('input[name=delay]:checked').val()
+// 			callAirports();
+// 			changeTimer3 = false;
+// 		},50);
+// 	});
+// 	$("input[name=airline]" ).on("change",function(){
+// 		if(changeTimer4 !== false) clearTimeout(changeTimer4);
+// 		changeTimer4 = setTimeout(function(){
+// 			params['airline'] = $("input[name=airline]:checked").map(function() {
+// 				return parseInt(this.value);
+// 			}).get();
+// 			callAirports();
+// 			changeTimer4 = false;
+// 		},200);
+// 	});
+// 	$(".resetter" ).on("click",function(){
+// 		if(changeTimer5 !== false) clearTimeout(changeTimer5);
+// 		changeTimer5 = setTimeout(function(){
+// 			setParams();
+// 			callAirports();
+// 			changeTimer5 = false;
+// 		},50);
+// 	});
+// }
 
 function callAirports (){
 	//Do ajax call
@@ -219,20 +240,35 @@ function updateAirportDelays(airports,delayType){
 			.attr("class", function(d) { return ("airports_" + d.origincode)})
 			.attr('cx', function(d) { return d.position[0]})
 			.attr('cy', function(d) { return d.position[1]})
+			// .attr("r", function(d) {
+			// 	var scale = 3;
+			// 	if (delayType == 'carrierd'){
+			// 		return d.stats.carrierd/scale;
+			// 	}else if(delayType == 'weatherd'){
+			// 		return d.stats.weatherd/scale;
+			// 	}else if(delayType == 'securityd'){
+			// 		return d.stats.securityd/scale;
+			// 	}else if(delayType == 'nasd'){
+			// 		return d.stats.nasd/scale;
+			// 	}else if(delayType == 'lateaircraftd'){
+			// 		return d.stats.lateaircraftd/scale;
+			// 	}else{
+			// 		return d.stats.delayed/scale;
+			// 	}
+			// })
 			.attr("r", function(d) {
-				var scale = 3;
-				if (delayType == 'carrier'){
-					return d.stats.carrierd/scale;
-				}else if(delayType == 'weather'){
-					return d.stats.weatherd/scale;
-				}else if(delayType == 'security'){
-					return d.stats.securityd/scale;
-				}else if(delayType == 'nas'){
-					return d.stats.nasd/scale;
-				}else if(delayType == 'arriving_late'){
-					return d.stats.lateaircraftd/scale;
+				if (delayType == 'carrierd'){
+					return scaleAirportDelay(d.stats.carrierd);
+				}else if(delayType == 'weatherd'){
+					return scaleAirportDelay(d.stats.weatherd);
+				}else if(delayType == 'securityd'){
+					return scaleAirportDelay(d.stats.securityd);
+				}else if(delayType == 'nasd'){
+					return scaleAirportDelay(d.stats.nasd);
+				}else if(delayType == 'lateaircraftd'){
+					return scaleAirportDelay(d.stats.lateaircraftd);
 				}else{
-					return d.stats.delayed/scale;
+					return scaleAirportDelay(d.stats.delayed);
 				}
 			})
 			.style("fill",'blue')
@@ -252,6 +288,31 @@ function updateAirportDelays(airports,delayType){
       var airports = circles.selectAll("circle")
       airports.append("desc")
           .text('{"fill": "blue", "stroke-width": "0.5px", "stroke-opacity": "0.65"}');
+}
+
+//Returns the radius given predefined classes
+function scaleAirportDelay(val){
+	if (params.type == 1){ //Percent delayed
+		if (val <= 25){
+			return 4;
+		}else if(val <= 50){
+			return 8;
+		}else if(val <= 75){
+			return 16;
+		}else{
+			return 32;
+		}
+	}else{//Avg delay time
+		if (val <= 10){
+			return 4;
+		}else if(val <= 30){
+			return 8;
+		}else if(val <= 60){
+			return 16;
+		}else{
+			return 32;
+		}
+	}
 }
 
 //function to highlight enumeration units and bars
@@ -334,36 +395,9 @@ function lines(data,delayType){
 	var array = d3.values(data);
 	//Create list containing only field_goal_attempts
 	var origins = array[2];
-
-	if (delayType == 'carrier'){
-		var min = d3.min(origins, function(d) {return d.stats.carrier});
-		var max = d3.max(origins, function(d) {return d.stats.carrier});
-	}else if(delayType == 'weather'){
-		var min = d3.min(origins, function(d) {return d.stats.weatherd});
-		var max = d3.max(origins, function(d) {return d.stats.weatherd});
-	}else if(delayType == 'security'){
-		var min = d3.min(origins, function(d) {return d.stats.securityd});
-		var max = d3.max(origins, function(d) {return d.stats.securityd});
-	}else if(delayType == 'nas'){
-		var min = d3.min(origins, function(d) {return d.stats.nasd});
-		var max = d3.max(origins, function(d) {return d.stats.nasd});
-	}else if(delayType == 'arriving_late'){
-		var min = d3.min(origins, function(d) {return d.stats.lateaircraftd});
-		var max = d3.max(origins, function(d) {return d.stats.lateaircraftd});
-	}else{
-		var min = d3.min(origins, function(d) {return d.stats.delayed});
-		var max = d3.max(origins, function(d) {return d.stats.delayed});
-		console.log(min)
-		console.log(max)
-	}
-	
-	var domain = [min, max];
 	var direction = "to"
-
-	lineStroke = d3.scale.sqrt()
-		.domain(domain)
-    	.range([2, 12])
-
+	//Make color scale
+	var colorScale = makeColorScale(data.data)
 	//what follows is based on: http://bl.ocks.org/enoex/6201948
 	var path = d3.geo.path()
 		.projection(projection);
@@ -376,9 +410,6 @@ function lines(data,delayType){
 		.attrTween("stroke-dasharray", tweenDash)
 	};
 	var tweenDash = function tweenDash() {
-		//This function is used to animate the dash-array property, which is a
-		//  nice hack that gives us animation along some arbitrary path (in this
-		//  case, makes it look like a line is being drawn from point A to B)
 		var len = this.getTotalLength();
 		var interpolate = d3.interpolateString("0," + len, len + "," + len);
 			return function(t) { return interpolate(t); };
@@ -392,15 +423,15 @@ function lines(data,delayType){
 		//  item with i+1)
 		var coords = [[ origins[i].originlng, origins[i].originlat ],[ origins[i].desetlng, origins[i].destlat ]]
 
-		if (delayType == 'carrier'){
+		if (delayType == 'carrierd'){
 			var dl = origins[i].stats.carrierd;
-		}else if(delayType == 'weather'){
+		}else if(delayType == 'weatherd'){
 			var dl = origins[i].stats.weatherd;
-		}else if(delayType == 'security'){
+		}else if(delayType == 'securityd'){
 			var dl = origins[i].stats.securityd;
-		}else if(delayType == 'nas'){
+		}else if(delayType == 'nasd'){
 			var dl = origins[i].stats.nasd;
-		}else if(delayType == 'arriving_late'){
+		}else if(delayType == 'lateaircraftd'){
 			var dl = origins[i].stats.lateaircraftd
 		}else{
 			var dl = origins[i].stats.delayed;
@@ -449,7 +480,10 @@ function lines(data,delayType){
 			projection(d.coordinates[1])[1]
 		})
 		// .style({'stroke': "#252525", "stroke-linejoin":"round", "cursor": "pointer"})
-		.style('stroke-width', function(d) {return lineStroke(d.total_delayed)})
+		.style('stroke-width', 3)
+		.style('stroke',function(d){
+			return colorRoutes(d.total_delayed, colorScale)
+		})
 		.call(lineTransition);
 
   		var paths = d3.selectAll("path")
@@ -460,11 +494,61 @@ function lines(data,delayType){
               dehighlightRoute(d.origincode)
           })
           //.on("mousemove", moveLabel)
-          .append("desc")
-          .text('{"stroke": "#252525"}');
+          // .append("desc")
+          // .text('{"stroke": "#252525"}');
 
 		d3.select(".states")
 		.moveToBack();
+};
+
+//function to create color scale generator
+function makeColorScale(data){
+    var colorClasses = [
+        "#fdd0a2",
+        "#fdae6b",
+        "#fd8d3c",
+        "#e6550d",
+        "#a63603"
+    ];
+
+    //create color scale generator
+    var colorScale = d3.scaleThreshold()
+        .range(colorClasses)
+
+    //build array of all values of the expressed attribute
+    var domainArray = [];
+    for (var i=0; i<data.length; i++){
+        var val = parseFloat(data[i].stats[params.delay]);
+        domainArray.push(val);
+    };
+
+    //cluster data using ckmeans clustering algorithm to create natural breaks
+    var clusters = ss.ckmeans(domainArray, 5);
+    
+    //reset domain array to cluster minimums
+    domainArray = clusters.map(function(d){
+        return d3.min(d);
+    });
+    //remove first value from domain array to create class breakpoints
+    domainArray.shift();
+
+    //assign array of last 4 cluster minimums as domain
+    colorScale.domain(domainArray);
+
+    //create legend
+    //legend(colorScale);
+
+    return colorScale;
+};
+
+//function to test for data value and return color
+function colorRoutes(val, colorScale){
+    //if attribute value exists, assign a color
+    if (typeof val == 'number' && !isNaN(val)){
+        return colorScale(val);
+    } else {
+        return "#000000";
+    };
 };
 
 //function to highlight enumeration units and bars
@@ -472,11 +556,11 @@ function highlightRoute(code){
 
     //change stroke
     var selected = d3.selectAll("." + code)
-        .style("stroke", "#000080")
+        .style('stroke-width', 6)
         .moveToFront();
 
     //call set label
-    retrieveRoute(code);
+    //retrieveRoute(code);
     //changeChart(expressed,code,1,selected.style('fill'));
 };
 
@@ -496,181 +580,182 @@ function retrieveRoute(code){
 //function to reset the element style on mouseout
 function dehighlightRoute(code){
     var selected = d3.selectAll("." + code)
-        .style("stroke", function(){
-            return getStyle(this, "stroke")
-        });
+    	.style('stroke-width', 3);
+    //     .style("stroke", function(){
+    //         return getStyle(this, "stroke")
+    //     });
 
-    d3.select(".infolabel")
-        .remove();
+    // d3.select(".infolabel")
+    //     .remove();
 
-    function getStyle(element, styleName){
-        var styleText = d3.select(element)
-            .select("desc")
-            .text();
+    // function getStyle(element, styleName){
+    //     var styleText = d3.select(element)
+    //         .select("desc")
+    //         .text();
 
-        var styleObject = JSON.parse(styleText);
+    //     var styleObject = JSON.parse(styleText);
 
-        return styleObject[styleName];
-    };
+    //     return styleObject[styleName];
+    // };
 };
 
 
-	//range sliders
-	$(".range-slider1").jRange({
-		from:2014,
-		to:2016,
-		step:1,
-		scale:[2014,2015,2016],
-		width:230,
-		showLabels:false,
-		isRange:true,
-		snap:true
-	})
+//range sliders
+$(".range-slider1").jRange({
+	from:2014,
+	to:2016,
+	step:1,
+	scale:[2014,2015,2016],
+	width:230,
+	showLabels:false,
+	isRange:true,
+	snap:true
+})
 
-	$(".range-slider2").jRange({
-		from:1,
-		to:12,
-		step:1,
-		scale:['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'],
-		width:230,
-		showLabels:false,
-		isRange:true,
-		snap:true
-	})
+$(".range-slider2").jRange({
+	from:1,
+	to:12,
+	step:1,
+	scale:['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'],
+	width:230,
+	showLabels:false,
+	isRange:true,
+	snap:true
+})
 
-	$(".range-slider3").jRange({
-		from:1,
-		to:7,
-		step:1,
-		scale:['Mon','Tue','Wed','Thu','Fri','Sat','Sun'],
-		width:230,
-		showLabels:false,
-		isRange:true,
-		snap:true
-	})
+$(".range-slider3").jRange({
+	from:1,
+	to:7,
+	step:1,
+	scale:['Mon','Tue','Wed','Thu','Fri','Sat','Sun'],
+	width:230,
+	showLabels:false,
+	isRange:true,
+	snap:true
+})
 
-	//airline checkboxes
-	$(document).ready(function() {
-		var checkBoxes = $("input[name=airline]");
-		checkBoxes.prop("checked", true);
-	$(".check").click(function() {
-		var checkBoxes = $("input[name=airline]");
-		checkBoxes.prop("checked", !checkBoxes.prop("checked"));
-		if (checkBoxes.prop("checked")){
-			$(this).val("Uncheck All")}
-		else{
-			$(this).val("Check All")}
-		});
+//airline checkboxes
+$(document).ready(function() {
+	var checkBoxes = $("input[name=airline]");
+	checkBoxes.prop("checked", true);
+$(".check").click(function() {
+	var checkBoxes = $("input[name=airline]");
+	checkBoxes.prop("checked", !checkBoxes.prop("checked"));
+	if (checkBoxes.prop("checked")){
+		$(this).val("Uncheck All")}
+	else{
+		$(this).val("Check All")}
 	});
+});
 
-	//create grayout background
-	d3.select(".container2")
-		.append("div")
-		.attr("class","grayOut col-md-12 col-lg-12 col-sm-12")
-	//create intro window and fade out effect
-	d3.select("body")
-		.append("div").attr("class","OverviewBox col-md-12 col-lg-12 col-sm-12")
-		.html("<span class='OverviewBoxTitle'><p>Welcome to U.S. Delay Flight Tracker</p></span><span class='OverviewBoxContent'><p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;This interactive map is for exploring the temporal and spatial trends of delay domestic flights within the U.S. from 2014 to 2016. We believe that users will make better and smarter itinerary decisions by comparing the historic differences in delay frequencies between airlines.<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;To detect more insights, you can use the filters on the left-hand side to investigate information such as the percentage of delay flights per airport, average delay time per airport, delay patterns across time and airlines, types of flight delay, etc. If you want to get a more intuitive guide on how to use this map, please watch this <a class='tutorial-Button'>tutorial</a>.</p></span>")
-		.append("button").attr("class","OverviewButton")
-		.text("Click Here to Enter the Map")
-		.on("click",function(){
-			$(".OverviewBox").fadeOut(350);
-			$(".grayOut").fadeOut(350);
-			$(".loader").show();
-	})
-
-	//tutorial button interaction
-	$(".tutorial-Button").on("click",function(){
+//create grayout background
+d3.select(".container2")
+	.append("div")
+	.attr("class","grayOut col-md-12 col-lg-12 col-sm-12")
+//create intro window and fade out effect
+d3.select("body")
+	.append("div").attr("class","OverviewBox col-md-12 col-lg-12 col-sm-12")
+	.html("<span class='OverviewBoxTitle'><p>Welcome to U.S. Delay Flight Tracker</p></span><span class='OverviewBoxContent'><p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;This interactive map is for exploring the temporal and spatial trends of delay domestic flights within the U.S. from 2014 to 2016. We believe that users will make better and smarter itinerary decisions by comparing the historic differences in delay frequencies between airlines.<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;To detect more insights, you can use the filters on the left-hand side to investigate information such as the percentage of delay flights per airport, average delay time per airport, delay patterns across time and airlines, types of flight delay, etc. If you want to get a more intuitive guide on how to use this map, please watch this <a class='tutorial-Button'>tutorial</a>.</p></span>")
+	.append("button").attr("class","OverviewButton")
+	.text("Click Here to Enter the Map")
+	.on("click",function(){
 		$(".OverviewBox").fadeOut(350);
-		$(".TutorialBox").fadeIn(350);
-	})
-	
-	//create start page loader
-	d3.select("body")
-		.append("div")
-		.attr("class","loader")
-		.style("display","none")
-	$(window).on("load",function(){
-		setTimeout(removeLoader,5000)
+		$(".grayOut").fadeOut(350);
+		$(".loader").show();
+})
+
+//tutorial button interaction
+$(".tutorial-Button").on("click",function(){
+	$(".OverviewBox").fadeOut(350);
+	$(".TutorialBox").fadeIn(350);
+})
+
+//create start page loader
+d3.select("body")
+	.append("div")
+	.attr("class","loader")
+	.style("display","none")
+$(window).on("load",function(){
+	setTimeout(removeLoader,5000)
+});
+function removeLoader(){
+	$(".loader").fadeOut(3800,function(){
+		$(".loader").remove();
 	});
-	function removeLoader(){
-		$(".loader").fadeOut(3800,function(){
-			$(".loader").remove();
-		});
-	}
-	
-	//display intro window and grayout background again when 'About' is clicked
-	$(".menu-button1").on("click",function(){
-		$(".TutorialBox").fadeOut(350);
+}
+
+//display intro window and grayout background again when 'About' is clicked
+$(".menu-button1").on("click",function(){
+	$(".TutorialBox").fadeOut(350);
+	$(".ContactBox").fadeOut(350);
+	$(".OverviewBox").fadeIn(350);
+	$(".grayOut").fadeIn(350);
+})
+
+//append button to contact window and set up fade out effect
+d3.select(".ContactBox")
+	.append("button").attr("class","ContactButton")
+	.text("Click Here to Enter the Map")
+	.on("click",function(){
 		$(".ContactBox").fadeOut(350);
-		$(".OverviewBox").fadeIn(350);
-		$(".grayOut").fadeIn(350);
+		$(".grayOut").fadeOut(350);
 	})
 
-	//append button to contact window and set up fade out effect
-	d3.select(".ContactBox")
-		.append("button").attr("class","ContactButton")
-		.text("Click Here to Enter the Map")
-		.on("click",function(){
-			$(".ContactBox").fadeOut(350);
-			$(".grayOut").fadeOut(350);
-		})
-	
-	//display contact window and grayout background again when 'Contact' is clicked
-	$(".menu-button2").on("click",function(){
+//display contact window and grayout background again when 'Contact' is clicked
+$(".menu-button2").on("click",function(){
+	$(".TutorialBox").fadeOut(350);
+	$(".OverviewBox").fadeOut(350);
+	$(".ContactBox").fadeIn(350);
+	$(".grayOut").fadeIn(350);
+})
+
+//append button to tutorial window and set up fade out effect
+	d3.select(".TutorialBox")
+	.append("button").attr("class","TutorialButton")
+	.text("Click Here to Enter the Map")
+	.on("click",function(){
 		$(".TutorialBox").fadeOut(350);
-		$(".OverviewBox").fadeOut(350);
-		$(".ContactBox").fadeIn(350);
-		$(".grayOut").fadeIn(350);
-	})
-	
-	//append button to tutorial window and set up fade out effect
-		d3.select(".TutorialBox")
-		.append("button").attr("class","TutorialButton")
-		.text("Click Here to Enter the Map")
-		.on("click",function(){
-			$(".TutorialBox").fadeOut(350);
-			$(".grayOut").fadeOut(350);
-		})
-	
-	//display tutorial window and grayout background again when 'Tutorial' is clicked
-	$(".foot-button1").on("click",function(){
-		$(".OverviewBox").fadeOut(350);
-		$(".ContactBox").fadeOut(350);
-		$(".TutorialBox").fadeIn(350)
-		$(".grayOut").fadeIn(350)
-	})
-	
-	//set up hover effect for resetter buttons
-	$(".resetter").hover(function(){
-		$(this).toggleClass('hovered')
-		})
-
-	//reset for proportional symbol filter
-	$(".return_default1").on("click",function(){
-		var radioButton1=$("input[id=percentage]");
-		radioButton1.prop("checked",true);
+		$(".grayOut").fadeOut(350);
 	})
 
-	//reset for time filter
-	$(".return_default2").on("click",function(){
-		var slider1=$("input[id=yearInput]");
-		var slider2=$("input[id=monthInput]");
-		var slider3=$("input[id=dayInput]");
-		slider1.jRange("setValue", "2014,2015");
-		slider2.jRange("setValue","0,6");
-		slider3.jRange("setValue","1,4");
+//display tutorial window and grayout background again when 'Tutorial' is clicked
+$(".foot-button1").on("click",function(){
+	$(".OverviewBox").fadeOut(350);
+	$(".ContactBox").fadeOut(350);
+	$(".TutorialBox").fadeIn(350)
+	$(".grayOut").fadeIn(350)
+})
+
+//set up hover effect for resetter buttons
+$(".resetter").hover(function(){
+	$(this).toggleClass('hovered')
 	})
 
-	//reset for delay filter
-	$(".return_default3").on("click",function(){
-		var showAllButton=$("input[id=all]");
-		showAllButton.prop("checked",true);
-	})
+//reset for proportional symbol filter
+$(".return_default1").on("click",function(){
+	var radioButton1=$("input[id=percentage]");
+	radioButton1.prop("checked",true);
+})
 
-	//reset for airline filter
-	$(".return_default4").on("click",function(){
-		var checkBoxes = $("input[name=airline]");
-		checkBoxes.prop("checked",true);
-	})
+//reset for time filter
+$(".return_default2").on("click",function(){
+	var slider1=$("input[id=yearInput]");
+	var slider2=$("input[id=monthInput]");
+	var slider3=$("input[id=dayInput]");
+	slider1.jRange("setValue", "2014,2015");
+	slider2.jRange("setValue","0,6");
+	slider3.jRange("setValue","1,4");
+})
+
+//reset for delay filter
+$(".return_default3").on("click",function(){
+	var showAllButton=$("input[id=all]");
+	showAllButton.prop("checked",true);
+})
+
+//reset for airline filter
+$(".return_default4").on("click",function(){
+	var checkBoxes = $("input[name=airline]");
+	checkBoxes.prop("checked",true);
+})
 })();
