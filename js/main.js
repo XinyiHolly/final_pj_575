@@ -99,7 +99,7 @@ function setParams(){
     params['delay'] = $('input[name=delay]:checked').val()
     params['airline'] = $("input[name=airline]:checked").map(function() {
 		return parseInt(this.value);
-	}).get();	
+	}).get();
 }
 
 
@@ -194,7 +194,7 @@ function callAirports (){
             autocomplete.list = data.data;
         },
         type: 'GET'
-    });	
+    });
 }
 
 function callRoutes(destination){
@@ -278,12 +278,12 @@ function updateAirportDelays(airports,delayType){
 				callRoutes(d.origincode);
 			})
 			.on("mouseover", function(d){
-				highlightAirport(d.origincode);
+				highlightAirport(d);
 			})
 			.on("mouseout", function(d){
 				dehighlightAirport(d.origincode)
 			})
-          //.on("mousemove", moveLabel);
+      .on("mousemove", moveLabel);
       // select all the airport circles
       var airports = circles.selectAll("circle")
       airports.append("desc")
@@ -316,28 +316,28 @@ function scaleAirportDelay(val){
 }
 
 //function to highlight enumeration units and bars
-function highlightAirport(code){
+function highlightAirport(prop){
 
     //change stroke
-    var selected = d3.selectAll(".airports_" + code)
+    var selected = d3.selectAll(".airports_" + prop.origincode)
         .style("fill", "#000080")
         .moveToFront();
 
     //call set label
-    retrieveInfor(code);
+    retrieveInfor(prop);
     //changeChart(expressed,code,1,selected.style('fill'));
 };
 
 //function to get information window
-function retrieveInfor(code){
+function retrieveInfor(prop){
     //label content
-    var labelAttribute = "<h3>" + code + "</h3><b>total</b>";
+    var labelAttribute = "<h3>" + prop.origincode + "</h3><b>total</b>";
 
     //create info label div
-    var infolabel = d3.select("#row")
+    var infolabel = d3.select("body")
         .append("div")
         .attr("class", "infolabel")
-        .attr("id", code + "_label")
+        .attr("id", prop.origincode + "_label")
         .html(labelAttribute);
 };
 
@@ -442,6 +442,7 @@ function lines(data,delayType){
 			coordinates: coords,
 			total_delayed: dl,
  			origincode: origins[i].origincode,
+      delayType: delayType,
 			//units: units
 		});
 	}
@@ -484,18 +485,16 @@ function lines(data,delayType){
 		.style('stroke',function(d){
 			return colorRoutes(d.total_delayed, colorScale)
 		})
-		.call(lineTransition);
-
-  		var paths = d3.selectAll("path")
-          .on("mouseover", function(d){
-              highlightRoute(d.origincode);
-          })
-          .on("mouseout", function(d){
-              dehighlightRoute(d.origincode)
-          })
-          //.on("mousemove", moveLabel)
-          // .append("desc")
-          // .text('{"stroke": "#252525"}');
+		.call(lineTransition)
+    .on("mouseover", function(d){
+        highlightRoute(d);
+    })
+    .on("mouseout", function(d){
+        dehighlightRoute(d.origincode)
+    })
+    .on("mousemove", moveLabel);
+    // .append("desc")
+    // .text('{"stroke": "#252525"}');
 
 		d3.select(".states")
 		.moveToBack();
@@ -524,7 +523,7 @@ function makeColorScale(data){
 
     //cluster data using ckmeans clustering algorithm to create natural breaks
     var clusters = ss.ckmeans(domainArray, 5);
-    
+
     //reset domain array to cluster minimums
     domainArray = clusters.map(function(d){
         return d3.min(d);
@@ -552,28 +551,28 @@ function colorRoutes(val, colorScale){
 };
 
 //function to highlight enumeration units and bars
-function highlightRoute(code){
+function highlightRoute(prop){
 
     //change stroke
-    var selected = d3.selectAll("." + code)
+    var selected = d3.selectAll("." + prop.origincode)
         .style('stroke-width', 6)
         .moveToFront();
 
     //call set label
-    //retrieveRoute(code);
+    retrieveRoute(prop);
     //changeChart(expressed,code,1,selected.style('fill'));
 };
 
 //function to get information window
-function retrieveRoute(code){
+function retrieveRoute(prop){
     //label content
-    var labelAttribute = "<h3>" + code + "</h3><b>total</b>";
+    var labelAttribute = "<h3>" + prop.origincode + "</h3><b>total</b>";
 
     //create info label div
-    var infolabel = d3.select("#row")
+    var infolabel = d3.select("body")
         .append("div")
         .attr("class", "infolabel")
-        .attr("id", code + "_label")
+        .attr("id", prop.origincode + "_label")
         .html(labelAttribute);
 };
 
@@ -585,8 +584,8 @@ function dehighlightRoute(code){
     //         return getStyle(this, "stroke")
     //     });
 
-    // d3.select(".infolabel")
-    //     .remove();
+    d3.select(".infolabel")
+        .remove();
 
     // function getStyle(element, styleName){
     //     var styleText = d3.select(element)
