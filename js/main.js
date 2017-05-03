@@ -14,9 +14,37 @@ window.onload = setMap();
 //set up choropleth map
 function setMap(){
 
+	//var margin = {top: 10, left: 10, bottom: 10, right: 10}
+	var width = $("#mapDiv").innerWidth()
+	  , width = width //- margin.left - margin.right
+	  , mapRatio = .85
+	  , height = width * mapRatio;
+
+	function resize() {
+    // adjust things when the window size changes
+    width = $("#mapDiv").innerWidth()
+    width = width //- margin.left - margin.right;
+    height = width * mapRatio;
+
+    // update projection
+    projection
+        .translate([width / 2, height / 2])
+        .scale(width);
+
+    // resize the map container
+    map
+        .style('width', width + 'px')
+        .style('height', height + 'px');
+
+    // resize the map
+    map.selectAll('.states').attr('d', path);
+    map.selectAll('.circles').attr('d', path);
+}
+
+
     //map frame dimensions
-    var width = $("#mapDiv").innerWidth(),
-        height =850;
+    // var width = $("#mapDiv").innerWidth(),
+    //     height =850;
 
     //create new svg container for the map
     map = d3.select("#mapDiv")
@@ -48,6 +76,8 @@ function setMap(){
         //Generate app
         setStateOverlay(states_topo, map, path);
         setParams();
+        d3.select(window).on('resize', resize);
+        resize()
         //setFilterChangeEvents()
         populateAutocomplete();
         callAirports ();
@@ -55,6 +85,8 @@ function setMap(){
         $("button[name=submitBtn]" ).on("click",function(){
         	requestAirports();
 		});
+
+		
     };
 };
 
@@ -232,7 +264,8 @@ function updateAirportDelays(airports,delayType){
 
 	map.selectAll("svg#circles").remove();
 	var circles = map.append("svg")
-		.attr("id", "circles");
+		.attr("id", "circles")
+		.attr("class", "circles");
 	circles.selectAll(".circles")
 		.data(airports)
 		.enter()

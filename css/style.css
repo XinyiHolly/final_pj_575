@@ -174,7 +174,7 @@ ul li:hover{
 }
 
 #airport_search{
-	width:200%;
+	width:150%;
 }
 
 .navbar-brand{
@@ -222,7 +222,7 @@ ul li:hover{
 }
 
 .pull-middle{
-	position:relative;
+	/*position:relative;*/
 	top:18%;
 	left:36%
 }
@@ -414,8 +414,8 @@ p.description{
 }
 
 #mapDiv{
-	margin-left:20%;
-	margin-top:-50%;
+	/*margin:0px;*/
+	/*margin-left:20%;*/
 	/*position:absolute;*/
 	/*display:inline-block;*/
 	/*margin-bottom: 20px;*/
