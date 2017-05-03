@@ -331,8 +331,20 @@ function highlightAirport(prop){
 //function to get information window
 function retrieveInfor(prop){
     //label content
-    var labelAttribute = "<h3>" + prop.origincode + "</h3><b>total</b>";
-
+    var labelAttribute = "<h4>" + prop.originname + "</h4><b></b>" +
+                         "<h5>airport code: " + prop.origincode + "</h5><b></b>";
+    var airlineAttribute;
+    var airlineArray = prop.airline;
+    var datatype = "%";
+    var token = "Percent";
+    if (params.type == 0) {
+      datatype = "min";
+      token = "Average";
+    }
+    for (i=0; i<airlineArray.length; i++) {
+      labelAttribute += "<h5>" + airlineArray[i].name + ":&nbsp" + airlineArray[i].delayed + datatype + "&nbsp" + "delayed</h5><b></b>";
+    }
+    labelAttribute += "<h4>" + token + " delayed: " + prop.stats.delayed + datatype + "</h4></b>";
     //create info label div
     var infolabel = d3.select("body")
         .append("div")
@@ -547,7 +559,21 @@ function highlightRoute(prop){
 //function to get information window
 function retrieveRoute(prop){
     //label content
-    var labelAttribute = "<h3>" + prop.origincode + "</h3><b>total</b>";
+    console.log(prop);
+    var labelAttribute = "<h4>Origin: " + prop.originname + "</h4><b></b>" +
+                         "<h5>airport code: " + prop.origincode + "</h5><b></b>";
+    var airlineAttribute;
+    var airlineArray = prop.airline;
+    var datatype = "%";
+    var token = "Percent";
+    if (params.type == 0) {
+      datatype = "min";
+      token = "Average";
+    }
+    for (i=0; i<airlineArray.length; i++) {
+      labelAttribute += "<h5>" + airlineArray[i].name + ":&nbsp" + airlineArray[i].delayed + datatype + "&nbsp" + "delayed</h5><b></b>";
+    }
+    labelAttribute += "<h4>" + token + " delayed: " + prop.stats.delayed + datatype + "</h4></b>";
 
     //create info label div
     var infolabel = d3.select("body")
