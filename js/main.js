@@ -16,7 +16,7 @@ function setMap(){
 
     //map frame dimensions
     var width = $("#mapDiv").innerWidth(),
-        height =800;
+        height =850;
 
     //create new svg container for the map
     map = d3.select("#mapDiv")
@@ -716,6 +716,11 @@ d3.select(".container2")
 // 		$(".grayOut").fadeOut(350);
 // 		$(".loader").show();
 // })
+
+	$(window).on("load",function(){
+		$("#myModal1").modal("show");
+		$(".loader").show();
+	})
 
 //tutorial button interaction
 $(".tutorial-Button").on("click",function(){

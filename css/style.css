@@ -173,6 +173,10 @@ ul li:hover{
 	cursor:pointer;
 }
 
+#airport_search{
+	width:200%;
+}
+
 .navbar-brand{
 	position:relative;
 	/*left:0.5%;*/
