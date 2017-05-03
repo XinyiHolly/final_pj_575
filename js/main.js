@@ -17,7 +17,7 @@ function setMap(){
 	//var margin = {top: 10, left: 10, bottom: 10, right: 10}
 	var width = $("#mapDiv").innerWidth()
 	  , width = width //- margin.left - margin.right
-	  , mapRatio = .85
+	  , mapRatio = 1
 	  , height = width * mapRatio;
 
 	function resize() {
