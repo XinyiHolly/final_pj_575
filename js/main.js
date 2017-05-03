@@ -16,7 +16,7 @@ function setMap(){
 
     //map frame dimensions
     var width = $("#mapDiv").innerWidth(),
-        height =$("#mapDiv").innerHeight();
+        height =800;
 
     //create new svg container for the map
     map = d3.select("#mapDiv")
@@ -287,7 +287,7 @@ function updateAirportDelays(airports,delayType){
       // select all the airport circles
       var airports = circles.selectAll("circle")
       airports.append("desc")
-          .text('{"fill": "blue", "stroke-width": "0.5px", "stroke-opacity": "0.65"}');
+          .text('{"fill":"blue", "stroke-width": "0.5px", "stroke-opacity": "0.65"}');
 }
 
 //Returns the radius given predefined classes
@@ -404,7 +404,7 @@ function drawLinesOut(){
 
 function lines(routes,delayType){
 	//Make color scale
-	var colorScale = makeColorScale(routes)
+	//var colorScale = makeColorScale(routes)
 	//what follows is based on: http://bl.ocks.org/enoex/6201948
 	var path = d3.geo.path()
 		.projection(projection);
@@ -478,7 +478,8 @@ function lines(routes,delayType){
 		})
 		.style('stroke-width', 3)
 		.style('stroke',function(d){
-			return colorRoutes(d.total_delayed, colorScale)
+			//return colorRoutes(d.total_delayed, colorScale)
+			return scaleRouteDelay(d.total_delayed)
 		})
 		.call(lineTransition)
     .on("mouseover", function(d){
@@ -493,6 +494,35 @@ function lines(routes,delayType){
 	.moveToBack();
 };
 
+function scaleRouteDelay(val){
+	console.log(val)
+	if (params.type == 1){ //Percent delayed
+		if (val <= 10){
+			return "#fdd0a2";
+		}else if(val <= 25){
+			return "#fdae6b";
+		}else if(val <= 50){
+			return "#fd8d3c";
+		}else if(val <= 75){
+			return "#e6550d";
+		}else{
+			return "#a63603";
+		}
+	}else{//Avg delay time
+		if (val <= 10){
+			return "#fdd0a2";
+		}else if(val <= 30){
+			return "#fdae6b";
+		}else if(val <= 45){
+			return "#fd8d3c";
+		}else if(val <= 60){
+			return "#e6550d";
+		}else{
+			return "#a63603";
+		}
+	}
+}
+
 //function to create color scale generator
 function makeColorScale(data){
     var colorClasses = [
@@ -504,31 +534,47 @@ function makeColorScale(data){
     ];
 
     //create color scale generator
-    var colorScale = d3.scaleThreshold()
-        .range(colorClasses)
+    // var colorScale = d3.scaleThreshold()
+    //     .range(colorClasses)
 
-    //build array of all values of the expressed attribute
-    var domainArray = [];
-    for (var i=0; i<data.length; i++){
-        var val = parseFloat(data[i].stats[params.delay]);
-        domainArray.push(val);
-    };
+    // //build array of all values of the expressed attribute
+    // var domainArray = [];
+    // for (var i=0; i<data.length; i++){
+    //     var val = parseFloat(data[i].stats[params.delay]);
+    //     domainArray.push(val);
+    // };
 
-    //cluster data using ckmeans clustering algorithm to create natural breaks
-    var clusters = ss.ckmeans(domainArray, 5);
+    // //cluster data using ckmeans clustering algorithm to create natural breaks
+    // var clusters = ss.ckmeans(domainArray, 5);
 
-    //reset domain array to cluster minimums
-    domainArray = clusters.map(function(d){
-        return d3.min(d);
-    });
-    //remove first value from domain array to create class breakpoints
-    domainArray.shift();
+    // //reset domain array to cluster minimums
+    // domainArray = clusters.map(function(d){
+    //     return d3.min(d);
+    // });
+    // //remove first value from domain array to create class breakpoints
+    // domainArray.shift();
 
-    //assign array of last 4 cluster minimums as domain
-    colorScale.domain(domainArray);
+    // //assign array of last 4 cluster minimums as domain
+    // colorScale.domain(domainArray);
 
     //create legend
     //legend(colorScale);
+
+    //create color scale generator
+    var colorScale = d3.scaleQuantile()
+        .range(colorClasses);
+
+    //build two-value array of minimum and maximum expressed attribute values
+    var minmax = [
+        d3.min(data, function(d) { return parseFloat(data[i].stats[params.delay]); }),
+        d3.max(data, function(d) { return parseFloat(data[i].stats[params.delay]); })
+    ];
+    //assign two-value array as scale domain
+    colorScale.domain(minmax);
+
+    return colorScale;
+
+
 
     return colorScale;
 };
@@ -537,6 +583,8 @@ function makeColorScale(data){
 function colorRoutes(val, colorScale){
     //if attribute value exists, assign a color
     if (typeof val == 'number' && !isNaN(val)){
+    	console.log(val)
+    	console.log(colorScale(val))
         return colorScale(val);
     } else {
         return "#000000";
@@ -559,7 +607,6 @@ function highlightRoute(prop){
 //function to get information window
 function retrieveRoute(prop){
     //label content
-    console.log(prop);
     var labelAttribute = "<h4>Origin: " + prop.originname + "</h4><b></b>" +
                          "<h5>airport code: " + prop.origincode + "</h5><b></b>";
     var airlineAttribute;
@@ -659,16 +706,16 @@ d3.select(".container2")
 	.append("div")
 	.attr("class","grayOut col-md-12 col-lg-12 col-sm-12")
 //create intro window and fade out effect
-d3.select("body")
-	.append("div").attr("class","OverviewBox col-md-12 col-lg-12 col-sm-12")
-	.html("<span class='OverviewBoxTitle'><p>Welcome to U.S. Delay Flight Tracker</p></span><span class='OverviewBoxContent'><p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;This interactive map is for exploring the temporal and spatial trends of delay domestic flights within the U.S. from 2014 to 2016. We believe that users will make better and smarter itinerary decisions by comparing the historic differences in delay frequencies between airlines.<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;To detect more insights, you can use the filters on the left-hand side to investigate information such as the percentage of delay flights per airport, average delay time per airport, delay patterns across time and airlines, types of flight delay, etc. If you want to get a more intuitive guide on how to use this map, please watch this <a class='tutorial-Button'>tutorial</a>.</p></span>")
-	.append("button").attr("class","OverviewButton")
-	.text("Click Here to Enter the Map")
-	.on("click",function(){
-		$(".OverviewBox").fadeOut(350);
-		$(".grayOut").fadeOut(350);
-		$(".loader").show();
-})
+// d3.select("body")
+// 	.append("div").attr("class","OverviewBox col-md-12 col-lg-12 col-sm-12")
+// 	.html("<span class='OverviewBoxTitle'><p>Welcome to U.S. Delay Flight Tracker</p></span><span class='OverviewBoxContent'><p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;This interactive map is for exploring the temporal and spatial trends of delay domestic flights within the U.S. from 2014 to 2016. We believe that users will make better and smarter itinerary decisions by comparing the historic differences in delay frequencies between airlines.<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;To detect more insights, you can use the filters on the left-hand side to investigate information such as the percentage of delay flights per airport, average delay time per airport, delay patterns across time and airlines, types of flight delay, etc. If you want to get a more intuitive guide on how to use this map, please watch this <a class='tutorial-Button'>tutorial</a>.</p></span>")
+// 	.append("button").attr("class","OverviewButton")
+// 	.text("Click Here to Enter the Map")
+// 	.on("click",function(){
+// 		$(".OverviewBox").fadeOut(350);
+// 		$(".grayOut").fadeOut(350);
+// 		$(".loader").show();
+// })
 
 //tutorial button interaction
 $(".tutorial-Button").on("click",function(){
