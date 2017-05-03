@@ -217,7 +217,7 @@ function callRoutes(destination){
 		dataType: 'json',
 		success: function(data) {
 			drawLinesOut();
-			lines(data,params.delay)
+			lines(data.data,params.delay)
 		},
 		type: 'GET'
 	});
@@ -390,14 +390,9 @@ function drawLinesOut(){
 	d3.selectAll(".arc").remove();
 };
 
-function lines(data,delayType){
-	//draw flow lines
-	var array = d3.values(data);
-	//Create list containing only field_goal_attempts
-	var origins = array[2];
-	var direction = "to"
+function lines(routes,delayType){
 	//Make color scale
-	var colorScale = makeColorScale(data.data)
+	var colorScale = makeColorScale(routes)
 	//what follows is based on: http://bl.ocks.org/enoex/6201948
 	var path = d3.geo.path()
 		.projection(projection);
@@ -415,39 +410,29 @@ function lines(data,delayType){
 			return function(t) { return interpolate(t); };
 	};
 
-	var links = [];
-	//var units = (viewToggle != "# of Shipments") ? data.units : "shipments"
-
-	for(var i=0, len=origins.length; i<len; i++){
+	for(var i=0, len=routes.length; i<len; i++){
 		// (note: loop until length - 1 since we're getting the next
 		//  item with i+1)
-		var coords = [[ origins[i].originlng, origins[i].originlat ],[ origins[i].desetlng, origins[i].destlat ]]
+		var coords = [[ routes[i].originlng, routes[i].originlat ],[ routes[i].desetlng, routes[i].destlat ]]
 
 		if (delayType == 'carrierd'){
-			var dl = origins[i].stats.carrierd;
+			var dl = routes[i].stats.carrierd;
 		}else if(delayType == 'weatherd'){
-			var dl = origins[i].stats.weatherd;
+			var dl = routes[i].stats.weatherd;
 		}else if(delayType == 'securityd'){
-			var dl = origins[i].stats.securityd;
+			var dl = routes[i].stats.securityd;
 		}else if(delayType == 'nasd'){
-			var dl = origins[i].stats.nasd;
+			var dl = routes[i].stats.nasd;
 		}else if(delayType == 'lateaircraftd'){
-			var dl = origins[i].stats.lateaircraftd
+			var dl = routes[i].stats.lateaircraftd
 		}else{
-			var dl = origins[i].stats.delayed;
+			var dl = routes[i].stats.delayed;
 		}
 
-		links.push({
-			type: "LineString",
-			coordinates: coords,
-			total_delayed: dl,
- 			origincode: origins[i].origincode,
-      delayType: delayType,
-			//units: units
-		});
+		routes[i]["coordinates"]= coords;
+		routes[i]["total_delayed"]= dl;
 	}
 
-	links.sort(function(a,b){return a.coordinates[0][0]-b.coordinates[0][0]});
 	var xPosition //for managing directionality of flow lines
 
 	var arcs = map.append("svg:g")
@@ -456,11 +441,10 @@ function lines(data,delayType){
     	.moveToBack();
 
 	arcs.selectAll("arc")
-		.data(links)
+		.data(routes)
 		.enter()
 		.append("path")
 		.attr('class', function(d) { return ("arc " + d.origincode)})
-		// .append("svg:arc")
 		.style('fill', 'none')
 		.attr("d", function(d){
 			//http://bl.ocks.org/d3noob/
@@ -480,7 +464,6 @@ function lines(data,delayType){
 			projection(d.coordinates[1])[0] + "," +
 			projection(d.coordinates[1])[1]
 		})
-		// .style({'stroke': "#252525", "stroke-linejoin":"round", "cursor": "pointer"})
 		.style('stroke-width', 3)
 		.style('stroke',function(d){
 			return colorRoutes(d.total_delayed, colorScale)
@@ -493,11 +476,9 @@ function lines(data,delayType){
         dehighlightRoute(d.origincode)
     })
     .on("mousemove", moveLabel);
-    // .append("desc")
-    // .text('{"stroke": "#252525"}');
 
-		d3.select(".states")
-		.moveToBack();
+	d3.select(".states")
+	.moveToBack();
 };
 
 //function to create color scale generator
