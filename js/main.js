@@ -84,8 +84,13 @@ function setMap(){
 
         $("button[name=submitBtn]" ).on("click",function(){
         	requestAirports();
+			$(".loader").show();
 		});
-
+		
+		$("button[name=resetBtn]").on("click",function(){
+			requestAirports();
+			$(".loader").show();
+		});
 		
     };
 };
@@ -746,8 +751,12 @@ d3.select(".container2")
 // 		$(".loader").show();
 // })
 
+	//display loader for the start page
 	$(window).on("load",function(){
-		$("#myModal1").modal("show");
+		$("#myModal1").modal("show")
+	})
+	
+	$("#myModal1").on("click",function(){
 		$(".loader").show();
 	})
 
@@ -813,35 +822,28 @@ $(".foot-button1").on("click",function(){
 	$(".grayOut").fadeIn(350)
 })
 
+/*
 //set up hover effect for resetter buttons
 $(".resetter").hover(function(){
 	$(this).toggleClass('hovered')
-	})
+})
+*/
 
 //reset for proportional symbol filter
-$(".return_default1").on("click",function(){
+$("#return_default").on("click",function(){
 	var radioButton1=$("input[id=percentage]");
 	radioButton1.prop("checked",true);
-})
-
-//reset for time filter
-$(".return_default2").on("click",function(){
+	
 	var slider1=$("input[id=yearInput]");
 	var slider2=$("input[id=monthInput]");
 	var slider3=$("input[id=dayInput]");
 	slider1.jRange("setValue", "2014,2015");
 	slider2.jRange("setValue","0,6");
 	slider3.jRange("setValue","1,4");
-})
-
-//reset for delay filter
-$(".return_default3").on("click",function(){
+	
 	var showAllButton=$("input[id=all]");
 	showAllButton.prop("checked",true);
-})
-
-//reset for airline filter
-$(".return_default4").on("click",function(){
+	
 	var checkBoxes = $("input[name=airline]");
 	checkBoxes.prop("checked",true);
 })

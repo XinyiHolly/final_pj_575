@@ -269,6 +269,7 @@ ul li:hover{
 
 
 h3.title{
+	font-family:Gill Sans MT;
 	font-size:120%;
 	text-align:left;
 	margin-top:5px;
@@ -410,7 +411,12 @@ p.description{
 
 #submit{
 	position:relative;
-	width:100%;
+	width:40%;
+}
+
+#return_default{
+	position:relative;
+	width:40%;
 }
 
 #mapDiv{
