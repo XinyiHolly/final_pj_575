@@ -48,143 +48,136 @@
 		</div>
 		
 		<div class="row">
-		<!--div class="navbar-panel control-panel col-sm-12 col-md-2 col-lg-4"-->
-			<div id="side-panel" class="col-sm-12 col-md-2 col-lg-2">
+			<div id="side-panel" class="col-sm-12 col-md-2 col-lg-1">
 			
 				<button type="button" name="submitBtn" id="submit">Submit</button>
 				<button type="button" name="resetBtn" id="return_default">Reset</button>
 				
-					<div id="search-proportion" class="col-sm-3 col-md-12">
-						<div id="search-panel">
-							<h3 class="title">Search An Airport:</h3>
-							<div>
-								<input type="text" id="airport_search" placeholder="Search your destination airport (e.g. 'DEN')">
-							</div>
-							<hr id="sexy_line1">
+				<div id="search-proportion" class="col-sm-3 col-md-12">
+					<div id="search-panel">
+						<h3 class="title">Search An Airport:</h3>
+						<div>
+							<input type="text" id="airport_search" placeholder="Search your destination airport (e.g. 'DEN')">
 						</div>
-						
-						<div id="proportion-panel">
-							<h3 class="title">Symbolize By:</h3>
-							<div>
-								<input type="radio" id="percentage" name="proportional_symbol" value=1 checked>
-								<label for="percentage">Percentage of Delay Flights</label>
-							</div>
-							<div>
-								<input type="radio" id="time" name="proportional_symbol" value=0>
-								<label for="time">Average Delay Time</label>
-							</div>
-							<!--div class="resetter return_default1" title="Reset">
-								<img src="img/return.png" width="20" height="20">
-							</div-->
-							<hr id="sexy_line1">
-						</div>
-					</div>
-			
-					<div id="time-panel" class="col-sm-3 col-md-12">
-						<h3 class="title">Filter Year(s):</h3>
-						<div class="slider-container">
-							<input class="range-slider1" id="yearInput" type="hidden" value="2014,2015"/>
-						</div>
-						
-						<h3 class="title">Filter Month(s):</h3>
-						<div class="slider-container">
-							<input class="range-slider2" id="monthInput" type="hidden" value="0,6"/>
-						</div>
-						
-						<h3 class="title">Filter Day(s):</h3>
-						<div class="slider-container">
-							<input class="range-slider3" id="dayInput" type="hidden" value="1,4"/>
-						</div>
-						<!--div class="resetter return_default2" title="Reset">
-							<img src="img/return.png" width="20" height="20">
-						</div-->
-						
 						<hr id="sexy_line1">
 					</div>
-			
-					<div id="delay-panel" class="col-sm-3 col-md-12">
-						<h3 class="title">Show Types of Delay:</h3>
-						<div id="radioDelay">
-							<input type="radio" id="carrier" value="weather" name="delay">
-							<label for="carrier">Air Carrier</label><br>
-						
-							<input type="radio" id="weather" value="weather"  name="delay">
-							<label for="weather">Weather</label><br>
-						
-							<input type="radio" id="security" value="security" name="delay">
-							<label for="security">Security</label><br>
+					
+					<div id="proportion-panel">
+						<h3 class="title">Symbolize By:</h3>
+						<div>
+							<input type="radio" id="percentage" name="proportional_symbol" value=1 checked>
+							<label for="percentage">Percentage of Delay Flights</label>
 						</div>
-						
-						<div id="radioDelay">
-							<input type="radio" id="aviation" value="nas" name="delay">
-							<label for="aviation">National Aviation System</label><br>
-						
-							<input type="radio" id="arriving_late" value="arriving_late" name="delay">
-							<label for="arriving_late">Aircraft Arriving Late</label><br>
-							
-							<input type="radio" id="all" name="delay" value="all" checked="checked">
-							<label for="arriving_late">Show All</label><br>
+						<div>
+							<input type="radio" id="time" name="proportional_symbol" value=0>
+							<label for="time">Average Delay Time</label>
 						</div>
-						
-						<!--div class="resetter return_default3" title="Reset">
+						<!--div class="resetter return_default1" title="Reset">
 							<img src="img/return.png" width="20" height="20">
 						</div-->
-						
 						<hr id="sexy_line1">
 					</div>
-			
-					<div id="airline-panel" class="col-sm-3 col-md-12">
-						<h3 class="title">Filter Airline(s):</h3>
-						<div id="checkboxAirline">
-							<input type="checkbox" id="19930" name="airline" value="19930" checked="checked">
-							<label for="19930">Alaska</label><br>
-						
-							<input type="checkbox" id="19805" name="airline" value="19805" checked="checked">
-							<label for="19805">American</label><br>
-						
-							<input type="checkbox" id="19790" name="airline" value="19790" checked="checked">
-							<label for="19790">Delta</label><br>
-						
-							<input type="checkbox" id="20398" name="airline" value="20398" checked="checked">
-							<label for="20398">Envoy</label><br>
-						
-							<input type="checkbox" id="20366" name="airline" value="20366" checked="checked">
-							<label for="20366">ExpressJet</label><br>
-						
-							<input type="checkbox" id="20436" name="airline" value="20436" checked="checked">
-							<label for="20436">Frontier</label><br>
-							
-							<input type="checkbox" id="20409" name="airline" value="20409" checked="checked">
-							<label for="20409">JetBlue</label><br>
-						</div>
-				
-						<div id="checkboxAirline">
-							<input type="checkbox" id="20304" name="airline" value="20304" checked="checked">
-							<label for="20304">SkyWest</label><br>
-						
-							<input type="checkbox" id="19393" name="airline" value="19393" checked="checked">
-							<label for="19393">Southwest</label><br>
-						
-							<input type="checkbox" id="20416" name="airline" value="20416" checked="checked">
-							<label for="20416">Spirit</label><br>
-						
-							<input type="checkbox" id="19977" name="airline" value="19977" checked="checked">
-							<label for="19977">United</label><br>
-						
-							<input type="checkbox" id="21171" name="airline" value="21171" checked="checked">
-							<label for="21171">Virgin America</label><br>
-							
-							<input type="button" name="checkBtn" class="check" value="Uncheck All">
-						</div>
-						<!--div class="resetter return_default4" title="Reset">
-							<img src="img/return.png" width="20" height="20">
-						</div-->
+				</div>
+		
+				<div id="time-panel" class="col-sm-3 col-md-12">
+					<h3 class="title">Filter Year(s):</h3>
+					<div class="slider-container">
+						<input class="range-slider1" id="yearInput" type="hidden" value="2014,2015"/>
 					</div>
-				
+					
+					<h3 class="title">Filter Month(s):</h3>
+					<div class="slider-container">
+						<input class="range-slider2" id="monthInput" type="hidden" value="0,6"/>
+					</div>
+					
+					<h3 class="title">Filter Day(s):</h3>
+					<div class="slider-container">
+						<input class="range-slider3" id="dayInput" type="hidden" value="1,4"/>
+					</div>
+					<!--div class="resetter return_default2" title="Reset">
+						<img src="img/return.png" width="20" height="20">
+					</div-->
+					
+					<hr id="sexy_line1">
+				</div>
+		
+				<div id="delay-panel" class="col-sm-3 col-md-12">
+					<h3 class="title">Show Types of Delay:</h3>
+					<div id="radioDelay">
+						<input type="radio" id="carrier" value="weather" name="delay">
+						<label for="carrier">Air Carrier</label><br>
+					
+						<input type="radio" id="weather" value="weather"  name="delay">
+						<label for="weather">Weather</label><br>
+					
+						<input type="radio" id="security" value="security" name="delay">
+						<label for="security">Security</label><br>
+					</div>
+					
+					<div id="radioDelay">
+						<input type="radio" id="aviation" value="nas" name="delay">
+						<label for="aviation">National Aviation System</label><br>
+					
+						<input type="radio" id="arriving_late" value="arriving_late" name="delay">
+						<label for="arriving_late">Aircraft Arriving Late</label><br>
+						
+						<input type="radio" id="all" name="delay" value="all" checked="checked">
+						<label for="arriving_late">Show All</label><br>
+					</div>
+					
+					<!--div class="resetter return_default3" title="Reset">
+						<img src="img/return.png" width="20" height="20">
+					</div-->
+					
+					<hr id="sexy_line1">
+				</div>
+		
+				<div id="airline-panel" class="col-sm-3 col-md-12">
+					<h3 class="title">Filter Airline(s):</h3>
+					<div id="checkboxAirline">
+						<input type="checkbox" id="19930" name="airline" value="19930" checked="checked">
+						<label for="19930">Alaska</label><br>
+					
+						<input type="checkbox" id="19805" name="airline" value="19805" checked="checked">
+						<label for="19805">American</label><br>
+					
+						<input type="checkbox" id="19790" name="airline" value="19790" checked="checked">
+						<label for="19790">Delta</label><br>
+					
+						<input type="checkbox" id="20398" name="airline" value="20398" checked="checked">
+						<label for="20398">Envoy</label><br>
+					
+						<input type="checkbox" id="20366" name="airline" value="20366" checked="checked">
+						<label for="20366">ExpressJet</label><br>
+					
+						<input type="checkbox" id="20436" name="airline" value="20436" checked="checked">
+						<label for="20436">Frontier</label><br>
+						
+						<input type="checkbox" id="20409" name="airline" value="20409" checked="checked">
+						<label for="20409">JetBlue</label><br>
+					</div>
+			
+					<div id="checkboxAirline">
+						<input type="checkbox" id="20304" name="airline" value="20304" checked="checked">
+						<label for="20304">SkyWest</label><br>
+					
+						<input type="checkbox" id="19393" name="airline" value="19393" checked="checked">
+						<label for="19393">Southwest</label><br>
+					
+						<input type="checkbox" id="20416" name="airline" value="20416" checked="checked">
+						<label for="20416">Spirit</label><br>
+					
+						<input type="checkbox" id="19977" name="airline" value="19977" checked="checked">
+						<label for="19977">United</label><br>
+					
+						<input type="checkbox" id="21171" name="airline" value="21171" checked="checked">
+						<label for="21171">Virgin America</label><br>
+						
+						<input type="button" name="checkBtn" class="check" value="Uncheck All">
+					</div>
+				</div>
 			</div>
-			
-			<div id="mapDiv" class="col-sm-12 col-md-10 col-lg-10"></div>
-			
+			<div id="mapDiv" class="col-sm-12 col-md-10 col-lg-9"></div>
 		</div>
 	
 		<div class="row">
