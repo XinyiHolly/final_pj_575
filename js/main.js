@@ -14,9 +14,37 @@ window.onload = setMap();
 //set up choropleth map
 function setMap(){
 
+	//var margin = {top: 10, left: 10, bottom: 10, right: 10}
+	var width = $("#mapDiv").innerWidth()
+	  , width = width //- margin.left - margin.right
+	  , mapRatio = 1
+	  , height = width * mapRatio;
+
+	function resize() {
+    // adjust things when the window size changes
+    width = $("#mapDiv").innerWidth()
+    width = width //- margin.left - margin.right;
+    height = width * mapRatio;
+
+    // update projection
+    projection
+        .translate([width / 2, height / 2])
+        .scale(width);
+
+    // resize the map container
+    map
+        .style('width', width + 'px')
+        .style('height', height + 'px');
+
+    // resize the map
+    map.selectAll('.states').attr('d', path);
+    map.selectAll('.circles').attr('d', path);
+}
+
+
     //map frame dimensions
-    var width = $("#mapDiv").innerWidth(),
-        height =$("#mapDiv").innerHeight();
+    // var width = $("#mapDiv").innerWidth(),
+    //     height =850;
 
     //create new svg container for the map
     map = d3.select("#mapDiv")
@@ -48,6 +76,8 @@ function setMap(){
         //Generate app
         setStateOverlay(states_topo, map, path);
         setParams();
+        d3.select(window).on('resize', resize);
+        resize()
         //setFilterChangeEvents()
         populateAutocomplete();
         callAirports ();
@@ -55,6 +85,8 @@ function setMap(){
         $("button[name=submitBtn]" ).on("click",function(){
         	requestAirports();
 		});
+
+		
     };
 };
 
@@ -77,12 +109,8 @@ function populateAutocomplete(){
 		maxItems: 5
 	});
 	//Add events for displaying routes and clearing search window
-	input.addEventListener('awesomplete-select', function () {
-		console.log(this.selected);
-		callRoutes(this.value);
-	}, false);
 	input.addEventListener('awesomplete-selectcomplete', function (e) {
-		this.selected = e.target.value;
+		callRoutes(e.target.value);
 		e.target.value = null;
 	}, false);
 }
@@ -217,7 +245,7 @@ function callRoutes(destination){
 		dataType: 'json',
 		success: function(data) {
 			drawLinesOut();
-			lines(data,params.delay)
+			lines(data.data,params.delay)
 		},
 		type: 'GET'
 	});
@@ -232,7 +260,8 @@ function updateAirportDelays(airports,delayType){
 
 	map.selectAll("svg#circles").remove();
 	var circles = map.append("svg")
-		.attr("id", "circles");
+		.attr("id", "circles")
+		.attr("class", "circles");
 	circles.selectAll(".circles")
 		.data(airports)
 		.enter()
@@ -287,7 +316,7 @@ function updateAirportDelays(airports,delayType){
       // select all the airport circles
       var airports = circles.selectAll("circle")
       airports.append("desc")
-          .text('{"fill": "blue", "stroke-width": "0.5px", "stroke-opacity": "0.65"}');
+          .text('{"fill":"blue", "stroke-width": "0.5px", "stroke-opacity": "0.65"}');
 }
 
 //Returns the radius given predefined classes
@@ -331,8 +360,20 @@ function highlightAirport(prop){
 //function to get information window
 function retrieveInfor(prop){
     //label content
-    var labelAttribute = "<h3>" + prop.origincode + "</h3><b>total</b>";
-
+    var labelAttribute = "<h4>" + prop.originname + "</h4><b></b>" +
+                         "<h5>airport code: " + prop.origincode + "</h5><b></b>";
+    var airlineAttribute;
+    var airlineArray = prop.airline;
+    var datatype = "%";
+    var token = "Percent";
+    if (params.type == 0) {
+      datatype = "min";
+      token = "Average";
+    }
+    for (i=0; i<airlineArray.length; i++) {
+      labelAttribute += "<h5>" + airlineArray[i].name + ":&nbsp" + airlineArray[i].delayed + datatype + "&nbsp" + "delayed</h5><b></b>";
+    }
+    labelAttribute += "<h4>" + token + " delayed: " + prop.stats.delayed + datatype + "</h4></b>";
     //create info label div
     var infolabel = d3.select("body")
         .append("div")
@@ -390,14 +431,9 @@ function drawLinesOut(){
 	d3.selectAll(".arc").remove();
 };
 
-function lines(data,delayType){
-	//draw flow lines
-	var array = d3.values(data);
-	//Create list containing only field_goal_attempts
-	var origins = array[2];
-	var direction = "to"
+function lines(routes,delayType){
 	//Make color scale
-	var colorScale = makeColorScale(data.data)
+	//var colorScale = makeColorScale(routes)
 	//what follows is based on: http://bl.ocks.org/enoex/6201948
 	var path = d3.geo.path()
 		.projection(projection);
@@ -415,39 +451,29 @@ function lines(data,delayType){
 			return function(t) { return interpolate(t); };
 	};
 
-	var links = [];
-	//var units = (viewToggle != "# of Shipments") ? data.units : "shipments"
-
-	for(var i=0, len=origins.length; i<len; i++){
+	for(var i=0, len=routes.length; i<len; i++){
 		// (note: loop until length - 1 since we're getting the next
 		//  item with i+1)
-		var coords = [[ origins[i].originlng, origins[i].originlat ],[ origins[i].desetlng, origins[i].destlat ]]
+		var coords = [[ routes[i].originlng, routes[i].originlat ],[ routes[i].desetlng, routes[i].destlat ]]
 
 		if (delayType == 'carrierd'){
-			var dl = origins[i].stats.carrierd;
+			var dl = routes[i].stats.carrierd;
 		}else if(delayType == 'weatherd'){
-			var dl = origins[i].stats.weatherd;
+			var dl = routes[i].stats.weatherd;
 		}else if(delayType == 'securityd'){
-			var dl = origins[i].stats.securityd;
+			var dl = routes[i].stats.securityd;
 		}else if(delayType == 'nasd'){
-			var dl = origins[i].stats.nasd;
+			var dl = routes[i].stats.nasd;
 		}else if(delayType == 'lateaircraftd'){
-			var dl = origins[i].stats.lateaircraftd
+			var dl = routes[i].stats.lateaircraftd
 		}else{
-			var dl = origins[i].stats.delayed;
+			var dl = routes[i].stats.delayed;
 		}
 
-		links.push({
-			type: "LineString",
-			coordinates: coords,
-			total_delayed: dl,
- 			origincode: origins[i].origincode,
-      delayType: delayType,
-			//units: units
-		});
+		routes[i]["coordinates"]= coords;
+		routes[i]["total_delayed"]= dl;
 	}
 
-	links.sort(function(a,b){return a.coordinates[0][0]-b.coordinates[0][0]});
 	var xPosition //for managing directionality of flow lines
 
 	var arcs = map.append("svg:g")
@@ -456,11 +482,10 @@ function lines(data,delayType){
     	.moveToBack();
 
 	arcs.selectAll("arc")
-		.data(links)
+		.data(routes)
 		.enter()
 		.append("path")
 		.attr('class', function(d) { return ("arc " + d.origincode)})
-		// .append("svg:arc")
 		.style('fill', 'none')
 		.attr("d", function(d){
 			//http://bl.ocks.org/d3noob/
@@ -480,10 +505,10 @@ function lines(data,delayType){
 			projection(d.coordinates[1])[0] + "," +
 			projection(d.coordinates[1])[1]
 		})
-		// .style({'stroke': "#252525", "stroke-linejoin":"round", "cursor": "pointer"})
 		.style('stroke-width', 3)
 		.style('stroke',function(d){
-			return colorRoutes(d.total_delayed, colorScale)
+			//return colorRoutes(d.total_delayed, colorScale)
+			return scaleRouteDelay(d.total_delayed)
 		})
 		.call(lineTransition)
     .on("mouseover", function(d){
@@ -493,12 +518,39 @@ function lines(data,delayType){
         dehighlightRoute(d.origincode)
     })
     .on("mousemove", moveLabel);
-    // .append("desc")
-    // .text('{"stroke": "#252525"}');
 
-		d3.select(".states")
-		.moveToBack();
+	d3.select(".states")
+	.moveToBack();
 };
+
+function scaleRouteDelay(val){
+	console.log(val)
+	if (params.type == 1){ //Percent delayed
+		if (val <= 10){
+			return "#fdd0a2";
+		}else if(val <= 25){
+			return "#fdae6b";
+		}else if(val <= 50){
+			return "#fd8d3c";
+		}else if(val <= 75){
+			return "#e6550d";
+		}else{
+			return "#a63603";
+		}
+	}else{//Avg delay time
+		if (val <= 10){
+			return "#fdd0a2";
+		}else if(val <= 30){
+			return "#fdae6b";
+		}else if(val <= 45){
+			return "#fd8d3c";
+		}else if(val <= 60){
+			return "#e6550d";
+		}else{
+			return "#a63603";
+		}
+	}
+}
 
 //function to create color scale generator
 function makeColorScale(data){
@@ -511,31 +563,47 @@ function makeColorScale(data){
     ];
 
     //create color scale generator
-    var colorScale = d3.scaleThreshold()
-        .range(colorClasses)
+    // var colorScale = d3.scaleThreshold()
+    //     .range(colorClasses)
 
-    //build array of all values of the expressed attribute
-    var domainArray = [];
-    for (var i=0; i<data.length; i++){
-        var val = parseFloat(data[i].stats[params.delay]);
-        domainArray.push(val);
-    };
+    // //build array of all values of the expressed attribute
+    // var domainArray = [];
+    // for (var i=0; i<data.length; i++){
+    //     var val = parseFloat(data[i].stats[params.delay]);
+    //     domainArray.push(val);
+    // };
 
-    //cluster data using ckmeans clustering algorithm to create natural breaks
-    var clusters = ss.ckmeans(domainArray, 5);
+    // //cluster data using ckmeans clustering algorithm to create natural breaks
+    // var clusters = ss.ckmeans(domainArray, 5);
 
-    //reset domain array to cluster minimums
-    domainArray = clusters.map(function(d){
-        return d3.min(d);
-    });
-    //remove first value from domain array to create class breakpoints
-    domainArray.shift();
+    // //reset domain array to cluster minimums
+    // domainArray = clusters.map(function(d){
+    //     return d3.min(d);
+    // });
+    // //remove first value from domain array to create class breakpoints
+    // domainArray.shift();
 
-    //assign array of last 4 cluster minimums as domain
-    colorScale.domain(domainArray);
+    // //assign array of last 4 cluster minimums as domain
+    // colorScale.domain(domainArray);
 
     //create legend
     //legend(colorScale);
+
+    //create color scale generator
+    var colorScale = d3.scaleQuantile()
+        .range(colorClasses);
+
+    //build two-value array of minimum and maximum expressed attribute values
+    var minmax = [
+        d3.min(data, function(d) { return parseFloat(data[i].stats[params.delay]); }),
+        d3.max(data, function(d) { return parseFloat(data[i].stats[params.delay]); })
+    ];
+    //assign two-value array as scale domain
+    colorScale.domain(minmax);
+
+    return colorScale;
+
+
 
     return colorScale;
 };
@@ -544,6 +612,8 @@ function makeColorScale(data){
 function colorRoutes(val, colorScale){
     //if attribute value exists, assign a color
     if (typeof val == 'number' && !isNaN(val)){
+    	console.log(val)
+    	console.log(colorScale(val))
         return colorScale(val);
     } else {
         return "#000000";
@@ -566,7 +636,20 @@ function highlightRoute(prop){
 //function to get information window
 function retrieveRoute(prop){
     //label content
-    var labelAttribute = "<h3>" + prop.origincode + "</h3><b>total</b>";
+    var labelAttribute = "<h4>Origin: " + prop.originname + "</h4><b></b>" +
+                         "<h5>airport code: " + prop.origincode + "</h5><b></b>";
+    var airlineAttribute;
+    var airlineArray = prop.airline;
+    var datatype = "%";
+    var token = "Percent";
+    if (params.type == 0) {
+      datatype = "min";
+      token = "Average";
+    }
+    for (i=0; i<airlineArray.length; i++) {
+      labelAttribute += "<h5>" + airlineArray[i].name + ":&nbsp" + airlineArray[i].delayed + datatype + "&nbsp" + "delayed</h5><b></b>";
+    }
+    labelAttribute += "<h4>" + token + " delayed: " + prop.stats.delayed + datatype + "</h4></b>";
 
     //create info label div
     var infolabel = d3.select("body")
@@ -652,16 +735,21 @@ d3.select(".container2")
 	.append("div")
 	.attr("class","grayOut col-md-12 col-lg-12 col-sm-12")
 //create intro window and fade out effect
-d3.select("body")
-	.append("div").attr("class","OverviewBox col-md-12 col-lg-12 col-sm-12")
-	.html("<span class='OverviewBoxTitle'><p>Welcome to U.S. Delay Flight Tracker</p></span><span class='OverviewBoxContent'><p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;This interactive map is for exploring the temporal and spatial trends of delay domestic flights within the U.S. from 2014 to 2016. We believe that users will make better and smarter itinerary decisions by comparing the historic differences in delay frequencies between airlines.<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;To detect more insights, you can use the filters on the left-hand side to investigate information such as the percentage of delay flights per airport, average delay time per airport, delay patterns across time and airlines, types of flight delay, etc. If you want to get a more intuitive guide on how to use this map, please watch this <a class='tutorial-Button'>tutorial</a>.</p></span>")
-	.append("button").attr("class","OverviewButton")
-	.text("Click Here to Enter the Map")
-	.on("click",function(){
-		$(".OverviewBox").fadeOut(350);
-		$(".grayOut").fadeOut(350);
+// d3.select("body")
+// 	.append("div").attr("class","OverviewBox col-md-12 col-lg-12 col-sm-12")
+// 	.html("<span class='OverviewBoxTitle'><p>Welcome to U.S. Delay Flight Tracker</p></span><span class='OverviewBoxContent'><p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;This interactive map is for exploring the temporal and spatial trends of delay domestic flights within the U.S. from 2014 to 2016. We believe that users will make better and smarter itinerary decisions by comparing the historic differences in delay frequencies between airlines.<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;To detect more insights, you can use the filters on the left-hand side to investigate information such as the percentage of delay flights per airport, average delay time per airport, delay patterns across time and airlines, types of flight delay, etc. If you want to get a more intuitive guide on how to use this map, please watch this <a class='tutorial-Button'>tutorial</a>.</p></span>")
+// 	.append("button").attr("class","OverviewButton")
+// 	.text("Click Here to Enter the Map")
+// 	.on("click",function(){
+// 		$(".OverviewBox").fadeOut(350);
+// 		$(".grayOut").fadeOut(350);
+// 		$(".loader").show();
+// })
+
+	$(window).on("load",function(){
+		$("#myModal1").modal("show");
 		$(".loader").show();
-})
+	})
 
 //tutorial button interaction
 $(".tutorial-Button").on("click",function(){

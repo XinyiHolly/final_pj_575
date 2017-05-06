@@ -1,3 +1,4 @@
+/* Stylesheet by Xinyi Liu, 2017 */
 .loader {
     display: block;
     position: absolute;
@@ -48,7 +49,7 @@
     }
 
     @-webkit-keyframes spin {
-        0%   {
+        0%   { 
             -webkit-transform: rotate(0deg);  /* Chrome, Opera 15+, Safari 3.1+ */
             -ms-transform: rotate(0deg);  /* IE 9 */
             transform: rotate(0deg);  /* Firefox 16+, IE 10+, Opera */
@@ -60,7 +61,7 @@
         }
     }
     @keyframes spin {
-        0%   {
+        0%   { 
             -webkit-transform: rotate(0deg);  /* Chrome, Opera 15+, Safari 3.1+ */
             -ms-transform: rotate(0deg);  /* IE 9 */
             transform: rotate(0deg);  /* Firefox 16+, IE 10+, Opera */
@@ -73,134 +74,111 @@
     }
 /*loader codes end*/
 
-.grayOut{
-	background-color:#333;
-	opacity:0.5;
-	position:absolute;
-	top:0%;
-	left:0%;
-	width:100%;
-	height:100%;
-}
-
-span.OverviewBoxTitle{
-	/*position:relative;*/
-	/*left:28%;*/
-	text-align:center;
-	font-size: 25px;
-	font-weight:bold;
+#main-element{
+	font-family:Gill Sans MT;
 }
 
 span a{
 	color:white;
 }
 
+ul li:hover{
+	background:linear-gradient(#005b96,#6497b1);
+}
+
+.menu-Button{
+	position:relative;
+	left:-20%;
+}
+
+.OverviewBoxTitle{
+	text-align:center;
+	font-size: 25px;
+	font-weight:bold;
+}
+
 .OverviewBox{
-	/*background-image:url('../img/boeing.jpg');*/
-	background:linear-gradient(#5fbfef,#519adb);
+	background:linear-gradient(#b3cde0,#6497b1);
+	/*background:linear-gradient(#5fbfef,#519adb);*/
 	box-shadow: 0 4px 20px 0 rgba(0, 0, 0, 0.5);
 	padding:15px;
 	font-family:Gill Sans MT;
 	font-size:20px;
 	position:absolute;
+	/*position:absolute;*/
 	/*z-index:2932939239293923;*/
 	top:30%;
 	left:30%;
-	width:50%;
-	height:32%;
 	border-radius:25px;
 }
 
-.OverviewButton{
-	/*position:relative;*/
-	/*top:65%;*/
-	/*left:38%;*/
-	width:100%;
-	height:10%;
-	font-size:15px;
-	font-weight:bold;
-}
-
 .ContactBox{
-	background:linear-gradient(#5fbfef,#519adb);
+	background:linear-gradient(#b3cde0,#6497b1);
+	/*background:linear-gradient(#5fbfef,#519adb);*/
 	box-shadow: 0 4px 20px 0 rgba(0, 0, 0, 0.5);
 	padding:15px;
 	font-family:Gill Sans MT;
 	/*font-size:20px;*/
-	position:absolute;
+	/*position:absolute;*/
 	top:6%;
 	left:30%;
 	width:52%;
-	height:90%;
 	border-radius:25px;
 }
 
-.ContactButton{
-	position:relative;
-	top:-6%;
-	left:43%;
-	width:30%;
-	height:5%;
-	font-size:15px;
-	font-weight:bold;
-}
-
 .TutorialBoxTitle{
-	/*position:relative;*/
-	/*left:28%;*/
 	text-align:center;
 	font-size: 25px;
 	font-weight:bold;
 }
 
 .TutorialBox{
-	background:linear-gradient(#5fbfef,#519adb);
+	background:linear-gradient(#b3cde0,#6497b1);
+	/*background:linear-gradient(#5fbfef,#519adb);*/
 	box-shadow: 0 4px 20px 0 rgba(0, 0, 0, 0.5);
 	padding:15px;
 	font-family:Gill Sans MT;
 	/*font-size:20px;*/
-	position:absolute;
+	/*position:absolute;*/
 	top:25%;
 	left:35%;
 	width:40%;
-	height:50%;
 	border-radius:25px;
 }
 
-/*tutorial button on the tutorial box*/
-.TutorialButton{
-	position:relative;
-	top:5%;
-	width:100%;
-	height:8%;
-	font-size:15px;
-	font-weight:bold;
+#myModal1{
+	left:15%;
+	top:30%;
 }
 
-/*tutorial button on the overview box*/
-.tutorial-Button{
-	cursor:pointer;
+#myModal2{
+	left:10%;
+	top:-3%;
+}
+
+#myModal3{
+	left:15%;
+	top:20%;
+}
+
+.OverviewContent{
+	margin:2%;
 }
 
 .video{
-	position:relative;
-	margin-top:2%;
-	margin-left:13%;
-}
-
-.footerDiv{
-	position:absolute;
-	top:15%;
-	margin-left:4%;
-	color:white;
+	text-align:center;
 }
 
 .foot-button1{
 	cursor:pointer;
 }
 
+#airport_search{
+	width:150%;
+}
+
 .navbar-brand{
-	position:absolute;
+	position:relative;
 	/*left:0.5%;*/
 }
 
@@ -211,98 +189,94 @@ span a{
 }
 
 .container1{
-	/*background:linear-gradient(#2b669a,#2F3034);*/
-	background:linear-gradient(#0a84c1,#2b669a);
+	background:linear-gradient(#6497b1,#005b96);
+	/*background:linear-gradient(#555555,#333333);*/
+	/*background:linear-gradient(#0a84c1,#2b669a);*/
 	box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.5);
 }
 
-.navbar-button{
-	font-family:Gill Sans MT;
-	font-size:20px;
-	position:absolute;
-	left:-60%;
-	cursor:pointer;
-}
-
-#navbar-list-group{
-	height:10%;
-	min-width: 100px !important;
-	width: 100px;
-	z-index:2932939239293923;
-	margin:0px;
-	padding:0px;
-}
-
 .container-footer{
-	position:absolute;
+	/*position:relative;*/
 	bottom:0px;
-	width:100%;
-	height:3%;
-	font-family:Gill Sans MT;
-	background:linear-gradient(#0a84c1,#2b669a);
+	/*width:100%;*/
+	//height:5%;
+	background:linear-gradient(#6497b1,#005b96);
+	/*background:linear-gradient(#555555,#333333);*/
+	/*background:linear-gradient(#0a84c1,#2b669a);*/
+}
+
+.footerDiv{
+	position:relative;
+	margin-top:-1.2%;
+	left:-14%;
+	margin-left:%;
+	color:white;
 }
 
 .foot-button{
 	position:absolute;
+	/*position:absolute;*/
 	color:black;
 	top:15%;
 	left:3%;
-	color:white;
 }
 
 .pull-middle{
-	position:absolute;
-	top:15%;
+	/*position:relative;*/
+	top:18%;
 	left:36%
 }
 
-.control-panel{
-	position:absolute;
-	width:19%;
-	height:100%;
+#side-panel{
+	/*position:absolute;*/
+	/*width:19%;*/
+	/*height:100%;*/
 	left:0%;
-	background:linear-gradient(#5fbfef,#519adb);
+	width:20%;
+	background:linear-gradient(#D3D3D3,gray);
+	/*background:linear-gradient(#b3cde0,#6497b1);*/
+	float:left;
+	display:inline-block;
+	/*background:linear-gradient(#999999,#777777);*/
+	/*background:linear-gradient(#5fbfef,#519adb);*/
 	/*background-color: white;*/
 	/*position: absolute;*/
 	/*z-index:1000000002383823;*/
-	/*top: 10%;*/
-	/*left: 100px;*/
+}
+	
+.sexy_line{
+	/*display:block;*/
+	margin:0px;
+    border:none;
+    color:#5fbfef;
+    height:1px;
+    background:#2b669a;
+	background: -webkit-gradient(radial, 50% 50%, 0, 50% 50%, 350, from(black), to(white));
+	/*background: -webkit-gradient(radial, 50% 50%, 0, 50% 50%, 350, from(black), to(white));*/
 }
 
-.sexy_line{
+#sexy_line1{
+	margin-top:10px;
+	margin-bottom:10px;
 	display:block;
     border:none;
     color:#5fbfef;
     height:1px;
     background:#2b669a;
-    background: -webkit-gradient(radial, 50% 50%, 0, 50% 50%, 350, from(#2b669a), to(#5fbfef));
+    /*background: -webkit-gradient(radial, 50% 50%, 0, 50% 50%, 350, from(#555555), to(#999999));*/
+	background: -webkit-gradient(radial, 50% 50%, 0, 50% 50%, 350, from(#636363), to(#D3D3D3));
 }
 
-#Division1{
-	position:relative;
-	top:12%;
-}
-
-#Division2{
-	position:relative;
-	top:20%;
-}
-
-#Division3{
-	position:relative;
-	top:36%;
-}
-
-#Division4{
-	position:relative;
-	top:54%;
-}
 
 h3.title{
-	font-family:Gill Sans MT;
 	font-size:120%;
 	text-align:left;
+	margin-top:5px;
 	/*padding-top:10px;*/
+}
+
+.slider-container{
+	margin-bottom:25px;
 }
 
 /*codes for styling contact window*/
@@ -311,28 +285,33 @@ h3{
 	text-align:center;
 }
 
-.Contact_Title{
-	position:absolute;
-	top:-1%;
-	left:13%;
-	font-family:Gill Sans MT;
-	font-size:100%;
-}
-/*
-.Author_Intro{
-	position:relative;
-	top:9%;
-	left:80%;
-}
-*/
 .GeneralIntro1{
 	text-align:center;
-	font-size:18px;
+	font-size:20px;
+}
+
+.Contact_Title{
+	text-align:center;
+	font-size:15px;
 }
 
 #Division{
-	position:relative;
-	top:5.5%;
+	margin-top:1%;
+}
+
+.ChrisIntro{
+	text-align:center;
+	margin-top:2%;
+	margin-bottom:1%;
+}
+
+.XinyiIntro{
+	text-align:center;
+	margin-bottom:1%;
+}
+
+.BeichenIntro{
+	text-align:center;
 }
 
 .ChrisPic{
@@ -347,84 +326,37 @@ h3{
 	border-radius:50%;
 }
 
-.Author_Detail{
-	position:absolute;
-	top:10%;
-	left:50%;
-	font-family:Gill Sans MT;
-	font-size:100%;
-}
-
 p.tag{
-	position:relative;
-	font-family:Gill Sans MT;
 	font-size:25px;
 }
 
 p.description{
-	position:relative;
-	font-family:Gill Sans MT;
 	font-size:16px;
-}
-
-p.Describe{
-	font-family:Gill Sans MT;
-	color:black;
-	font-size:16px;
-}
-
-.team{
-	position:relative;
-	top:5%;
-	text-align:center;
-}
-
-.Chris{
-	position:relative;
-	left:-10%;
-	width:75%;
-	margin-top:6%;
-	margin-bottom:1%;
-}
-
-.Xinyi{
-	position:relative;
-	left:-10%;
-	width:75%;
-	margin-bottom:1%;
-}
-
-.Beichen{
-	position:relative;
-	left:-10%;
-	width:75%;
 }
 
 .ChrisDetails{
-	position:relative;
-	left:-20%;
-	width:80%;
-	margin-top:5%;
-	margin-bottom:24%;
+	text-align:left;
+	margin-top:-27%;
+	margin-left:38%;
 }
 
 .XinyiDetails{
-	position:relative;
-	left:-20%;
-	width:80%;
-	margin-bottom:23%;
+	text-align:left;
+	margin-top:-27%;
+	margin-left:38%;
 }
 
 .BeichenDetails{
-	position:relative;
-	left:-20%;
-	width:80%;
+	text-align:left;
+	margin-top:-27%;
+	margin-left:38%;
 }
+
 /*codes for contact window end*/
 
 .resetter{
 	cursor:pointer;
-	position:absolute;
+	/*position:relative;*/
 	border-radius:25px;
 	width:50;
 	height:50;
@@ -435,94 +367,74 @@ p.Describe{
 	cursor: pointer;
 }
 
-.return_default1{
-	top:12%;
-	left:90%;
-}
-
-.return_default2{
-	top:22%;
-	left:90%;
-}
-
-.return_default3{
-	top:40%;
-	left:90%;
-}
-
-.return_default4{
-	top:60%;
-	left:90%;
-}
-
 #search-panel{
 	height:0%;
-	font-family:Gill Sans MT;
 	padding-left:20px;
 	padding-right:18px;
 	position:relative;
-	top:6%;
 }
 
 #proportion-panel{
 	height:0%;
-	font-family:Gill Sans MT;
 	padding-left:20px;
 	padding-right:20px;
 	position:relative;
-	top:12%;
 }
 
 #time-panel{
 	height:0%;
-	font-family:Gill Sans MT;
 	padding-left:20px;
 	padding-right:20px;
 	position:relative;
-	top:19%;
 }
 
 #delay-panel{
 	height:0%;
-	font-family:Gill Sans MT;
 	padding-left:20px;
 	padding-right:20px;
 	position:relative;
-	top:35%;
 }
 
 #airline-panel{
 	height:0%;
-	font-family:Gill Sans MT;
 	padding-left:20px;
 	padding-right:20px;
-	position:relative;
+	/*position:relative;*/
 	top:53%;
 }
 
 #checkboxAirline{
 	float:left;
-	width:50%;
+	width:45%;
+}
+
+#submit{
+	position:relative;
+	width:100%;
 }
 
 #mapDiv{
-	position:absolute;
-	margin-bottom: 20px;
-	top:3%;
-	left:18%;
-	width:82%;
-	height:95%;
+	/*margin:0px;*/
+	/*margin-left:20%;*/
+	/*position:absolute;*/
+	/*display:inline-block;*/
+	/*margin-bottom: 20px;*/
+	/*top:4.5%;*/
+	/*left:18%;*/
+	/*width:1000px;*/
+	/*height:400px;*/
 }
 
 .map{
-	width:100%;
-	height:100%;
+	/*width:100%;*/
 }
 
 .states{
     fill-opacity: 0;
     stroke: #666666;
-    stroke-width: 0.5px;
+	stroke-width: 0.4px;
+	stroke-linecap:round;
+	stroke:rgb(0,0,0,0.6);
 }
 
 .regions {
@@ -560,7 +472,6 @@ p.Describe{
 
 .site-footer{
 	display:inline;
-	padding:0.5%;
 }
 
 .arc {
@@ -575,11 +486,16 @@ p.Describe{
     position: absolute;
     min-height: 50px;
     min-width: 100px;
+    max-width: 200px;
     border: solid thin black;
     border-radius: 10px;
     color: black;
     background-color: white;
-    opacity:0.75;
+    opacity:0.9;
     padding: 5px 10px;
     top: -75px;
+}
+
+.h4 {
+  word-wrap: break-word;
 }
