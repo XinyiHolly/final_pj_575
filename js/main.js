@@ -225,6 +225,7 @@ function callAirports (){
         success: function(data) {
             updateAirportDelays(data.data,params.delay);
             autocomplete.list = data.data;
+			$('.loader').fadeOut(800);
         },
         type: 'GET'
     });
@@ -607,10 +608,6 @@ function makeColorScale(data){
     colorScale.domain(minmax);
 
     return colorScale;
-
-
-
-    return colorScale;
 };
 
 //function to test for data value and return color
@@ -751,6 +748,17 @@ d3.select(".container2")
 // 		$(".loader").show();
 // })
 
+	$(document).ready(function(){
+		$(window).on("resize",function(){
+			if ($(window).width()<992){
+				$("#side-panel").appendTo("#bottom");
+				console.log("HERE")
+			} else{
+				$("#side-panel").prependTo("#bottom");
+			}
+		})
+	})
+
 	//display loader for the start page
 	$(window).on("load",function(){
 		$("#myModal1").modal("show")
@@ -758,6 +766,11 @@ d3.select(".container2")
 	
 	$("#myModal1").on("click",function(){
 		$(".loader").show();
+		/*
+		$(window).on("load",function(){
+			$(".loader").fadeOut();
+		})
+		*/
 	})
 
 //tutorial button interaction
@@ -771,6 +784,7 @@ d3.select("body")
 	.append("div")
 	.attr("class","loader")
 	.style("display","none")
+/*
 $(window).on("load",function(){
 	setTimeout(removeLoader,5000)
 });
@@ -779,6 +793,7 @@ function removeLoader(){
 		$(".loader").remove();
 	});
 }
+*/
 
 //display intro window and grayout background again when 'About' is clicked
 $(".menu-button1").on("click",function(){
