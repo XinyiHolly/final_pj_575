@@ -46,21 +46,25 @@
 				</div>
 			</nav>
 		</div>
+		
 		<div class="row">
 		<!--div class="navbar-panel control-panel col-sm-12 col-md-2 col-lg-4"-->
 			<div id="side-panel" class="col-sm-12 col-md-2 col-lg-2">
-				<div class="row">
+			
+				<button type="button" name="submitBtn" id="submit">Submit</button>
+				<button type="button" name="resetBtn" id="return_default">Reset</button>
+				
 					<div id="search-proportion" class="col-sm-3 col-md-12">
 						<div id="search-panel">
 							<h3 class="title">Search An Airport:</h3>
 							<div>
-								<input id="airport_search" placeholder="Search destination airport"/>
+								<input type="text" id="airport_search" placeholder="Search your destination airport (e.g. 'DEN')">
 							</div>
 							<hr id="sexy_line1">
 						</div>
 						
 						<div id="proportion-panel">
-							<h3 class="title">Proportional Symbol By:</h3>
+							<h3 class="title">Symbolize By:</h3>
 							<div>
 								<input type="radio" id="percentage" name="proportional_symbol" value=1 checked>
 								<label for="percentage">Percentage of Delay Flights</label>
@@ -121,9 +125,11 @@
 							<input type="radio" id="all" name="delay" value="all" checked="checked">
 							<label for="arriving_late">Show All</label><br>
 						</div>
+						
 						<!--div class="resetter return_default3" title="Reset">
 							<img src="img/return.png" width="20" height="20">
 						</div-->
+						
 						<hr id="sexy_line1">
 					</div>
 			
@@ -174,13 +180,25 @@
 							<img src="img/return.png" width="20" height="20">
 						</div-->
 					</div>
-					<button type="button" name="submitBtn" id="submit">Submit</button>
-				</div>
+				
 			</div>
-			<div id="mapDiv" class="col-sm-12 col-md-10 col-lg-9"></div>
+			
+			<div id="mapDiv" class="col-sm-12 col-md-10 col-lg-10"></div>
+			
+		</div>
+	
+		<div class="row">
+			<footer class="site-footer">
+				<div class="container-footer">
+					<div class="pull-middle"><font color="white">Version: 1.0&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;Last updated: MM/DD/YY &nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;Best viewed on a large PC screen (e.g. Google Chrome, FireFox)</font></div>
+					<div class="footerDiv"><button type="button" class="btn btn-info btn-lg" data-toggle="modal" data-target="#myModal3" style="background:transparent; border: none !important; font-size:14px">Tutorial</button>&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;
+					<a href="https://goo.gl/forms/EoBBpJzzDfpKwNXy2" target="_blank" style="color:white;">Bug Report</a>&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;</div>
+				</div>
+			</footer>
 		</div>
 	</div>
-	<!--codes for overview box-->
+	
+		<!--codes for overview box-->
 		<!-- Modal1 -->
 		<div class="modal fade" id="myModal1" role="dialog">
 			<div class="modal-dialog modal-lg">
@@ -199,7 +217,7 @@
 				</div>
 			</div>
 		</div>
-	<!--codes for contact box-->
+		<!--codes for contact box-->
 		<!-- Modal2 -->
 		<div class="modal fade" id="myModal2" role="dialog">
 			<div class="modal-dialog modal-lg">
@@ -250,7 +268,7 @@
 				</div>
 			</div>
 		</div>		
-	<!--codes for tutorial box-->
+		<!--codes for tutorial box-->
 		<!-- Modal3 -->
 		<div class="modal fade" id="myModal3" role="dialog">
 			<div class="modal-dialog modal-lg">
@@ -269,16 +287,6 @@
 				</div>
 			</div>
 		</div>
-	
-	<div class="row">
-		<footer class="site-footer">
-			<div class="container-footer">
-				<div class="pull-middle"><font color="white">Version: 1.0&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;Last updated: MM/DD/YY &nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;Best viewed on a large PC screen (e.g. Google Chrome, FireFox)</font></div>
-				<div class="footerDiv"><button type="button" class="btn btn-info btn-lg" data-toggle="modal" data-target="#myModal3" style="background:transparent; border: none !important; font-size:14px">Tutorial</button>&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;
-				<a href="https://goo.gl/forms/EoBBpJzzDfpKwNXy2" target="_blank" style="color:white;">Bug Report</a>&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;</div>
-			</div>
-		</footer>
-	</div>
 		
 		<!--put your external script links here-->	
 		<script type="text/javascript" src="lib/jquery-3.1.1.js"></script>
@@ -293,6 +301,6 @@
 		<script type="text/javascript" src="lib/awesomplete.min.js"></script>
 		<script type="text/javascript" src="lib/simple-statistics.min.js"></script>
 		<script type="text/javascript" src="js/main.js"></script>
-	</body>
+</body>
 	
 </html>
