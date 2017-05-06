@@ -109,12 +109,8 @@ function populateAutocomplete(){
 		maxItems: 5
 	});
 	//Add events for displaying routes and clearing search window
-	input.addEventListener('awesomplete-select', function () {
-		console.log(this.selected);
-		callRoutes(this.value);
-	}, false);
 	input.addEventListener('awesomplete-selectcomplete', function (e) {
-		this.selected = e.target.value;
+		callRoutes(e.target.value);
 		e.target.value = null;
 	}, false);
 }
