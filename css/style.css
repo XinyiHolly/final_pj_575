@@ -232,7 +232,7 @@ ul li:hover{
 	/*width:19%;*/
 	/*height:100%;*/
 	left:0%;
-	width:20%;
+	/*width:20%;*/
 	background:linear-gradient(#D3D3D3,gray);
 	/*background:linear-gradient(#b3cde0,#6497b1);*/
 	float:left;
@@ -371,29 +371,29 @@ p.description{
 #search-panel{
 	height:0%;
 	padding-left:20px;
-	padding-right:18px;
-	position:relative;
+	padding-right:20px;
+	/*position:relative;*/
 }
 
 #proportion-panel{
 	height:0%;
 	padding-left:20px;
 	padding-right:20px;
-	position:relative;
+	/*position:relative;*/
 }
 
 #time-panel{
 	height:0%;
 	padding-left:20px;
 	padding-right:20px;
-	position:relative;
+	/*position:relative;*/
 }
 
 #delay-panel{
 	height:0%;
 	padding-left:20px;
 	padding-right:20px;
-	position:relative;
+	/*position:relative;*/
 }
 
 #airline-panel{
@@ -401,7 +401,7 @@ p.description{
 	padding-left:20px;
 	padding-right:20px;
 	/*position:relative;*/
-	top:53%;
+	/*top:53%;*/
 }
 
 #checkboxAirline{
