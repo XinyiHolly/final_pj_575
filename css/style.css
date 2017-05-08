@@ -87,7 +87,6 @@ ul li:hover{
 }
 
 .menu-Button{
-	position:relative;
 	left:-20%;
 }
 
@@ -110,6 +109,10 @@ ul li:hover{
 	top:30%;
 	left:30%;
 	border-radius:25px;
+}
+
+.OverviewContent{
+	margin:2%;
 }
 
 .ContactBox{
@@ -154,6 +157,7 @@ ul li:hover{
 #myModal2{
 	left:10%;
 	top:-3%;
+	/*padding:-2%;*/
 }
 
 #myModal3{
@@ -161,20 +165,8 @@ ul li:hover{
 	top:20%;
 }
 
-.OverviewContent{
-	margin:2%;
-}
-
-.video{
-	text-align:center;
-}
-
-.foot-button1{
-	cursor:pointer;
-}
-
-#airport_search{
-	width:150%;
+#navbar{
+	margin-bottom:0;
 }
 
 .navbar-brand{
@@ -197,53 +189,62 @@ ul li:hover{
 
 .container-footer{
 	/*position:relative;*/
-	bottom:0px;
+	/*bottom:0px;*/
 	/*width:100%;*/
-	//height:5%;
+	/*height:5%;*/
 	background:linear-gradient(#6497b1,#005b96);
 	/*background:linear-gradient(#555555,#333333);*/
 	/*background:linear-gradient(#0a84c1,#2b669a);*/
 }
 
-.footerDiv{
-	position:relative;
-	margin-top:-1.2%;
-	left:-14%;
-	margin-left:%;
+.footerDiv1{
+	margin-top:-43%;
 	color:white;
+	left:90%;
 }
 
-.foot-button{
-	position:absolute;
-	/*position:absolute;*/
-	color:black;
-	top:15%;
-	left:3%;
+.footerDiv2{
+	margin-top:-30%;
+	color:white;
+	left:120%;
 }
 
 .pull-middle{
-	/*position:relative;*/
-	top:18%;
-	left:36%
+	margin-left:40%;
 }
 
 #side-panel{
 	/*position:absolute;*/
 	/*width:19%;*/
 	/*height:100%;*/
-	left:0%;
+	/*left:0%;*/
+	/*float:left;*/
 	/*width:20%;*/
-	background:linear-gradient(#D3D3D3,gray);
-	/*background:linear-gradient(#b3cde0,#6497b1);*/
-	float:left;
+	/*background:linear-gradient(#D3D3D3,gray);*/
+	border:solid;
+	border-width:1px;
+	border-color:#d3d3d3;
 	display:inline-block;
+	padding:0.58%;
+	padding-left:1%;
+	/*background:linear-gradient(#b3cde0,#6497b1);*/
 	/*background:linear-gradient(#999999,#777777);*/
 	/*background:linear-gradient(#5fbfef,#519adb);*/
 	/*background-color: white;*/
 	/*position: absolute;*/
 	/*z-index:1000000002383823;*/
 }
-	
+
+#side-panel-right{
+	border:solid;
+	border-width:1px;
+	border-color:#d3d3d3;
+	display:inline-block;
+	padding:0.58%;
+	/*background:linear-gradient(#D3D3D3,gray);*/
+}
+
+/*This is division line styling code for modals*/
 .sexy_line{
 	/*display:block;*/
 	margin:0px;
@@ -251,23 +252,26 @@ ul li:hover{
     color:#5fbfef;
     height:1px;
     background:#2b669a;
-	background: -webkit-gradient(radial, 50% 50%, 0, 50% 50%, 350, from(black), to(white));
+	background: -webkit-gradient(radial, 50% 50%, 0, 50% 50%, 350, from(#000), to(#fff));
 	/*background: -webkit-gradient(radial, 50% 50%, 0, 50% 50%, 350, from(black), to(white));*/
 }
 
+/*This is division line styling code for side panels*/
 #sexy_line1{
 	margin-top:10px;
 	margin-bottom:10px;
 	display:block;
     border:none;
-    color:#5fbfef;
+    color:white;
     height:1px;
-    background:#2b669a;
-    /*background: -webkit-gradient(radial, 50% 50%, 0, 50% 50%, 350, from(#555555), to(#999999));*/
-	background: -webkit-gradient(radial, 50% 50%, 0, 50% 50%, 350, from(#636363), to(#D3D3D3));
+    background: black;
+    background: -webkit-gradient(linear, 0 0, 100% 0, from(white), to(white), color-stop(50%, black));
 }
-
-
+/*
+#checkboxAirline input[type="checkbox"]:checked{
+	background:blue;
+}
+*/
 h3.title{
 	font-family:Gill Sans MT;
 	font-size:120%;
@@ -300,34 +304,22 @@ h3{
 	margin-top:1%;
 }
 
-.ChrisIntro{
+#intro{
+	width:30%;
+	margin-left:5%;
+}
+
+.Intro{
 	text-align:center;
 	margin-top:2%;
-	margin-bottom:1%;
 }
 
-.XinyiIntro{
-	text-align:center;
-	margin-bottom:1%;
-}
-
-.BeichenIntro{
-	text-align:center;
-}
-
-.ChrisPic{
+.Pic{
 	border-radius:50%
 }
 
-.XinyiPic{
-	border-radius:50%;
-}
-
-.BeichenPic{
-	border-radius:50%;
-}
-
 p.tag{
+	text-align:left;
 	font-size:25px;
 }
 
@@ -335,22 +327,10 @@ p.description{
 	font-size:16px;
 }
 
-.ChrisDetails{
-	text-align:left;
-	margin-top:-27%;
-	margin-left:38%;
-}
-
-.XinyiDetails{
-	text-align:left;
-	margin-top:-27%;
-	margin-left:38%;
-}
-
-.BeichenDetails{
-	text-align:left;
-	margin-top:-27%;
-	margin-left:38%;
+.Details{
+	width:50%;
+	text-align:justify;
+	margin-top:2%;
 }
 
 /*codes for contact window end*/
@@ -368,40 +348,38 @@ p.description{
 	cursor: pointer;
 }
 
-#search-panel{
+#search-proportion{
 	height:0%;
 	padding-left:20px;
 	padding-right:20px;
-	/*position:relative;*/
 }
 
+#airport_search{
+	width:200%;
+}
+/*
 #proportion-panel{
 	height:0%;
 	padding-left:20px;
 	padding-right:20px;
-	/*position:relative;*/
 }
-
+*/
 #time-panel{
 	height:0%;
 	padding-left:20px;
 	padding-right:20px;
-	/*position:relative;*/
 }
 
 #delay-panel{
 	height:0%;
 	padding-left:20px;
 	padding-right:20px;
-	/*position:relative;*/
 }
 
 #airline-panel{
 	height:0%;
 	padding-left:20px;
 	padding-right:20px;
-	/*position:relative;*/
-	/*top:53%;*/
 }
 
 #checkboxAirline{
@@ -409,26 +387,42 @@ p.description{
 	width:45%;
 }
 
+/*styling for submit and reset buttons*/
 #submit{
 	position:relative;
 	width:40%;
+	background:linear-gradient(#6497b1,#005b96);
+}
+
+#submit:hover{
+	background:linear-gradient(#005b96,#6497b1);
 }
 
 #return_default{
 	position:relative;
-	width:40%;
+	width:40%;	
+	background:linear-gradient(#6497b1,#005b96);
+}
+
+#return_default:hover{
+	background:linear-gradient(#005b96,#6497b1);
+}
+/*styling for submit and reset buttons ends*/
+
+
+/*styling for check-all button*/
+#checkAllBox{
+	background:linear-gradient(#6497b1,#005b96);
 }
 
 #mapDiv{
-	/*margin:0px;*/
 	/*margin-left:20%;*/
 	/*position:absolute;*/
 	/*display:inline-block;*/
 	/*margin-bottom: 20px;*/
-	/*top:4.5%;*/
-	/*left:18%;*/
-	/*width:1000px;*/
-	/*height:400px;*/
+	/*margin-top:-10%;*/
+	/*left:-5%;*/
+	margin-top:1%;
 }
 
 .map{
