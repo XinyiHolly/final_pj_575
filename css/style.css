@@ -165,6 +165,11 @@ ul li:hover{
 	top:20%;
 }
 
+/*hide all the airline icon images by default*/
+.IconImage{
+	display:none;
+}
+
 #navbar{
 	margin-bottom:0;
 }
@@ -221,7 +226,8 @@ ul li:hover{
 	/*float:left;*/
 	/*width:20%;*/
 	/*background:linear-gradient(#D3D3D3,gray);*/
-	border:solid;
+	border-left:solid;
+	border-right:solid;
 	border-width:1px;
 	border-color:#d3d3d3;
 	display:inline-block;
@@ -236,7 +242,8 @@ ul li:hover{
 }
 
 #side-panel-right{
-	border:solid;
+	border-left:solid;
+	border-right:solid;
 	border-width:1px;
 	border-color:#d3d3d3;
 	display:inline-block;
@@ -281,7 +288,7 @@ h3.title{
 }
 
 .slider-container{
-	margin-bottom:25px;
+	margin-bottom:30px;
 }
 
 /*codes for styling contact window*/
