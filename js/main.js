@@ -82,8 +82,10 @@ function setMap(){
         callAirports ();
 
         $("button[name=submitBtn]" ).on("click",function(){
+        	console.log("here")
+        	$(".loader").show();
         	requestAirports();
-			$(".loader").show();
+			
 		});
 
 		$("button[name=resetBtn]").on("click",function(){
