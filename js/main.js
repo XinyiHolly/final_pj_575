@@ -220,8 +220,8 @@ function callAirports (){
             console.log("error");
         },
         dataType: 'json',
-        success: function(data) {
-            updateAirportDelays(data.data,params.delay);
+        success: function(data,prop) {
+            updateAirportDelays(data.data,params.delay,prop);
             autocomplete.list = data.data;
 			$('.loader').fadeOut(800);
         },
@@ -255,7 +255,7 @@ function callRoutes(destination){
 	});
 }
 
-function updateAirportDelays(airports,delayType){
+function updateAirportDelays(airports,delayType,prop){
 	for (i = 0; i < airports.length; i++) {
 		var location = [+airports[i].lng, +airports[i].lat];
 		var position = projection(location);
@@ -318,7 +318,9 @@ function updateAirportDelays(airports,delayType){
 			.on("click", function (d) {
         clicked(d);
 				callRoutes(d.origincode);
-				updatePanel(airports)
+				console.log(prop);
+				updatePanel(airports,prop)
+				
 			})
 			.on("mouseover", function(d){
 				highlightAirport(d);
@@ -341,7 +343,192 @@ function updateAirportDelays(airports,delayType){
 	  .attr("class", function(d) { return ("style_" + d.origincode)})
     .text('{"fill": "' + originColor + '", "stroke-width": "0.5px", "stroke-opacity": "0.65"}');
 }
+/*
+//Update the panel with airport delay information
+function updatePanel(airports, prop){
+	//label content
+    var updateContent1="";
+	var updateContent2="";
+    var airlineAttribute;
+	var airlineArray;
+	
+	prop.each(function(d){
+		airlineArray=d.airline;
+	});
+	
+    var datatype = "%";
+    var token = "Percent";
+    if (params.type == 0) {
+      datatype = "min";
+      token = "Average";
+    }
+	
+	for (i=0; i<airlineArray.length; i++) {
+		if (airlineArray[i].name==$('img').attr('id')){
+			updateContent1+="<img class='IconImage' src='img/AirlineIcons/Alaska.png'>";
+			$("#AirlineIcons").append(updateContent1);
+			updateContent2+="<p>'+airlineArray[i].delayed + datatype + '&nbsp' + 'delayed'+'</p>";
+			$("#DelayMinutes").append(updateContent2);
+			//updateContent+="<div id='AirlineIcons' class='FadeContent'><img class='IconImage' src='img/AirlineIcons/Alaska.png'></div>";
+			//updateContent+="<div id='DelayMinutes' class='FlipContent'><p>'+airlineArray[i].delayed + datatype + '&nbsp' + 'delayed'+'</p></div>";
+			$(".FadeContent").fadeIn(350);
+			$(".FlipContent").splitFlap();
+		}
+	}
+	
+	$("#AirlineIcons").html(updateContent1);
+	$("#DelayMinutes").html(updateContent2);
+	//$("#update-panel").html(updateContent);
+};*/
+	/*
+	for (i=0; i<airlineArray.length; i++) {
+		if (airlineArray[i].name=="Alaska"){
+			updateContent+="<div id='AirlineIcons' class='FadeContent'><img class='IconImage' src='img/AirlineIcons/Alaska.png'></div>";
+			updateContent+="<div id='DelayMinutes' class='FlipContent'>airlineArray[i].delayed + datatype + '&nbsp' + 'delayed'</div>";
+			$(".FadeContent").fadeIn(350);
+			$(".FlipContent").splitFlap();
+		}
+		else if (airlineArray[i].name=="American"){
+			updateContent+="<div id='AirlineIcons' class='FadeContent'><img class='IconImage' src='img/AirlineIcons/American.png'></div>";
+			updateContent+="<div id='DelayMinutes' class='FlipContent'>airlineArray[i].delayed + datatype + '&nbsp' + 'delayed'</div>";
+			$(".FadeContent").fadeIn(350);
+			$(".FlipContent").splitFlap();
+		}
+		else if (airlineArray[i].name=="Delta"){
+			updateContent+="<div id='AirlineIcons' class='FadeContent'><img class='IconImage' src='img/AirlineIcons/Delta.png'></div>";
+			updateContent+="<div id='DelayMinutes' class='FlipContent'>airlineArray[i].delayed + datatype + '&nbsp' + 'delayed'</div>";
+			$(".FadeContent").fadeIn(350);
+			$(".FlipContent").splitFlap();
+		}
+		else if (airlineArray[i].name=="Envoy"){
+			updateContent+="<div id='AirlineIcons' class='FadeContent'><img class='IconImage' src='img/AirlineIcons/Envoy.png'></div>";
+			updateContent+="<div id='DelayMinutes' class='FlipContent'>airlineArray[i].delayed + datatype + '&nbsp' + 'delayed'</div>";
+			$(".FadeContent").fadeIn(350);
+			$(".FlipContent").splitFlap();
+		}
+		else if (airlineArray[i].name=="ExpressJet"){
+			updateContent+="<div id='AirlineIcons' class='FadeContent'><img class='IconImage' src='img/AirlineIcons/ExpressJet.png'></div>";
+			updateContent+="<div id='DelayMinutes' class='FlipContent'>airlineArray[i].delayed + datatype + '&nbsp' + 'delayed'</div>";
+			$(".FadeContent").fadeIn(350);
+			$(".FlipContent").splitFlap();
+		}
+		else if (airlineArray[i].name=="Frontier"){
+			updateContent+="<div id='AirlineIcons' class='FadeContent'><img class='IconImage' src='img/AirlineIcons/Frontier.png'></div>";
+			updateContent+="<div id='DelayMinutes' class='FlipContent'>airlineArray[i].delayed + datatype + '&nbsp' + 'delayed'</div>";
+			$(".FadeContent").fadeIn(350);
+			$(".FlipContent").splitFlap();
+		}
+		else if (airlineArray[i].name=="Jetblue"){
+			updateContent+="<div id='AirlineIcons' class='FadeContent'><img class='IconImage' src='img/AirlineIcons/Jetblue.png'></div>";
+			updateContent+="<div id='DelayMinutes' class='FlipContent'>airlineArray[i].delayed + datatype + '&nbsp' + 'delayed'</div>";
+			$(".FadeContent").fadeIn(350);
+			$(".FlipContent").splitFlap();
+		}
+		else if (airlineArray[i].name=="Skywest"){
+			updateContent+="<div id='AirlineIcons' class='FadeContent'><img class='IconImage' src='img/AirlineIcons/Skywest.png'></div>";
+			updateContent+="<div id='DelayMinutes' class='FlipContent'>airlineArray[i].delayed + datatype + '&nbsp' + 'delayed'</div>";
+			$(".FadeContent").fadeIn(350);
+			$(".FlipContent").splitFlap();
+		}
+		else if (airlineArray[i].name=="Southwest"){
+			updateContent+="<div id='AirlineIcons' class='FadeContent'><img class='IconImage' src='img/AirlineIcons/Southwest.png'></div>";
+			updateContent+="<div id='DelayMinutes' class='FlipContent'>airlineArray[i].delayed + datatype + '&nbsp' + 'delayed'</div>";
+			$(".FadeContent").fadeIn(350);
+			$(".FlipContent").splitFlap();
+		}
+		else if (airlineArray[i].name=="Spirit"){
+			updateContent+="<div id='AirlineIcons' class='FadeContent'><img class='IconImage' src='img/AirlineIcons/Spirit.png'></div>";
+			updateContent+="<div id='DelayMinutes' class='FlipContent'>airlineArray[i].delayed + datatype + '&nbsp' + 'delayed'</div>";
+			$(".FadeContent").fadeIn(350);
+			$(".FlipContent").splitFlap();
+		}
+		else if (airlineArray[i].name=="United"){
+			updateContent+="<div id='AirlineIcons' class='FadeContent'><img class='IconImage' src='img/AirlineIcons/United.png'></div>";
+			updateContent+="<div id='DelayMinutes' class='FlipContent'>airlineArray[i].delayed + datatype + '&nbsp' + 'delayed'</div>";
+			$(".FadeContent").fadeIn(350);
+			$(".FlipContent").splitFlap();
+		}
+		else if (airlineArray[i].name=="Virgin"){
+			updateContent+="<div id='AirlineIcons' class='FadeContent'><img class='IconImage' src='img/AirlineIcons/Virgin.png'></div>";
+			updateContent+="<div id='DelayMinutes' class='FlipContent'>airlineArray[i].delayed + datatype + '&nbsp' + 'delayed'</div>";
+			$(".FadeContent").fadeIn(350);
+			$(".FlipContent").splitFlap();
+		}
+	}
+	*/
+	
+	
+	/*
+	for (i=0; i<airlineArray.length; i++) {
+		if (airlineArray[i].name=="Alaska"){
+			$("#AirlineIcons").append("<img class='IconImage' src='img/AirlineIcons/Alaska.png'>").fadeIn(350);
+			$("#DelayMinutes").append(airlineArray[i].delayed + datatype + "&nbsp" + "delayed").splitFlap();
+		}
+		else if (airlineArray[i].name=="American"){
+			$("#AirlineIcons").append("<img class='IconImage' src='img/AirlineIcons/American.png'>").fadeIn(350);
+			$("#DelayMinutes").append(airlineArray[i].delayed + datatype + "&nbsp" + "delayed").splitFlap();
+		}
+		else if (airlineArray[i].name=="Delta"){
+			$("#AirlineIcons").append("<img class='IconImage' src='img/AirlineIcons/Delta.png'>").fadeIn(350);
+			$("#DelayMinutes").append(airlineArray[i].delayed + datatype + "&nbsp" + "delayed").splitFlap();
+		}
+		else if (airlineArray[i].name=="Envoy"){
+			$("#AirlineIcons").append("<img class='IconImage' src='img/AirlineIcons/Envoy.png'>").fadeIn(350);
+			$("#DelayMinutes").append(airlineArray[i].delayed + datatype + "&nbsp" + "delayed").splitFlap();
+		}
+		else if (airlineArray[i].name=="ExpressJet"){
+			$("#AirlineIcons").append("<img class='IconImage' src='img/AirlineIcons/ExpressJet.png'>").fadeIn(350);
+			$("#DelayMinutes").append(airlineArray[i].delayed + datatype + "&nbsp" + "delayed").splitFlap();
+		}
+		else if (airlineArray[i].name=="Frontier"){
+			$("#AirlineIcons").append("<img class='IconImage' src='img/AirlineIcons/Frontier.png'>").fadeIn(350);
+			$("#DelayMinutes").append(airlineArray[i].delayed + datatype + "&nbsp" + "delayed").splitFlap();
+		}
+		else if (airlineArray[i].name=="Jetblue"){
+			$("#AirlineIcons").append("<img class='IconImage' src='img/AirlineIcons/Jetblue.png'>").fadeIn(350);
+			$("#DelayMinutes").append(airlineArray[i].delayed + datatype + "&nbsp" + "delayed").splitFlap();
+		}
+		else if (airlineArray[i].name=="Skywest"){
+			$("#AirlineIcons").append("<img class='IconImage' src='img/AirlineIcons/Skywest.png'>").fadeIn(350);
+			$("#DelayMinutes").append(airlineArray[i].delayed + datatype + "&nbsp" + "delayed").splitFlap();
+		}
+		else if (airlineArray[i].name=="Southwest"){
+			$("#AirlineIcons").append("<img class='IconImage' src='img/AirlineIcons/Southwest.png'>").fadeIn(350);
+			$("#DelayMinutes").append(airlineArray[i].delayed + datatype + "&nbsp" + "delayed").splitFlap();
+		}
+		else if (airlineArray[i].name=="Spirit"){
+			$("#AirlineIcons").append("<img class='IconImage' src='img/AirlineIcons/Spirit.png'>").fadeIn(350);
+			$("#DelayMinutes").append(airlineArray[i].delayed + datatype + "&nbsp" + "delayed").splitFlap();
+		}
+		else if (airlineArray[i].name=="United"){
+			$("#AirlineIcons").append("<img class='IconImage' src='img/AirlineIcons/United.png'>").fadeIn(350);
+			$("#DelayMinutes").append(airlineArray[i].delayed + datatype + "&nbsp" + "delayed").splitFlap();
+		}
+		else if (airlineArray[i].name=="Virgin"){
+			$("#AirlineIcons").append("<img class='IconImage' src='img/AirlineIcons/Virgin.png'>").fadeIn(350);
+			$("#DelayMinutes").append(airlineArray[i].delayed + datatype + "&nbsp" + "delayed").splitFlap();
+		}
+	}
+	*/
+	
+	//create info label div
+    /*var infolabel = d3.select("body")
+        .append("div")
+        .attr("class", "infolabel")
+        .attr("id", prop.origincode + "_label")
+        .html(labelAttribute);*/
+    //var content = "<div id='panelTitle'><h2><img src='images/anchor.png'>Port of "+feature.properties.port+"<img src='images/"+feature.properties.country+".svg'></h2></div>";
+    //content += "<div id='panelPic'><img src='"+airports.properties.img+"' align='middle'></div>";
+    //content += "<div id='panelDesc'><p>"+airports.properties.desc+"</p></div>";
+	//if (airlineArray[i].name==$("img").attr("id","Alaska"))
+	/*
+	else if (airlineArray[i].name=="Virgin"){
+		$("#AirlineIcons").append("<img class='IconImage' src='img/AirlineIcons/Virgin.png'>").fadeIn(350);
+		$("#DelayMinutes").append(airlineArray[i].delayed + datatype + "&nbsp" + "delayed").splitFlap();
+	}*/
 
+
+/*
 //Update the panel with airport delay information
 function updatePanel(airports){
     var content = "<div id='panelTitle'><h2><img src='images/anchor.png'>Port of "+feature.properties.port+"<img src='images/"+feature.properties.country+".svg'></h2></div>";
@@ -349,6 +536,7 @@ function updatePanel(airports){
     content += "<div id='panelDesc'><p>"+airports.properties.desc+"</p></div>";
     $("#update-panel").html(content);
 };
+*/
 
 //Returns the radius given predefined classes
 function scaleAirportDelay(val){
@@ -396,6 +584,9 @@ function highlightAirport(prop){
     //changeChart(expressed,code,1,selected.style('fill'));
 };
 
+
+//function to get information window (only include overall delay info for each airport)
+
 function highlightColor(code){
     //change stroke
     var selected = d3.selectAll(".airports_" + code)
@@ -404,7 +595,31 @@ function highlightColor(code){
 };
 
 //function to get information window
+
 function retrieveInfor(prop){
+    //label content
+    var labelAttribute = "<h4>" + prop.originname + "</h4><b></b>" +
+                         "<h5>airport code: " + prop.origincode + "</h5><b></b>";
+    var airlineAttribute;
+    var airlineArray = prop.airline;
+    var datatype = "%";
+    var token = "Percent";
+    if (params.type == 0) {
+      datatype = "min";
+      token = "Average";
+    }
+    
+    labelAttribute += "<h4>" + token + " delayed: " + prop.stats.delayed + datatype + "</h4></b>";
+    //create info label div
+    var infolabel = d3.select("body")
+        .append("div")
+        .attr("class", "infolabel")
+        .attr("id", prop.origincode + "_label")
+        .html(labelAttribute);
+};
+
+//function to get specific airline delay information in dynamic panel(right-hand-side)
+function retrieveInforPanel(prop){
     //label content
     var labelAttribute = "<h4>" + prop.originname + "</h4><b></b>" +
                          "<h5>airport code: " + prop.origincode + "</h5><b></b>";
@@ -419,7 +634,7 @@ function retrieveInfor(prop){
     for (i=0; i<airlineArray.length; i++) {
       labelAttribute += "<h5>" + airlineArray[i].name + ":&nbsp" + airlineArray[i].delayed + datatype + "&nbsp" + "delayed</h5><b></b>";
     }
-    labelAttribute += "<h4>" + token + " delayed: " + prop.stats.delayed + datatype + "</h4></b>";
+    
     //create info label div
     var infolabel = d3.select("body")
         .append("div")
