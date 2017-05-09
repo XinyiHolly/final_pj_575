@@ -385,14 +385,10 @@ function highlightAirport(prop){
 	  }
     //change stroke
     var selected = d3.selectAll(".airports_" + prop.origincode)
-<<<<<<< HEAD
-        .style("fill", "#ccac00")
-=======
         // .style("fill", function(){
         //     return getStyle(this, "fill")
         // })
 				.style("fill-opacity", opacity)
->>>>>>> circle_classification
         .moveToFront();
 
     //call set label
@@ -697,11 +693,6 @@ function makeColorScale(data){
     //assign two-value array as scale domain
     colorScale.domain(minmax);
 
-<<<<<<< HEAD
-=======
-    // return colorScale;
-    console.log(colorScale);
->>>>>>> circle_classification
     return colorScale;
 };
 
@@ -853,13 +844,9 @@ d3.select(".container2")
 		})
 	})
 
-<<<<<<< HEAD
 	//display overview window and loader for the start page
 	$(window).on("load",function(){
 		$("#myModal1").modal("show");
-=======
-	$("#myModal1").on("click",function(){
->>>>>>> circle_classification
 		$(".loader").show();
 	})
 
