@@ -41,7 +41,6 @@ function setMap(){
     map.selectAll('.circles').attr('d', path);
 }
 
-
     //map frame dimensions
     // var width = $("#mapDiv").innerWidth(),
     //     height =850;
@@ -86,12 +85,12 @@ function setMap(){
         	requestAirports();
 			$(".loader").show();
 		});
-		
+
 		$("button[name=resetBtn]").on("click",function(){
 			requestAirports();
 			$(".loader").show();
 		});
-		
+
     };
 };
 
@@ -258,10 +257,13 @@ function callRoutes(destination){
 
 function updateAirportDelays(airports,delayType,prop){
 	for (i = 0; i < airports.length; i++) {
-		var location = [+airports[i].lng, +airports[i].lat]
-		var position = projection(location)
-		airports[i]["position"] = position
+		var location = [+airports[i].lng, +airports[i].lat];
+		var position = projection(location);
+		airports[i]["position"] = position;
 	}
+
+  var colorScale = makeColorScale(airports);
+	var originColor;
 
 	map.selectAll("svg#circles").remove();
 	var circles = map.append("svg")
@@ -274,41 +276,47 @@ function updateAirportDelays(airports,delayType,prop){
 			.attr("class", function(d) { return ("airports_" + d.origincode)})
 			.attr('cx', function(d) { return d.position[0]})
 			.attr('cy', function(d) { return d.position[1]})
-			// .attr("r", function(d) {
-			// 	var scale = 3;
-			// 	if (delayType == 'carrierd'){
-			// 		return d.stats.carrierd/scale;
-			// 	}else if(delayType == 'weatherd'){
-			// 		return d.stats.weatherd/scale;
-			// 	}else if(delayType == 'securityd'){
-			// 		return d.stats.securityd/scale;
-			// 	}else if(delayType == 'nasd'){
-			// 		return d.stats.nasd/scale;
-			// 	}else if(delayType == 'lateaircraftd'){
-			// 		return d.stats.lateaircraftd/scale;
-			// 	}else{
-			// 		return d.stats.delayed/scale;
-			// 	}
-			// })
-			.attr("r", function(d) {
+			.attr("r", 10)//function(d) {
+				// if (delayType == 'carrierd'){
+				// 	return scaleAirportDelay(d.stats.carrierd);
+				// }else if(delayType == 'weatherd'){
+				// 	return scaleAirportDelay(d.stats.weatherd);
+				// }else if(delayType == 'securityd'){
+				// 	return scaleAirportDelay(d.stats.securityd);
+				// }else if(delayType == 'nasd'){
+				// 	return scaleAirportDelay(d.stats.nasd);
+				// }else if(delayType == 'lateaircraftd'){
+				// 	return scaleAirportDelay(d.stats.lateaircraftd);
+				// }else{
+				// 	return scaleAirportDelay(d.stats.delayed);
+				// }
+			//})
+			.style("fill",function(d){
 				if (delayType == 'carrierd'){
-					return scaleAirportDelay(d.stats.carrierd);
+					originColor = colorScale(d.stats.carrierd);
+					return originColor;
 				}else if(delayType == 'weatherd'){
-					return scaleAirportDelay(d.stats.weatherd);
+					originColor = colorScale(d.stats.weatherd);
+					return originColor;
 				}else if(delayType == 'securityd'){
-					return scaleAirportDelay(d.stats.securityd);
+					originColor = colorScale(d.stats.securityd);
+					return originColor;
 				}else if(delayType == 'nasd'){
-					return scaleAirportDelay(d.stats.nasd);
+					originColor = colorScale(d.stats.nasd);
+					return originColor;
 				}else if(delayType == 'lateaircraftd'){
-					return scaleAirportDelay(d.stats.lateaircraftd);
+					originColor = colorScale(d.stats.lateaircraftd);
+					return originColor;
 				}else{
-					return scaleAirportDelay(d.stats.delayed);
+					originColor = colorScale(d.stats.delayed);
+					return originColor;
 				}
 			})
-			.style("fill",'blue')
-			.style("fill-opacity",'0.5')
+			// .style("fill",'blue')
+			.style("fill-opacity",'0.2')
 			//Add airport events for click and highlight
 			.on("click", function (d) {
+        clicked(d);
 				callRoutes(d.origincode);
 				console.log(prop);
 				updatePanel(airports,prop)
@@ -321,13 +329,19 @@ function updateAirportDelays(airports,delayType,prop){
 				$(this).css("cursor","pointer");
 			})
 			.on("mouseout", function(d){
-				dehighlightAirport(d.origincode)
+        dehighlightAirport(d.origincode);
+				// else highlightColor(d);
 			})
-      .on("mousemove", moveLabel);
-      // select all the airport circles
-      var airports = circles.selectAll("circle")
-      airports.append("desc")
-          .text('{"fill":"blue", "stroke-width": "0.5px", "stroke-opacity": "0.65"}');
+      .on("mousemove", moveLabel)
+      // append explaining desc
+			.append("desc")
+			    .attr("class", function(d) { return ("click_" + d.origincode)})
+          .text('{"clicked": "false"}')
+
+	circles.selectAll("circle")
+    .append("desc")
+	  .attr("class", function(d) { return ("style_" + d.origincode)})
+    .text('{"fill": "' + originColor + '", "stroke-width": "0.5px", "stroke-opacity": "0.65"}');
 }
 /*
 //Update the panel with airport delay information
@@ -551,10 +565,18 @@ function scaleAirportDelay(val){
 
 //function to highlight enumeration units and bars
 function highlightAirport(prop){
-
+	  var opacity = "0.8";
+	  var clickedText = d3.selectAll(".click_" + prop.origincode).text();
+	  var clickedObj = JSON.parse(clickedText);
+	  if (clickedObj["clicked"] == "true") {
+			  opacity = "1.0";
+	  }
     //change stroke
     var selected = d3.selectAll(".airports_" + prop.origincode)
-        .style("fill", "#ccac00")
+        // .style("fill", function(){
+        //     return getStyle(this, "fill")
+        // })
+				.style("fill-opacity", opacity)
         .moveToFront();
 
     //call set label
@@ -562,7 +584,18 @@ function highlightAirport(prop){
     //changeChart(expressed,code,1,selected.style('fill'));
 };
 
+
 //function to get information window (only include overall delay info for each airport)
+
+function highlightColor(code){
+    //change stroke
+    var selected = d3.selectAll(".airports_" + code)
+				.style("fill-opacity", "0.8")
+        .moveToFront();
+};
+
+//function to get information window
+
 function retrieveInfor(prop){
     //label content
     var labelAttribute = "<h4>" + prop.originname + "</h4><b></b>" +
@@ -610,25 +643,61 @@ function retrieveInforPanel(prop){
         .html(labelAttribute);
 };
 
+//dehighlight all airports
+function clicked(data){
+
+	d3.select(".infolabel")
+			.remove();
+	var click_desc = d3.selectAll("desc")
+			.remove();
+
+	var selected = d3.selectAll("circle")
+			.style("fill-opacity", "0.3")
+		  .append("desc")
+			  .attr("class", function(d) { return ("click_" + d.origincode)})
+		    .text('{"clicked": "false"}');
+
+	d3.selectAll(".click_" + data.origincode)
+	    .remove();
+
+	d3.selectAll(".airports_" + data.origincode)
+			.append("desc")
+			  .attr("class", "click_" + data.origincode)
+				.text('{"clicked": "true"}');
+
+	var clickedText = d3.selectAll(".click_" + data.origincode).text();
+	var clickedObj = JSON.parse(clickedText);
+	if (clickedObj["clicked"] == "true") {
+			highlightColor(data.origincode);
+	}
+}
+
 //function to reset the element style on mouseout
 function dehighlightAirport(code){
-    var selected = d3.selectAll(".airports_" + code)
-        .style("fill", function(){
-            return getStyle(this, "fill")
-        });
+	  var opacity = "0.3";
+	  d3.select(".infolabel")
+			  .remove();
+	  var clickedText = d3.selectAll(".click_" + code).text();
+	  var clickedObj = JSON.parse(clickedText);
+	  if (clickedObj["clicked"] == "true") {
+		    opacity = "0.8";
+	  }
 
-    d3.select(".infolabel")
-        .remove();
+		var selected = d3.selectAll(".airports_" + code)
+				// .style("fill", function(){
+				//     return getStyle(this, "fill")
+				// })
+				.style("fill-opacity", opacity);
 
-    function getStyle(element, styleName){
-        var styleText = d3.select(element)
-            .select("desc")
-            .text();
+		function getStyle(element, styleName){
+				var styleText = d3.select(element)
+						.select("desc")
+						.text();
 
-        var styleObject = JSON.parse(styleText);
+				var styleObject = JSON.parse(styleText);
 
-        return styleObject[styleName];
-    };
+				return styleObject[styleName];
+		};
 };
 
 function moveLabel(){
@@ -661,7 +730,7 @@ function drawLinesOut(){
 
 function lines(routes,delayType){
 	//Make color scale
-	//var colorScale = makeColorScale(routes)
+	var colorScale = makeColorScale(routes)
 	//what follows is based on: http://bl.ocks.org/enoex/6201948
 	var path = d3.geo.path()
 		.projection(projection);
@@ -736,7 +805,8 @@ function lines(routes,delayType){
 		.style('stroke-width', 3)
 		.style('stroke',function(d){
 			//return colorRoutes(d.total_delayed, colorScale)
-			return scaleRouteDelay(d.total_delayed)
+			//return scaleRouteDelay(d.total_delayed)
+			return colorScale(d.total_delayed)
 		})
 		.call(lineTransition)
     .on("mouseover", function(d){
@@ -787,30 +857,35 @@ function makeColorScale(data){
         "#fdae6b",
         "#fd8d3c",
         "#e6550d",
-        "#a63603"
+        //"#a63603"
+				// "#d0d1e6",
+				// "#a6bddb",
+				// "#74a9cf",
+				// "#2b8cbe"
     ];
 
-    //create color scale generator
+    // //create color scale generator
     // var colorScale = d3.scaleThreshold()
     //     .range(colorClasses)
-
+		//
     // //build array of all values of the expressed attribute
     // var domainArray = [];
     // for (var i=0; i<data.length; i++){
-    //     var val = parseFloat(data[i].stats[params.delay]);
+    //     //var val = parseFloat(data[i].stats[params.delay]);
+		// 		var val = parseFloat(data[i].stats.delayed);
     //     domainArray.push(val);
     // };
-
+		//
     // //cluster data using ckmeans clustering algorithm to create natural breaks
     // var clusters = ss.ckmeans(domainArray, 5);
-
+		//
     // //reset domain array to cluster minimums
     // domainArray = clusters.map(function(d){
     //     return d3.min(d);
     // });
     // //remove first value from domain array to create class breakpoints
     // domainArray.shift();
-
+		//
     // //assign array of last 4 cluster minimums as domain
     // colorScale.domain(domainArray);
 
@@ -822,10 +897,14 @@ function makeColorScale(data){
         .range(colorClasses);
 
     //build two-value array of minimum and maximum expressed attribute values
-    var minmax = [
-        d3.min(data, function(d) { return parseFloat(data[i].stats[params.delay]); }),
-        d3.max(data, function(d) { return parseFloat(data[i].stats[params.delay]); })
-    ];
+		console.log(data[1].stats.delayed);
+    // var minmax = [
+    //     d3.min(data, function(d) { return parseFloat(data[i].stats.delayed); }),
+    //     d3.max(data, function(d) { return parseFloat(data[i].stats.delayed); })
+    // ];
+		var minmax = [
+			 30, 40, 50
+	 ];
     //assign two-value array as scale domain
     colorScale.domain(minmax);
 
@@ -904,7 +983,6 @@ function dehighlightRoute(code){
     //     return styleObject[styleName];
     // };
 };
-
 
 //range sliders
 $(".range-slider1").jRange({
@@ -1002,7 +1080,7 @@ d3.select(".container2")
 		});
 	}
 	*/
-	
+
 //tutorial button interaction
 $(".tutorial-Button").on("click",function(){
 	$(".OverviewBox").fadeOut(350);
@@ -1062,17 +1140,17 @@ $(".resetter").hover(function(){
 $("#return_default").on("click",function(){
 	var radioButton1=$("input[id=percentage]");
 	radioButton1.prop("checked",true);
-	
+
 	var slider1=$("input[id=yearInput]");
 	var slider2=$("input[id=monthInput]");
 	var slider3=$("input[id=dayInput]");
 	slider1.jRange("setValue", "2014,2015");
 	slider2.jRange("setValue","0,6");
 	slider3.jRange("setValue","1,4");
-	
+
 	var showAllButton=$("input[id=all]");
 	showAllButton.prop("checked",true);
-	
+
 	var checkBoxes = $("input[name=airline]");
 	checkBoxes.prop("checked",true);
 })
