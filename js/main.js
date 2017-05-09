@@ -17,19 +17,19 @@ function setMap(){
 	//var margin = {top: 10, left: 10, bottom: 10, right: 10}
 	var width = $("#mapDiv").innerWidth()
 	  , width = width //- margin.left - margin.right
-	  , mapRatio = 1
+	  , mapRatio = 1/1.5
 	  , height = width * mapRatio;
 
 	function resize() {
     // adjust things when the window size changes
-    width = $("#mapDiv").innerWidth()
+    width = $("#mapDiv").innerWidth();
     width = width //- margin.left - margin.right;
     height = width * mapRatio;
 
     // update projection
     projection
-        .translate([width / 2, height / 2])
-        .scale(width);
+        .translate([width/2 , height/2])
+        .scale(width+300);
 
     // resize the map container
     map
@@ -223,6 +223,7 @@ function callAirports (){
         success: function(data) {
             updateAirportDelays(data.data,params.delay);
             autocomplete.list = data.data;
+			$('.loader').fadeOut(800);
         },
         type: 'GET'
     });
@@ -317,9 +318,13 @@ function updateAirportDelays(airports,delayType){
 			.on("click", function (d) {
         clicked(d);
 				callRoutes(d.origincode);
+				updatePanel(airports)
 			})
 			.on("mouseover", function(d){
 				highlightAirport(d);
+			})
+			.on("mouseenter", function(){
+				$(this).css("cursor","pointer");
 			})
 			.on("mouseout", function(d){
         dehighlightAirport(d.origincode);
@@ -336,6 +341,14 @@ function updateAirportDelays(airports,delayType){
 	  .attr("class", function(d) { return ("style_" + d.origincode)})
     .text('{"fill": "' + originColor + '", "stroke-width": "0.5px", "stroke-opacity": "0.65"}');
 }
+
+//Update the panel with airport delay information
+function updatePanel(airports){
+    var content = "<div id='panelTitle'><h2><img src='images/anchor.png'>Port of "+feature.properties.port+"<img src='images/"+feature.properties.country+".svg'></h2></div>";
+    content += "<div id='panelPic'><img src='"+airports.properties.img+"' align='middle'></div>";
+    content += "<div id='panelDesc'><p>"+airports.properties.desc+"</p></div>";
+    $("#update-panel").html(content);
+};
 
 //Returns the radius given predefined classes
 function scaleAirportDelay(val){
@@ -372,10 +385,14 @@ function highlightAirport(prop){
 	  }
     //change stroke
     var selected = d3.selectAll(".airports_" + prop.origincode)
+<<<<<<< HEAD
+        .style("fill", "#ccac00")
+=======
         // .style("fill", function(){
         //     return getStyle(this, "fill")
         // })
 				.style("fill-opacity", opacity)
+>>>>>>> circle_classification
         .moveToFront();
 
     //call set label
@@ -680,8 +697,11 @@ function makeColorScale(data){
     //assign two-value array as scale domain
     colorScale.domain(minmax);
 
+<<<<<<< HEAD
+=======
     // return colorScale;
     console.log(colorScale);
+>>>>>>> circle_classification
     return colorScale;
 };
 
@@ -822,34 +842,48 @@ d3.select(".container2")
 // 		$(".loader").show();
 // })
 
-	//display loader for the start page
-	$(window).on("load",function(){
-		$("#myModal1").modal("show")
+	$(document).ready(function(){
+		$(window).on("resize",function(){
+			if ($(window).width()<992){
+				$("#side-panel").appendTo("#bottom");
+				//console.log("HERE")
+			} else{
+				$("#side-panel").prependTo("#bottom");
+			}
+		})
 	})
 
+<<<<<<< HEAD
+	//display overview window and loader for the start page
+	$(window).on("load",function(){
+		$("#myModal1").modal("show");
+=======
 	$("#myModal1").on("click",function(){
+>>>>>>> circle_classification
 		$(".loader").show();
 	})
+
+	//create start page loader
+	d3.select("body")
+		.append("div")
+		.attr("class","loader")
+		.style("display","none")
+	/*
+	$(window).on("load",function(){
+		setTimeout(removeLoader,5000)
+	});
+	function removeLoader(){
+		$(".loader").fadeOut(3800,function(){
+			$(".loader").remove();
+		});
+	}
+	*/
 
 //tutorial button interaction
 $(".tutorial-Button").on("click",function(){
 	$(".OverviewBox").fadeOut(350);
 	$(".TutorialBox").fadeIn(350);
 })
-
-//create start page loader
-d3.select("body")
-	.append("div")
-	.attr("class","loader")
-	.style("display","none")
-$(window).on("load",function(){
-	setTimeout(removeLoader,5000)
-});
-function removeLoader(){
-	$(".loader").fadeOut(3800,function(){
-		$(".loader").remove();
-	});
-}
 
 //display intro window and grayout background again when 'About' is clicked
 $(".menu-button1").on("click",function(){
@@ -918,4 +952,5 @@ $("#return_default").on("click",function(){
 	var checkBoxes = $("input[name=airline]");
 	checkBoxes.prop("checked",true);
 })
+
 })();
