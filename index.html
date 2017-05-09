@@ -8,6 +8,7 @@
 		<meta name="author" content="">
 		
 		<title>Historic U.S. Flight Delays</title>
+		<link rel="icon" href="img/airline.png">
 		
 		<!-- Bootstrap core CSS -->
 		<link rel="stylesheet" href="css/bootstrap.css">
@@ -16,15 +17,15 @@
 		<!-- Custom styles for this project -->
 		<link rel="stylesheet" href="css/style.css">
 		<link rel="stylesheet" href="lib/jRange/jquery.range.css">
-		<link rel="stylesheet" href="css/animate.css">
 		<link rel="stylesheet" href="css/awesomplete.css">
+		<!--link rel="stylesheet" href="lib/FlipClock/compiled/flipclock.css"-->
 	</head>
 
 <body id="main-element">
 	<!--div class="container2 container-fluid"-->
 	<div class="container-fluid">
 		<div class="row">
-			<nav class="navbar navbar-default">
+			<nav id="navbar" class="navbar navbar-default">
 				<div class="container1">
 					<div class="navbar-header">
 						<button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#myNav">
@@ -48,144 +49,167 @@
 		</div>
 		
 		<div class="row">
-			<div id="side-panel" class="col-sm-12 col-md-2 col-lg-1">
-			
-				<button type="button" name="submitBtn" id="submit">Submit</button>
-				<button type="button" name="resetBtn" id="return_default">Reset</button>
+			<div id="top">
+				<div id="side-panel" class="col-sm-12 col-md-2 col-lg-2">
+					<div class="row">
+						
+						<div id="search-proportion" class="col-sm-3 col-md-12">
+						
+							<div id="search-panel">
+							
+								<button type="button" name="submitBtn" id="submit" style="color:white">Submit</button>
+								<button type="button" name="resetBtn" id="return_default" style="color:white">Reset</button>
+							
+								<h3 class="title">Search An Airport:</h3>
+								<div>
+									<input type="text" id="airport_search" placeholder="Search your destination airport (e.g. 'DEN')">
+								</div>
+								<hr id="sexy_line1">
+							</div>
+							
+							<div id="proportion-panel">
+								<h3 class="title">Symbolize By:</h3>
+								<div>
+									<input type="radio" id="percentage" name="proportional_symbol" value=1 checked>
+									<label for="percentage">Percentage of Delay Flights</label>
+								</div>
+								<div>
+									<input type="radio" id="time" name="proportional_symbol" value=0>
+									<label for="time">Average Delay Time</label>
+								</div>
+								<!--div class="resetter return_default1" title="Reset">
+									<img src="img/return.png" width="20" height="20">
+								</div-->
+								<hr id="sexy_line1">
+							</div>
+						</div>
 				
-				<div id="search-proportion" class="col-sm-3 col-md-12">
-					<div id="search-panel">
-						<h3 class="title">Search An Airport:</h3>
-						<div>
-							<input type="text" id="airport_search" placeholder="Search your destination airport (e.g. 'DEN')">
+						<div id="time-panel" class="col-sm-3 col-md-12">
+							<h3 class="title">Filter Year(s):</h3>
+							<div class="slider-container">
+								<input class="range-slider1" id="yearInput" type="hidden" value="2014,2015"/>
+							</div>
+							
+							<h3 class="title">Filter Month(s):</h3>
+							<div class="slider-container">
+								<input class="range-slider2" id="monthInput" type="hidden" value="0,6"/>
+							</div>
+							
+							<h3 class="title">Filter Day(s):</h3>
+							<div class="slider-container">
+								<input class="range-slider3" id="dayInput" type="hidden" value="1,4"/>
+							</div>
+							<!--div class="resetter return_default2" title="Reset">
+								<img src="img/return.png" width="20" height="20">
+							</div-->
+							
+							<hr id="sexy_line1">
 						</div>
-						<hr id="sexy_line1">
-					</div>
-					
-					<div id="proportion-panel">
-						<h3 class="title">Symbolize By:</h3>
-						<div>
-							<input type="radio" id="percentage" name="proportional_symbol" value=1 checked>
-							<label for="percentage">Percentage of Delay Flights</label>
+				
+						<div id="delay-panel" class="col-sm-3 col-md-12">
+							<h3 class="title">Show Types of Delay:</h3>
+							<div id="radioDelay">
+								<input type="radio" id="carrier" value="weather" name="delay">
+								<label for="carrier">Air Carrier</label><br>
+							
+								<input type="radio" id="weather" value="weather"  name="delay">
+								<label for="weather">Weather</label><br>
+							
+								<input type="radio" id="security" value="security" name="delay">
+								<label for="security">Security</label><br>
+							</div>
+							
+							<div id="radioDelay">
+								<input type="radio" id="aviation" value="nas" name="delay">
+								<label for="aviation">National Aviation System</label><br>
+							
+								<input type="radio" id="arriving_late" value="arriving_late" name="delay">
+								<label for="arriving_late">Aircraft Arriving Late</label><br>
+								
+								<input type="radio" id="all" name="delay" value="all" checked="checked">
+								<label for="arriving_late">Show All</label><br>
+							</div>
+							
+							<!--div class="resetter return_default3" title="Reset">
+								<img src="img/return.png" width="20" height="20">
+							</div-->
+							
+							<hr id="sexy_line1">
 						</div>
-						<div>
-							<input type="radio" id="time" name="proportional_symbol" value=0>
-							<label for="time">Average Delay Time</label>
+				
+						<div id="airline-panel" class="col-sm-3 col-md-12">
+							<h3 class="title">Filter Airline(s):</h3>
+							<div id="checkboxAirline">
+								<input type="checkbox" id="19930 box" name="airline" value="19930" checked="checked">
+								<label for="19930">Alaska</label><br>
+							
+								<input type="checkbox" id="19805 box" name="airline" value="19805" checked="checked">
+								<label for="19805">American</label><br>
+							
+								<input type="checkbox" id="19790 box" name="airline" value="19790" checked="checked">
+								<label for="19790">Delta</label><br>
+							
+								<input type="checkbox" id="20398 box" name="airline" value="20398" checked="checked">
+								<label for="20398">Envoy</label><br>
+							
+								<input type="checkbox" id="20366 box" name="airline" value="20366" checked="checked">
+								<label for="20366">ExpressJet</label><br>
+							
+								<input type="checkbox" id="20436 box" name="airline" value="20436" checked="checked">
+								<label for="20436">Frontier</label><br>
+								
+								<input type="checkbox" id="20409 box" name="airline" value="20409" checked="checked">
+								<label for="20409">JetBlue</label><br>
+							</div>
+					
+							<div id="checkboxAirline">
+								<input type="checkbox" id="20304 box" name="airline" value="20304" checked="checked">
+								<label for="20304">SkyWest</label><br>
+							
+								<input type="checkbox" id="19393 box" name="airline" value="19393" checked="checked">
+								<label for="19393">Southwest</label><br>
+							
+								<input type="checkbox" id="20416 box" name="airline" value="20416" checked="checked">
+								<label for="20416">Spirit</label><br>
+							
+								<input type="checkbox" id="19977 box" name="airline" value="19977" checked="checked">
+								<label for="19977">United</label><br>
+							
+								<input type="checkbox" id="21171 box" name="airline" value="21171" checked="checked">
+								<label for="21171">Virgin America</label><br>
+								
+								<input type="button" name="checkBtn" class="check" value="Uncheck All" id="checkAllBox" style="color:white">
+							</div>
 						</div>
-						<!--div class="resetter return_default1" title="Reset">
-							<img src="img/return.png" width="20" height="20">
-						</div-->
-						<hr id="sexy_line1">
-					</div>
-				</div>
-		
-				<div id="time-panel" class="col-sm-3 col-md-12">
-					<h3 class="title">Filter Year(s):</h3>
-					<div class="slider-container">
-						<input class="range-slider1" id="yearInput" type="hidden" value="2014,2015"/>
-					</div>
-					
-					<h3 class="title">Filter Month(s):</h3>
-					<div class="slider-container">
-						<input class="range-slider2" id="monthInput" type="hidden" value="0,6"/>
-					</div>
-					
-					<h3 class="title">Filter Day(s):</h3>
-					<div class="slider-container">
-						<input class="range-slider3" id="dayInput" type="hidden" value="1,4"/>
-					</div>
-					<!--div class="resetter return_default2" title="Reset">
-						<img src="img/return.png" width="20" height="20">
-					</div-->
-					
-					<hr id="sexy_line1">
-				</div>
-		
-				<div id="delay-panel" class="col-sm-3 col-md-12">
-					<h3 class="title">Show Types of Delay:</h3>
-					<div id="radioDelay">
-						<input type="radio" id="carrier" value="weather" name="delay">
-						<label for="carrier">Air Carrier</label><br>
-					
-						<input type="radio" id="weather" value="weather"  name="delay">
-						<label for="weather">Weather</label><br>
-					
-						<input type="radio" id="security" value="security" name="delay">
-						<label for="security">Security</label><br>
-					</div>
-					
-					<div id="radioDelay">
-						<input type="radio" id="aviation" value="nas" name="delay">
-						<label for="aviation">National Aviation System</label><br>
-					
-						<input type="radio" id="arriving_late" value="arriving_late" name="delay">
-						<label for="arriving_late">Aircraft Arriving Late</label><br>
-						
-						<input type="radio" id="all" name="delay" value="all" checked="checked">
-						<label for="arriving_late">Show All</label><br>
-					</div>
-					
-					<!--div class="resetter return_default3" title="Reset">
-						<img src="img/return.png" width="20" height="20">
-					</div-->
-					
-					<hr id="sexy_line1">
-				</div>
-		
-				<div id="airline-panel" class="col-sm-3 col-md-12">
-					<h3 class="title">Filter Airline(s):</h3>
-					<div id="checkboxAirline">
-						<input type="checkbox" id="19930" name="airline" value="19930" checked="checked">
-						<label for="19930">Alaska</label><br>
-					
-						<input type="checkbox" id="19805" name="airline" value="19805" checked="checked">
-						<label for="19805">American</label><br>
-					
-						<input type="checkbox" id="19790" name="airline" value="19790" checked="checked">
-						<label for="19790">Delta</label><br>
-					
-						<input type="checkbox" id="20398" name="airline" value="20398" checked="checked">
-						<label for="20398">Envoy</label><br>
-					
-						<input type="checkbox" id="20366" name="airline" value="20366" checked="checked">
-						<label for="20366">ExpressJet</label><br>
-					
-						<input type="checkbox" id="20436" name="airline" value="20436" checked="checked">
-						<label for="20436">Frontier</label><br>
-						
-						<input type="checkbox" id="20409" name="airline" value="20409" checked="checked">
-						<label for="20409">JetBlue</label><br>
-					</div>
-			
-					<div id="checkboxAirline">
-						<input type="checkbox" id="20304" name="airline" value="20304" checked="checked">
-						<label for="20304">SkyWest</label><br>
-					
-						<input type="checkbox" id="19393" name="airline" value="19393" checked="checked">
-						<label for="19393">Southwest</label><br>
-					
-						<input type="checkbox" id="20416" name="airline" value="20416" checked="checked">
-						<label for="20416">Spirit</label><br>
-					
-						<input type="checkbox" id="19977" name="airline" value="19977" checked="checked">
-						<label for="19977">United</label><br>
-					
-						<input type="checkbox" id="21171" name="airline" value="21171" checked="checked">
-						<label for="21171">Virgin America</label><br>
-						
-						<input type="button" name="checkBtn" class="check" value="Uncheck All">
 					</div>
 				</div>
 			</div>
-			<div id="mapDiv" class="col-sm-12 col-md-10 col-lg-9"></div>
+			
+			<div id="bottom">
+				<div id="mapDiv" class="col-sm-12 col-md-8 col-lg-8"></div>
+			</div>
+			
+			<div id="bottom">
+				<div id="side-panel-right" class="col-sm-12 col-md-2 col-lg-2">
+					<div id="update-panel" class="col-sm-3 col-md-12">
+						<h3 class="title">Airline Delay Information Board</h3>
+						<div id="Airlines" class="FlipContent"></div>
+						<div id="Minutes" class="FlipContent"></div>
+					</div>
+				</div>
+			</div>
 		</div>
 	
 		<div class="row">
 			<footer class="site-footer">
 				<div class="container-footer">
 					<div class="pull-middle"><font color="white">Version: 1.0&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;Last updated: MM/DD/YY &nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;Best viewed on a large PC screen (e.g. Google Chrome, FireFox)</font></div>
-					<div class="footerDiv"><button type="button" class="btn btn-info btn-lg" data-toggle="modal" data-target="#myModal3" style="background:transparent; border: none !important; font-size:14px">Tutorial</button>&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;
-					<a href="https://goo.gl/forms/EoBBpJzzDfpKwNXy2" target="_blank" style="color:white;">Bug Report</a>&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;</div>
+					<ul class="nav navbar-nav navbar-left">
+						<li class="footerDiv1"><button type="button" class="btn btn-info btn-xs" data-toggle="modal" data-target="#myModal3" style="background:transparent; border: none !important; font-size:14px">Tutorial</button></li>
+					</ul>
+					<ul class="nav navbar-nav navbar-left">
+						<li class="footerDiv2"><button type="button" class="btn btn-info btn-xs" onclick="window.open('https://goo.gl/forms/EoBBpJzzDfpKwNXy2');" style="color:white; background:transparent; border: none !important; font-size:14px">Bug Report</button></li>
+					</ul>
 				</div>
 			</footer>
 		</div>
@@ -222,33 +246,33 @@
 						<hr id="Division" class="sexy_line">
 						
 							<div class="row">
-								<div class="ChrisIntro col-sm-12 col-md-6">
-									<img class="ChrisPic" src="img/Chris.jpg">
+								<div id="intro" class="Intro col-sm-12 col-md-6">
+									<img class="Pic" src="img/Chris.jpg">
 									<p class="Describe"><u style="color:black">Chris Scheele</u><br>Graduate in Geography<br>cjscheele@wisc.edu</p>
 								</div>
-								<div class="ChrisDetails col-sm-12 col-md-6">
-									<p class="tag">Database Expert, Developer, Lead</p>
+								<div class="Details col-sm-12 col-md-6">
+									<p class="tag">Database Expert, Lead</p>
 									<p class="description">Chris processed back-end databases and oversaw the entire project to guarantee we are doing great. When Chris is not processing data, people can usually find him chasing tornados across American midwest.</p>
 								</div>
 							</div>
 	
 							<div class="row">
-								<div class="XinyiIntro col-sm-12 col-md-6">
-									<img class="XinyiPic" src="img/Xinyi.jpg">
+								<div id="intro" class="Intro col-sm-12 col-md-6">
+									<img class="Pic" src="img/Xinyi.jpg">
 									<p class="Describe"><u style="color:black">Xinyi Liu</u><br>Graduate in Geography<br>xliu636@wisc.edu</p>
 								</div>
-								<div class="XinyiDetails col-sm-12 col-md-6">
+								<div class="Details col-sm-12 col-md-6">
 									<p class="tag">Geovisualization Specialist</p>
 									<p class="description">Xinyi created the interactive map and made sure the map is fully functional and responsive to users' demands. When Xinyi is not developing maps, people can usually find her walking around parks or shopping inside malls.</p>
 								</div>
 							</div>
 							
 							<div class="row">
-								<div class="BeichenIntro col-sm-12 col-md-6">
-									<img class="BeichenPic" src="img/Beichen.jpg">
+								<div id="intro" class="Intro col-sm-12 col-md-6">
+									<img class="Pic" src="img/Beichen.jpg">
 									<p class="Describe"><a href="https://beichentian-gis.github.io/" title="Click to view Beichen's webpage" style="color:black"><u>Beichen Tian</u></a><br>GIS Certificate Student<br>btian8@wisc.edu</p>
 								</div>
-								<div class="BeichenDetails col-sm-12 col-md-6">
+								<div class="Details col-sm-12 col-md-6">
 									<p class="tag">Cartographer, Interface Designer</p>
 									<p class="description">Beichen designed the interface and map aesthetics to provide users an impressive user experience. When Beichen is not designing maps and interface, people can usually find him cooking delicious Asian food including dumplings, baos, buns, suhsi, and pokes.</p>
 								</div>
@@ -270,8 +294,8 @@
 					<div class="container-fluid modal-body">
 						<h3 class="modal-title TutorialBoxTitle">Couldn't figure out how to use the map?<br>Watch this video then.</h3>
 						<hr id="Division" class="sexy_line">
-						<div class="row video col-sm-12">
-							<video width="550" height="300" controls></video>
+						<div class="row">
+							<video class="video col-sm-12" controls></video>
 						</div>
 					</div>
 					<div class="modal-footer">
@@ -293,6 +317,8 @@
 		<script type="text/javascript" src="lib/d3-extended.min.js"></script>
 		<script type="text/javascript" src="lib/awesomplete.min.js"></script>
 		<script type="text/javascript" src="lib/simple-statistics.min.js"></script>
+		<!--script type="text/javascript" src="lib/FlipClock/compiled/flipclock.js"></script-->
+		<script type="text/javascript" src="lib/jquery.splitflap.js"></script>
 		<script type="text/javascript" src="js/main.js"></script>
 </body>
 	
