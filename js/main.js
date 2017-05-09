@@ -377,7 +377,7 @@ function scaleAirportDelay(val){
 
 //function to highlight enumeration units and bars
 function highlightAirport(prop){
-	  var opacity = "0.8";
+	  var opacity = "0.9";
 	  var clickedText = d3.selectAll(".click_" + prop.origincode).text();
 	  var clickedObj = JSON.parse(clickedText);
 	  if (clickedObj["clicked"] == "true") {
@@ -399,7 +399,7 @@ function highlightAirport(prop){
 function highlightColor(code){
     //change stroke
     var selected = d3.selectAll(".airports_" + code)
-				.style("fill-opacity", "0.8")
+				.style("fill-opacity", "0.9")
         .moveToFront();
 };
 
@@ -465,7 +465,7 @@ function dehighlightAirport(code){
 	  var clickedText = d3.selectAll(".click_" + code).text();
 	  var clickedObj = JSON.parse(clickedText);
 	  if (clickedObj["clicked"] == "true") {
-		    opacity = "0.8";
+		    opacity = "0.9";
 	  }
 
 		var selected = d3.selectAll(".airports_" + code)
@@ -674,9 +674,6 @@ function makeColorScale(data){
     // //assign array of last 4 cluster minimums as domain
     // colorScale.domain(domainArray);
 
-    //create legend
-    //legend(colorScale);
-
     //create color scale generator
     var colorScale = d3.scaleQuantile()
         .range(colorClasses);
@@ -687,14 +684,45 @@ function makeColorScale(data){
     //     d3.min(data, function(d) { return parseFloat(data[i].stats.delayed); }),
     //     d3.max(data, function(d) { return parseFloat(data[i].stats.delayed); })
     // ];
-		var minmax = [
-			 30, 40, 50
-	 ];
-    //assign two-value array as scale domain
-    colorScale.domain(minmax);
+		var thresholds = [ 0, 10, 20, 30, 40, 50 ];
 
+		if (params.type == 1) {
+			thresholds = [ 0, 10, 20, 30, 40, 50, 60, 70 ];
+		}
+    //assign two-value array as scale domain
+    colorScale.domain(thresholds);
+		//create legend
+    legend(colorScale);
     return colorScale;
 };
+
+//Make legend
+function legend(colorScale){
+	d3.select("#legend-panel")
+			.append("svg")
+			.attr("class", "legend-svg");
+			//.attr("width", width)
+			//.attr("height", height);
+	var svg = d3.select(".legend-svg");
+	var titleText = "Percentage of delay (%)";
+	if (params.type == 0) {
+		titleText = "Average delay time (min)";
+	}
+
+	svg.append("g")
+	 	.attr("class", "legend")
+	  	.attr("transform", "translate(50,30)")
+
+	var legend = d3.legendColor()
+		.title(titleText)
+	    .labelFormat(d3.format("d"))
+	    .labels(d3.legendHelpers.thresholdLabels)
+	    .useClass(false)
+	    .scale(colorScale);
+
+	svg.select(".legend")
+		.call(legend);
+}
 
 //function to test for data value and return color
 function colorRoutes(val, colorScale){
