@@ -44,7 +44,9 @@ function setMap(){
 			if (cur_routes != null) {
 				lines(cur_routes);
 			}
-			updateAirportDelays(cur_airports);
+			if (cur_airports != null) {
+				updateAirportDelays(cur_airports);
+			}			
 			if (cur_airport != null) {
 				clicked(cur_airport);
 			}
