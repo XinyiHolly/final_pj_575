@@ -39,7 +39,6 @@ function setMap(){
 	        .style('height', height + 'px')
 	        .style('overflow', 'visible');
 
-
 	    // resize the map
 	    map.selectAll('.states').attr('d', path);
 			if (cur_routes != null) {
@@ -56,7 +55,18 @@ function setMap(){
         .append("svg")
         .attr("class", "map")
         .attr("width", width)
-        .attr("height", height);
+        .attr("height", height)
+				.on("click",function(){
+					  var circleArea = d3.select("#mapDiv").selectAll("circle");
+					  var circleAreaContent = d3.selectAll("circle, circle *");
+						function equalToEventTarget() {
+				        return this == d3.event.target;
+				    }
+						var outside = circleAreaContent.filter(equalToEventTarget).empty();
+						if (outside) {
+						    unclickedAll();
+						}
+				});
 
     //create Albers equal area conic projection
     projection = d3.geoAlbers()
@@ -269,7 +279,7 @@ function updateAirportDelays(airports){
 			//Add airport events for click and highlight
 			.on("click", function (d) {
 				clicked(d);
-				callRoutes(d.origincode);				
+				callRoutes(d.origincode);
 				updatePanel(d);
 			})
 			.on("mouseover", function(d){
@@ -414,7 +424,31 @@ function contains(obj) {
   return false;
 }
 
-//dehighlight all airports
+function unclickedAll(){
+
+	d3.selectAll(".arcs")
+			.remove();
+	d3.select(".infolabel")
+			.remove();
+	d3.select(".infowindow")
+			.remove();
+	d3.selectAll("desc")
+			.remove();
+  cur_routes = null;
+	cur_airport = null;
+
+	var selected = d3.selectAll("circle")
+			.style("fill-opacity",0.9)
+			.style("stroke",'#ffffff')
+			.style("stroke-width",1.3)
+			.style("stroke-opacity",'0.6')
+			.attr('r', 7)
+			.append("desc")
+			  .attr("class", function(d) { return ("click_" + d.origincode)})
+			  .text('{"clicked": "false"}');
+}
+
+//clicked one airport
 function clicked(data){
 	var airlineArray;
 	for (var i=0; i<cur_routes; i++) {
