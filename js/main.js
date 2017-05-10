@@ -443,10 +443,6 @@ function unclickedAll(){
 
 	d3.selectAll(".arcs")
 			.remove();
-
-
-
-
 	d3.select(".infolabel")
 			.remove();
 	d3.select(".infowindow")
@@ -462,6 +458,29 @@ function unclickedAll(){
 			.style("stroke-width",1.3)
 			.style("stroke-opacity",'0.6')
 			.attr('r', 7)
+			.append("desc")
+			  .attr("class", function(d) { return ("click_" + d.origincode)})
+			  .text('{"clicked": "false"}');
+}
+
+//clicked one airport
+function clicked(data){
+	var airlineArray;
+	for (var i=0; i<cur_routes; i++) {
+		airlineArray[i] = cur_routes[i].name;
+	}
+	var selected = d3.selectAll("circle")
+			// .style("fill-opacity", function(d) {
+      //   if (airlineArray.include(d.originname)) {
+			// 		return 0.9;
+			// 	}
+			// 	else return 0.2;
+			// })
+			.style("fill-opacity",0.9)
+			.style("stroke",'#ffffff')
+			.style("stroke-width",1.3)
+			.style("stroke-opacity",'0.6')
+			.attr('r', 7);
 
   cur_airport = data;
 	d3.select(".infolabel")
