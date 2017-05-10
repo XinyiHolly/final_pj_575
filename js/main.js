@@ -311,9 +311,14 @@ function updatePanel(prop){
 
 	for (i=0; i<airlineArray.length; i++) {
 		var airline = airlineArray[i].name;
+		windowAttribute += "<table id='airlineTable'><h5><tr><td id='tableRow1'><img class='IconImage' title='" + airline + "' src='img/AirlineIcons/" + airline + ".png'></td>" + "<td id='tableRow2'>" + airlineArray[i].delayed + datatype + "&nbsp" + "delayed</td></tr></h5></table><b></b>";
+		/*
 		windowAttribute += "<h5><div><img class='IconImage' src='img/AirlineIcons/" + airline + ".png'></div>" + airlineArray[i].name + ":&nbsp" + airlineArray[i].delayed + datatype + "&nbsp" + "delayed</h5><b></b>";
+		*/
 	}
-
+	
+	$("img").fadeIn(350)
+	
 	//create info label div
 	var infowindow = d3.select("#update-panel")
 			.append("div")
