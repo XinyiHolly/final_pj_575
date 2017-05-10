@@ -176,7 +176,7 @@ ul li:hover{
     max-height: 50px;
     max-width:50px;
 }
-/*
+
 #airlineTable{
 	border-top:none;
 }
@@ -187,7 +187,6 @@ ul li:hover{
     vertical-align: middle;
     border-top:0px;
 }
-*/
 
 #navbar{
 	margin-bottom:0;
@@ -458,6 +457,8 @@ p.description{
 	/*width:100%;*/
 	fill: #7f9db7;
 	overflow:visible;
+	color:black;
+
 }
 
 /*.states{

@@ -5,6 +5,7 @@ var map,projection;
 var params = {}; //object for storing filter params
 var autocomplete; //used for updating the list
 var cur_airports, cur_routes, cur_airport;
+var h;
 //Delay APIs
 var airportsURL = 'http://144.92.235.47:4040/airports'
 var routesURL = 'http://144.92.235.47:4040/routes'
@@ -26,7 +27,7 @@ function setMap(){
 	    width = $("#mapDiv").innerWidth();
 	    width = width //- margin.left - margin.right;
 	    height = width * mapRatio;
-
+	    h =height-(.20*height);
 	    // update projection
 	    projection
 	        .translate([width/2 , height/2])
@@ -38,14 +39,17 @@ function setMap(){
 	        .style('height', height + 'px')
 	        .style('overflow', 'visible');
 
-
 	    // resize the map
 	    map.selectAll('.states').attr('d', path);
 			if (cur_routes != null) {
 				lines(cur_routes);
 			}
+
 			if (cur_airports != null) {
 				updateAirportDelays(cur_airports);
+
+			updateAirportDelays(cur_airports);
+			if (cur_airport != null) {
 				clicked(cur_airport);
 			}
 	}
@@ -55,7 +59,18 @@ function setMap(){
         .append("svg")
         .attr("class", "map")
         .attr("width", width)
-        .attr("height", height);
+        .attr("height", height)
+				.on("click",function(){
+					  var circleArea = d3.select("#mapDiv").selectAll("circle");
+					  var circleAreaContent = d3.selectAll("circle, circle *");
+						function equalToEventTarget() {
+				        return this == d3.event.target;
+				    }
+						var outside = circleAreaContent.filter(equalToEventTarget).empty();
+						if (outside) {
+						    unclickedAll();
+						}
+				});
 
     //create Albers equal area conic projection
     projection = d3.geoAlbers()
@@ -156,6 +171,10 @@ function requestAirports(){
 	}).get();
 
     callAirports();
+		if (cur_routes != null) {
+			callRoutes(cur_airport.origincode);
+			lines(cur_routes);
+		}
 }
 
 function callAirports (){
@@ -281,7 +300,7 @@ function updateAirportDelays(airports){
       		// append explaining desc
 			.append("desc")
 			    .attr("class", function(d) { return ("click_" + d.origincode)})
-			.text('{"clicked": "false"}')
+			    .text('{"clicked": "false"}')
 
 	circles.selectAll("circle")
     .append("desc")
@@ -296,8 +315,7 @@ function updatePanel(prop){
 	    window.remove();
 	}
 	//label content
-	var windowAttribute = "<h4>" + prop.originname + "</h4><b></b>" +
-											 "<h5>airport code: " + prop.origincode + "</h5><b></b>";
+	var windowAttribute = "<h4>" + prop.originname + " (" + prop.origincode + ")" + "</h5><b></b>";
 	var airlineAttribute;
 	var airlineArray = prop.airline;
 	var datatype = "%";
@@ -307,36 +325,23 @@ function updatePanel(prop){
 		token = "Average";
 	}
 
-	windowAttribute += "<h4>" + token + " delayed: " + prop.stats.delayed + datatype + "</h4></b><div id='update-panel' class='col-sm-1 col-md-12'>";
+
+	windowAttribute += "<h4>" + token + " delayed: " + prop.stats.delayed + datatype + "</h4></b><table id='airlineTable' class='table'>";
 
 	for (i=0; i<airlineArray.length; i++) {
 		var airline = airlineArray[i].name;
-		windowAttribute += "<div class='row'><h5><div class='col-md-6'><img class='IconImage' title='" + airline + "' src='img/AirlineIcons/" + airline + ".png'></div>" + "<div class='col-md-6'>" + airlineArray[i].delayed + datatype + "&nbsp" + "delayed</div></div>";
+		windowAttribute += "<h5><tr><td><img class='IconImage' title='" + airline + "' src='img/AirlineIcons/" + airline + ".png'></td>" + "<td>" + airlineArray[i].delayed + datatype + "&nbsp" + "delayed</td></tr>";
 	}
-	windowAttribute += "</h5></div><b></b>"
-	
+	windowAttribute += "</h5></table><b></b>"
+
+	$("img").fadeIn(350)
+
 	//create info label div
 	var infowindow = d3.select("#update-panel")
 			.append("div")
 			.attr("class", "infowindow")
 			.html(windowAttribute);
 };
-
-	//create info label div
-    /*var infolabel = d3.select("body")
-        .append("div")
-        .attr("class", "infolabel")
-        .attr("id", prop.origincode + "_label")
-        .html(labelAttribute);*/
-    //var content = "<div id='panelTitle'><h2><img src='images/anchor.png'>Port of "+feature.properties.port+"<img src='images/"+feature.properties.country+".svg'></h2></div>";
-    //content += "<div id='panelPic'><img src='"+airports.properties.img+"' align='middle'></div>";
-    //content += "<div id='panelDesc'><p>"+airports.properties.desc+"</p></div>";
-	//if (airlineArray[i].name==$("img").attr("id","Alaska"))
-	/*
-	else if (airlineArray[i].name=="Virgin"){
-		$("#AirlineIcons").append("<img class='IconImage' src='img/AirlineIcons/Virgin.png'>").fadeIn(350);
-		$("#DelayMinutes").append(airlineArray[i].delayed + datatype + "&nbsp" + "delayed").splitFlap();
-	}*/
 
 //function to highlight enumeration units and bars
 function highlightAirport(prop){
@@ -359,9 +364,7 @@ function highlightAirport(prop){
     //changeChart(expressed,code,1,selected.style('fill'));
 };
 
-
 //function to get information window (only include overall delay info for each airport)
-
 function highlightColor(code){
     //change stroke
     var selected = d3.selectAll(".airports_" + code)
@@ -416,14 +419,39 @@ function retrieveInforPanel(prop){
         .html(labelAttribute);
 };
 
-//dehighlight all airports
-function clicked(data){
+function contains(obj) {
+	var i = this.length;
+    while (i--) {
+      if (this[i] == obj) {
+        return true;
+      }
+    }
+  return false;
+}
+
+function unclickedAll(){
+
+	d3.selectAll(".arcs")
+			.remove();
+
+  
+  
+ 
+	d3.select(".infolabel")
+			.remove();
+	d3.select(".infowindow")
+			.remove();
+	d3.selectAll("desc")
+			.remove();
+  cur_routes = null;
+	cur_airport = null;
+
 	var selected = d3.selectAll("circle")
-			.style("fill-opacity", "0.9")
+			.style("fill-opacity",0.9)
 			.style("stroke",'#ffffff')
 			.style("stroke-width",1.3)
 			.style("stroke-opacity",'0.6')
-			.attr('r', 7);
+			.attr('r', 7)
 
   cur_airport = data;
 	d3.select(".infolabel")
@@ -661,21 +689,29 @@ function makeColorScale(data){
 //Make legend
 function legend(colorScale){
 	d3.select("#legend").remove()
-	d3.select("#legend-panel")
-			.append("svg")
-			.attr("class", "legend-svg")
-			.attr("id","legend");
+
+	// d3.select("#legend-panel")
+	// 		.append("svg")
+	// 		.attr("class", "legend-svg")
+	// 		.attr("id","legend")
+	// 		.style("max-width",$('#side-panel-right').innerWidth());
 			//.attr("width", width)
 			//.attr("height", height);
-	var svg = d3.select(".legend-svg");
-	var titleText = "Percent of delayed flights (%)";
-	if (params.type == 0) {
-		titleText = "Average delay time (min)";
-	}
+	d3.select(".map")
+			.append("svg")
+			.attr("class", "legend-svg")
+			.attr("id","legend")
+			.style("max-width",$('#side-panel-right').innerWidth());
 
+	var svg = d3.select(".legend-svg");
+	var titleText = "Delayed flights (%)";
+	if (params.type == 0) {
+		titleText = "Average delay (min)";
+	}
 	svg.append("g")
 	 	.attr("class", "legend")
-	  	.attr("transform", "translate(0,20)")
+	  .attr("transform", "translate(20,"+h+")")
+
 
 	var legend = d3.legendColor()
 		.title(titleText)
