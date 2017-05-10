@@ -495,7 +495,7 @@ p.description{
 .arc {
     fill: none;
     stroke: #252525;
-	stroke-opacity: 0.5;
+	stroke-opacity: 0.7;
     stroke-linejoin: round;
     cursor: pointer;
 }

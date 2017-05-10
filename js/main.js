@@ -790,8 +790,6 @@ function makeColorScale(data){
 			}
 		}
 
-
-
     //assign two-value array as scale domain
     colorScale.domain(thresholds);
 		//create legend
@@ -801,20 +799,22 @@ function makeColorScale(data){
 
 //Make legend
 function legend(colorScale){
+	d3.select("#legend").remove()
 	d3.select("#legend-panel")
 			.append("svg")
-			.attr("class", "legend-svg");
+			.attr("class", "legend-svg")
+			.attr("id","legend");
 			//.attr("width", width)
 			//.attr("height", height);
 	var svg = d3.select(".legend-svg");
-	var titleText = "Percentage of delay (%)";
+	var titleText = "Percent of delayed flights (%)";
 	if (params.type == 0) {
 		titleText = "Average delay time (min)";
 	}
 
 	svg.append("g")
 	 	.attr("class", "legend")
-	  	.attr("transform", "translate(50,30)")
+	  	.attr("transform", "translate(0,20)")
 
 	var legend = d3.legendColor()
 		.title(titleText)
