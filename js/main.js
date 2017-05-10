@@ -152,58 +152,6 @@ function requestAirports(){
     callAirports();
 }
 
-//Sets separate filter change events
-// function setFilterChangeEvents(){
-// 	var changeTimer1=changeTimer2=changeTimer3=changeTimer4=changeTimer5=false;
-// 	$("input[name=proportional_symbol]" ).on("change",function(){
-// 		if(changeTimer1 !== false) clearTimeout(changeTimer1);
-// 		changeTimer1 = setTimeout(function(){
-// 			params['type'] = $('input[name=proportional_symbol]:checked').val()
-// 			callAirports();
-// 			changeTimer1 = false;
-// 		},50);
-// 	});
-// 	$("#yearInput,#monthInput,#dayInput" ).on("change",function(){
-// 		if(changeTimer2 !== false) clearTimeout(changeTimer2);
-// 		changeTimer2 = setTimeout(function(){
-// 			params['fyr'] = $('#yearInput').val().split(",")[0]
-//         	params['lyr'] = $('#yearInput').val().split(",")[1]
-//         	params['fmth'] = $('#monthInput').val().split(",")[0]
-//         	params['lmth'] = $('#monthInput').val().split(",")[1]
-//         	params['fdow'] = $('#dayInput').val().split(",")[0]
-//         	params['ldow'] = $('#dayInput').val().split(",")[1]
-// 			callAirports();
-// 			changeTimer2 = false;
-// 		},200);
-// 	});
-// 	$("input[name=delay]" ).on("change",function(){
-// 		if(changeTimer3 !== false) clearTimeout(changeTimer3);
-// 		changeTimer3 = setTimeout(function(){
-// 			params['delay'] = $('input[name=delay]:checked').val()
-// 			callAirports();
-// 			changeTimer3 = false;
-// 		},50);
-// 	});
-// 	$("input[name=airline]" ).on("change",function(){
-// 		if(changeTimer4 !== false) clearTimeout(changeTimer4);
-// 		changeTimer4 = setTimeout(function(){
-// 			params['airline'] = $("input[name=airline]:checked").map(function() {
-// 				return parseInt(this.value);
-// 			}).get();
-// 			callAirports();
-// 			changeTimer4 = false;
-// 		},200);
-// 	});
-// 	$(".resetter" ).on("click",function(){
-// 		if(changeTimer5 !== false) clearTimeout(changeTimer5);
-// 		changeTimer5 = setTimeout(function(){
-// 			setParams();
-// 			callAirports();
-// 			changeTimer5 = false;
-// 		},50);
-// 	});
-// }
-
 function callAirports (){
 	//Do ajax call
 	$.ajax({
@@ -817,35 +765,6 @@ function lines(routes,delayType){
 	.moveToBack();
 };
 
-function scaleRouteDelay(val){
-	console.log(val)
-	if (params.type == 1){ //Percent delayed
-		if (val <= 10){
-			return "#fdd0a2";
-		}else if(val <= 25){
-			return "#fdae6b";
-		}else if(val <= 50){
-			return "#fd8d3c";
-		}else if(val <= 75){
-			return "#e6550d";
-		}else{
-			return "#a63603";
-		}
-	}else{//Avg delay time
-		if (val <= 10){
-			return "#fdd0a2";
-		}else if(val <= 30){
-			return "#fdae6b";
-		}else if(val <= 45){
-			return "#fd8d3c";
-		}else if(val <= 60){
-			return "#e6550d";
-		}else{
-			return "#a63603";
-		}
-	}
-}
-
 //function to create color scale generator
 function makeColorScale(data){
     var colorClasses = [
@@ -853,48 +772,15 @@ function makeColorScale(data){
         "#fdae6b",
         "#fd8d3c",
         "#e6550d",
-        //"#a63603"
-				// "#d0d1e6",
-				// "#a6bddb",
-				// "#74a9cf",
-				// "#2b8cbe"
     ];
-
-    // //create color scale generator
-    // var colorScale = d3.scaleThreshold()
-    //     .range(colorClasses)
-		//
-    // //build array of all values of the expressed attribute
-    // var domainArray = [];
-    // for (var i=0; i<data.length; i++){
-    //     //var val = parseFloat(data[i].stats[params.delay]);
-		// 		var val = parseFloat(data[i].stats.delayed);
-    //     domainArray.push(val);
-    // };
-		//
-    // //cluster data using ckmeans clustering algorithm to create natural breaks
-    // var clusters = ss.ckmeans(domainArray, 5);
-		//
-    // //reset domain array to cluster minimums
-    // domainArray = clusters.map(function(d){
-    //     return d3.min(d);
-    // });
-    // //remove first value from domain array to create class breakpoints
-    // domainArray.shift();
-		//
-    // //assign array of last 4 cluster minimums as domain
-    // colorScale.domain(domainArray);
 
     //create color scale generator
     var colorScale = d3.scaleQuantile()
         .range(colorClasses);
 
-    //build two-value array of minimum and maximum expressed attribute values
-    // var minmax = [
-    //     d3.min(data, function(d) { return parseFloat(data[i].stats.delayed); }),
-    //     d3.max(data, function(d) { return parseFloat(data[i].stats.delayed); })
-    // ];
-		var values = [ 0, 10, 20, 30, 40, 50, 60];
+    var thresholds = []
+
+
 
 		if (params.type == 1) {
 			thresholds = [ 0, 10, 20, 30, 40, 50, 60, 70 ];
@@ -1166,13 +1052,6 @@ $(".foot-button1").on("click",function(){
 	$(".TutorialBox").fadeIn(350)
 	$(".grayOut").fadeIn(350)
 })
-
-/*
-//set up hover effect for resetter buttons
-$(".resetter").hover(function(){
-	$(this).toggleClass('hovered')
-})
-*/
 
 //reset for proportional symbol filter
 $("#return_default").on("click",function(){
