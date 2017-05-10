@@ -44,8 +44,8 @@ function setMap(){
 			if (cur_routes != null) {
 				lines(cur_routes);
 			}
-			if (cur_airports != null) {
-				updateAirportDelays(cur_airports);
+			updateAirportDelays(cur_airports);
+			if (cur_airport != null) {
 				clicked(cur_airport);
 			}
 	}
@@ -296,13 +296,12 @@ function updateAirportDelays(airports){
       		// append explaining desc
 			.append("desc")
 			    .attr("class", function(d) { return ("click_" + d.origincode)})
-			.text('{"clicked": "false"}')
+			    .text('{"clicked": "false"}')
 
 	circles.selectAll("circle")
     .append("desc")
 		.attr("class", function(d) { return ("style_" + d.origincode)})
-		.text('{"fill": "' + originColor + '", "stroke-width": "0.5px", "stroke-opacity": "0.65"}')
-		.text('{"clicked": "false"}');
+		.text('{"fill": "' + originColor + '", "stroke-width": "0.5px", "stroke-opacity": "0.65"}');
 }
 
 //Update the panel with airport delay information
