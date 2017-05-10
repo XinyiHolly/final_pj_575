@@ -268,7 +268,7 @@ function updateAirportDelays(airports){
 			//Add airport events for click and highlight
 			.on("click", function (d) {
 				clicked(d);
-				callRoutes(d.origincode);
+				callRoutes(d.origincode);				
 				updatePanel(d);
 			})
 			.on("mouseover", function(d){
@@ -403,10 +403,30 @@ function retrieveInforPanel(prop){
         .html(labelAttribute);
 };
 
+function contains(obj) {
+	var i = this.length;
+    while (i--) {
+      if (this[i] == obj) {
+        return true;
+      }
+    }
+  return false;
+}
+
 //dehighlight all airports
 function clicked(data){
+	var airlineArray;
+	for (var i=0; i<cur_routes; i++) {
+		airlineArray[i] = cur_routes[i].name;
+	}
 	var selected = d3.selectAll("circle")
-			.style("fill-opacity", "0.9")
+			// .style("fill-opacity", function(d) {
+      //   if (airlineArray.include(d.originname)) {
+			// 		return 0.9;
+			// 	}
+			// 	else return 0.2;
+			// })
+			.style("fill-opacity",0.9)
 			.style("stroke",'#ffffff')
 			.style("stroke-width",1.3)
 			.style("stroke-opacity",'0.6')
