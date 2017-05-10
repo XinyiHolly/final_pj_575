@@ -497,11 +497,11 @@ function updatePanel(airports){
 
 //function to highlight enumeration units and bars
 function highlightAirport(prop){
-	  var clickedText = d3.selectAll(".click_" + prop.origincode).text();
-	  var clickedObj = JSON.parse(clickedText);
-	  if (clickedObj["clicked"] == "true") {
-			  stroke = "#DED630";
-	  }
+	  // var clickedText = d3.selectAll(".click_" + prop.origincode).text();
+	  // var clickedObj = JSON.parse(clickedText);
+	  // if (clickedObj["clicked"] == "true") {
+		// 	  stroke = "#DED630";
+	  // }
     //change stroke
     var selected = d3.selectAll(".airports_" + prop.origincode)
 		    //.style("fill-opacity", opacity)
@@ -575,6 +575,13 @@ function retrieveInforPanel(prop){
 
 //dehighlight all airports
 function clicked(data){
+	var selected = d3.selectAll("circle")
+			.style("fill-opacity", "0.9")
+			.style("stroke",'#ffffff')
+			.style("stroke-width",1.3)
+			.style("stroke-opacity",'0.6')
+			.attr('r', 7);
+
   cur_airport = data;
 	d3.select(".infolabel")
 			.remove();
@@ -876,7 +883,7 @@ function retrieveRoute(prop){
     	labelAttribute += "<b>"+prop.stats.delayed+" min</b> average delay</h5>";
     	for (i=0; i<airlineArray.length; i++) {
       		labelAttribute += "<h5>" + airlineArray[i].name + ": " + airlineArray[i].delayed+ " min</h5><b></b>";
-    	}	
+    	}
     }
 
     //create info label div
