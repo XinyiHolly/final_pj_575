@@ -320,9 +320,8 @@ function updateAirportDelays(airports,delayType,prop){
 			.on("click", function (d) {
         clicked(d);
 				callRoutes(d.origincode);
-				console.log(prop);
-				updatePanel(airports,prop)
-				
+				updatePanel(d)
+
 			})
 			.on("mouseover", function(d){
 				highlightAirport(d);
@@ -345,43 +344,39 @@ function updateAirportDelays(airports,delayType,prop){
 	  .attr("class", function(d) { return ("style_" + d.origincode)})
     .text('{"fill": "' + originColor + '", "stroke-width": "0.5px", "stroke-opacity": "0.65"}');
 }
-/*
+
 //Update the panel with airport delay information
-function updatePanel(airports, prop){
-	//label content
-    var updateContent1="";
-	var updateContent2="";
-    var airlineAttribute;
-	var airlineArray;
-	
-	prop.each(function(d){
-		airlineArray=d.airline;
-	});
-	
-    var datatype = "%";
-    var token = "Percent";
-    if (params.type == 0) {
-      datatype = "min";
-      token = "Average";
-    }
-	
-	for (i=0; i<airlineArray.length; i++) {
-		if (airlineArray[i].name==$('img').attr('id')){
-			updateContent1+="<img class='IconImage' src='img/AirlineIcons/Alaska.png'>";
-			$("#AirlineIcons").append(updateContent1);
-			updateContent2+="<p>'+airlineArray[i].delayed + datatype + '&nbsp' + 'delayed'+'</p>";
-			$("#DelayMinutes").append(updateContent2);
-			//updateContent+="<div id='AirlineIcons' class='FadeContent'><img class='IconImage' src='img/AirlineIcons/Alaska.png'></div>";
-			//updateContent+="<div id='DelayMinutes' class='FlipContent'><p>'+airlineArray[i].delayed + datatype + '&nbsp' + 'delayed'+'</p></div>";
-			$(".FadeContent").fadeIn(350);
-			$(".FlipContent").splitFlap();
-		}
+function updatePanel(prop){
+	var window = d3.selectAll(".infowindow");
+	if (window != null) {
+	    window.remove();
 	}
-	
-	$("#AirlineIcons").html(updateContent1);
-	$("#DelayMinutes").html(updateContent2);
-	//$("#update-panel").html(updateContent);
-};*/
+	//label content
+	var windowAttribute = "<h4>" + prop.originname + "</h4><b></b>" +
+											 "<h5>airport code: " + prop.origincode + "</h5><b></b>";
+	var airlineAttribute;
+	var airlineArray = prop.airline;
+	var datatype = "%";
+	var token = "Percent";
+	if (params.type == 0) {
+		datatype = "min";
+		token = "Average";
+	}
+
+	windowAttribute += "<h4>" + token + " delayed: " + prop.stats.delayed + datatype + "</h4></b>";
+
+	for (i=0; i<airlineArray.length; i++) {
+		var airline = airlineArray[i].name;
+		windowAttribute += "<h5><div><img class='IconImage' src='img/AirlineIcons/" + airline + ".png'></div>" + airlineArray[i].name + ":&nbsp" + airlineArray[i].delayed + datatype + "&nbsp" + "delayed</h5><b></b>";
+	}
+
+	//create info label div
+	var infowindow = d3.select("#update-panel")
+			.append("div")
+			.attr("class", "infowindow")
+			.html(windowAttribute);
+};
+
 	/*
 	for (i=0; i<airlineArray.length; i++) {
 		if (airlineArray[i].name=="Alaska"){
@@ -458,8 +453,8 @@ function updatePanel(airports, prop){
 		}
 	}
 	*/
-	
-	
+
+
 	/*
 	for (i=0; i<airlineArray.length; i++) {
 		if (airlineArray[i].name=="Alaska"){
@@ -512,7 +507,7 @@ function updatePanel(airports, prop){
 		}
 	}
 	*/
-	
+
 	//create info label div
     /*var infolabel = d3.select("body")
         .append("div")
@@ -597,7 +592,6 @@ function highlightColor(code){
 };
 
 //function to get information window
-
 function retrieveInfor(prop){
     //label content
     var labelAttribute = "<h4>" + prop.originname + "</h4><b></b>" +
@@ -610,7 +604,7 @@ function retrieveInfor(prop){
       datatype = "min";
       token = "Average";
     }
-    
+
     labelAttribute += "<h4>" + token + " delayed: " + prop.stats.delayed + datatype + "</h4></b>";
     //create info label div
     var infolabel = d3.select("body")
@@ -636,7 +630,7 @@ function retrieveInforPanel(prop){
     for (i=0; i<airlineArray.length; i++) {
       labelAttribute += "<h5>" + airlineArray[i].name + ":&nbsp" + airlineArray[i].delayed + datatype + "&nbsp" + "delayed</h5><b></b>";
     }
-    
+
     //create info label div
     var infolabel = d3.select("body")
         .append("div")
@@ -896,12 +890,11 @@ function makeColorScale(data){
         .range(colorClasses);
 
     //build two-value array of minimum and maximum expressed attribute values
-		console.log(data[1].stats.delayed);
     // var minmax = [
     //     d3.min(data, function(d) { return parseFloat(data[i].stats.delayed); }),
     //     d3.max(data, function(d) { return parseFloat(data[i].stats.delayed); })
     // ];
-		var thresholds = [ 0, 10, 20, 30, 40, 50 ];
+		var values = [ 0, 10, 20, 30, 40, 50, 60];
 
 		if (params.type == 1) {
 			thresholds = [ 0, 10, 20, 30, 40, 50, 60, 70 ];
