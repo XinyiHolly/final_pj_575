@@ -524,18 +524,13 @@ function highlightColor(code){
 //function to get information window
 function retrieveInfor(prop){
     //label content
-    var labelAttribute = "<h4>" + prop.originname + "</h4><b></b>" +
-                         "<h5>airport code: " + prop.origincode + "</h5><b></b>";
-    var airlineAttribute;
-    var airlineArray = prop.airline;
-    var datatype = "%";
-    var token = "Percent";
-    if (params.type == 0) {
-      datatype = "min";
-      token = "Average";
+    var labelAttribute = "<h4>" + prop.originname + " ("+prop.origincode+")</h4>"
+    if (params.type == 1){
+    	labelAttribute += "<h5><b>"+prop.stats.delayed+"%</b> of flights delayed</h5>";
+    }else{
+    	labelAttribute += "<h5><b>"+prop.stats.delayed+" min</b> average delay</h5>";
     }
 
-    labelAttribute += "<h4>" + token + " delayed: " + prop.stats.delayed + datatype + "</h4></b>";
     //create info label div
     var infolabel = d3.select("body")
         .append("div")
@@ -750,10 +745,14 @@ function lines(routes){
 //function to create color scale generator
 function makeColorScale(data){
     var colorClasses = [
-        "#fdd0a2",
-        "#fdae6b",
-        "#fd8d3c",
-        "#e6550d",
+        // "#fdd0a2",
+        // "#fdae6b",
+        // "#fd8d3c",
+        // "#e6550d",
+        "#fef0d9",
+        "#fdcc8a",
+        "#fc8d59",
+        "#d7301f"
     ];
 
     //create color scale generator
@@ -852,20 +851,21 @@ function highlightRoute(prop){
 //function to get information window
 function retrieveRoute(prop){
     //label content
-    var labelAttribute = "<h4>Origin: " + prop.originname + "</h4><b></b>" +
-                         "<h5>airport code: " + prop.origincode + "</h5><b></b>";
+    var labelAttribute = "<h4>" + prop.originname + " to "+ prop.destname + "</h4>"
     var airlineAttribute;
     var airlineArray = prop.airline;
-    var datatype = "%";
-    var token = "Percent";
-    if (params.type == 0) {
-      datatype = "min";
-      token = "Average";
+
+    if (params.type == 1){
+    	labelAttribute += "<b>"+prop.stats.delayed+"%</b> of flights delayed</h5>";
+		for (i=0; i<airlineArray.length; i++) {
+      		labelAttribute += "<h5>" + airlineArray[i].name + ": " + airlineArray[i].delayed + "%</h5><b></b>";
+    	}
+    }else{
+    	labelAttribute += "<b>"+prop.stats.delayed+" min</b> average delay</h5>";
+    	for (i=0; i<airlineArray.length; i++) {
+      		labelAttribute += "<h5>" + airlineArray[i].name + ": " + airlineArray[i].delayed+ " min</h5><b></b>";
+    	}	
     }
-    for (i=0; i<airlineArray.length; i++) {
-      labelAttribute += "<h5>" + airlineArray[i].name + ":&nbsp" + airlineArray[i].delayed + datatype + "&nbsp" + "delayed</h5><b></b>";
-    }
-    labelAttribute += "<h4>" + token + " delayed: " + prop.stats.delayed + datatype + "</h4></b>";
 
     //create info label div
     var infolabel = d3.select("body")

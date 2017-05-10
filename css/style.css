@@ -435,10 +435,12 @@ p.description{
 	/*margin-top:-10%;*/
 	/*left:-5%;*/
 	margin-top:1%;
+	background-color: white;
 }
 
 .map{
 	/*width:100%;*/
+	fill: #7f9db7;
 }
 
 /*.states{
@@ -450,10 +452,10 @@ p.description{
 }*/
 
 .states{
-	fill: #e5e5e5;
+	fill: #dcdcdc;
     fill-opacity: 1;
     stroke: #ffffff;
-	stroke-width: 0.4px;
+	stroke-width: 0.75px;
 	stroke-linecap:round;
 	stroke:rgb(0,0,0,0.6);
 }
@@ -500,7 +502,7 @@ p.description{
 .infolabel {
     position: absolute;
     min-height: 50px;
-    min-width: 100px;
+    min-width: 50px;
     max-width: 200px;
     border: solid thin black;
     border-radius: 10px;
@@ -509,6 +511,7 @@ p.description{
     opacity:0.9;
     padding: 5px 10px;
     top: -75px;
+    text-align: center;
 }
 
 .h4 {
