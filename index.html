@@ -6,14 +6,14 @@
 		<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
 		<meta name="description" content="">
 		<meta name="author" content="">
-		
+
 		<title>Historic U.S. Flight Delays</title>
 		<link rel="icon" href="img/airline.png">
-		
+
 		<!-- Bootstrap core CSS -->
 		<link rel="stylesheet" href="css/bootstrap.css">
 		<link rel="stylesheet" href="css/bootstrap-theme.min.css">
-		
+
 		<!-- Custom styles for this project -->
 		<link rel="stylesheet" href="css/style.css">
 		<link rel="stylesheet" href="lib/jRange/jquery.range.css">
@@ -47,26 +47,26 @@
 				</div>
 			</nav>
 		</div>
-		
+
 		<div class="row">
 			<div id="top">
 				<div id="side-panel" class="col-sm-12 col-md-2 col-lg-2">
 					<div class="row">
-						
+
 						<div id="search-proportion" class="col-sm-3 col-md-12">
-						
+
 							<div id="search-panel">
-							
-								<button type="button" name="submitBtn" id="submit" style="color:white" class="deactivated">Submit</button>
-								<button type="button" name="resetBtn" id="return_default" style="color:white" class="deactivated">Reset</button>
-							
+
+								<button type="button" name="submitBtn" id="submit" style="color:white">Submit</button>
+								<button type="button" name="resetBtn" id="return_default" style="color:white">Reset</button>
+
 								<h3 class="title">Search An Airport:</h3>
 								<div>
 									<input type="text" id="airport_search" placeholder="Search your destination airport (e.g. 'DEN')">
 								</div>
 								<hr id="sexy_line1">
 							</div>
-							
+
 							<div id="proportion-panel">
 								<h3 class="title">Symbolize By:</h3>
 								<div>
@@ -83,18 +83,18 @@
 								<hr id="sexy_line1">
 							</div>
 						</div>
-				
+
 						<div id="time-panel" class="col-sm-3 col-md-12">
 							<h3 class="title">Filter Year(s):</h3>
 							<div class="slider-container">
 								<input class="range-slider1" id="yearInput" type="hidden" value="2014,2015"/>
 							</div>
-							
+
 							<h3 class="title">Filter Month(s):</h3>
 							<div class="slider-container">
 								<input class="range-slider2" id="monthInput" type="hidden" value="0,6"/>
 							</div>
-							
+
 							<h3 class="title">Filter Day(s):</h3>
 							<div class="slider-container">
 								<input class="range-slider3" id="dayInput" type="hidden" value="1,4"/>
@@ -102,26 +102,29 @@
 							<!--div class="resetter return_default2" title="Reset">
 								<img src="img/return.png" width="20" height="20">
 							</div-->
-							
+
 							<hr id="sexy_line1">
 						</div>
-				
+
 						<div id="delay-panel" class="col-sm-3 col-md-12">
 							<h3 class="title">Show Types of Delay:</h3>
 							<div id="radioDelay">
 								<input type="radio" id="carrier" value="weather" name="delay" class="radioButton">
 								<label for="carrier">Air Carrier</label><br>
+
 							
-								<input type="radio" id="weather" value="weather"  name="delay" class="radioButton">
+								<input type="radio" id="weather" value="weather" name="delay" class="radioButton">
 								<label for="weather">Weather</label><br>
 							
+
 								<input type="radio" id="security" value="security" name="delay" class="radioButton">
 								<label for="security">Security</label><br>
 							</div>
-							
+
 							<div id="radioDelay">
 								<input type="radio" id="aviation" value="nas" name="delay" class="radioButton">
 								<label for="aviation">National Aviation System</label><br>
+
 							
 								<input type="radio" id="arriving_late" value="arriving_late" name="delay" class="radioButton">
 								<label for="arriving_late">Aircraft Arriving Late</label><br>
@@ -129,14 +132,14 @@
 								<input type="radio" id="all" name="delay" value="all" checked="checked" class="radioButton">
 								<label for="arriving_late">Show All</label><br>
 							</div>
-							
+
 							<!--div class="resetter return_default3" title="Reset">
 								<img src="img/return.png" width="20" height="20">
 							</div-->
-							
+
 							<hr id="sexy_line1">
 						</div>
-				
+
 						<div id="airline-panel" class="col-sm-3 col-md-12">
 							<h3 class="title">Filter Airline(s):</h3>
 							<div id="checkboxAirline">
@@ -157,15 +160,15 @@
 							
 								<input type="checkbox" id="20436" name="airline" value="20436" checked="checked" class="box">
 								<label for="20436">Frontier</label><br>
-								
-								<input type="checkbox" id="20409" name="airline" value="20409" checked="checked" class="box">
+
+								<input type="checkbox" id="20409 box" name="airline" value="20409" checked="checked" class="box">
 								<label for="20409">JetBlue</label><br>
 							</div>
-					
+
 							<div id="checkboxAirline">
 								<input type="checkbox" id="20304" name="airline" value="20304" checked="checked" class="box">
 								<label for="20304">SkyWest</label><br>
-							
+
 								<input type="checkbox" id="19393" name="airline" value="19393" checked="checked" class="box">
 								<label for="19393">Southwest</label><br>
 							
@@ -174,21 +177,21 @@
 							
 								<input type="checkbox" id="19977" name="airline" value="19977" checked="checked" class="box">
 								<label for="19977">United</label><br>
-							
-								<input type="checkbox" id="21171" name="airline" value="21171" checked="checked" class="box">
+
+								<input type="checkbox" id="21171 box" name="airline" value="21171" checked="checked" class="box">
 								<label for="21171">Virgin America</label><br>
-								
+
 								<input type="button" name="checkBtn" class="check" value="Uncheck All" id="checkAllBox" style="color:white">
 							</div>
 						</div>
 					</div>
 				</div>
 			</div>
-			
+
 			<div id="bottom">
 				<div id="mapDiv" class="col-sm-12 col-md-8 col-lg-8"></div>
 			</div>
-			
+
 			<div id="bottom">
 				<div id="side-panel-right" class="col-sm-12 col-md-2 col-lg-2">
 					<div class="row">
@@ -197,13 +200,12 @@
 							<div id="AirlineIcons" class="FadeContent"></div>
 							<div id="DelayMinutes" class="FlipContent"></div>
 						</div>
-						
-						<div id="legend" class="col-sm-6 col-md-12"></div>
+						<div id="legend-panel" class="col-sm-6 col-md-12"></div>
 					</div>
 				</div>
 			</div>
 		</div>
-	
+
 		<div class="row">
 			<footer class="site-footer">
 				<div class="container-footer">
@@ -218,7 +220,7 @@
 			</footer>
 		</div>
 	</div>
-	
+
 		<!--codes for overview box-->
 		<!-- Modal1 -->
 		<div class="modal fade" id="myModal1" role="dialog">
@@ -248,7 +250,7 @@
 						<h3 class="modal-title GeneralIntro1">Team Members:</h3>
 						<div class="Contact_Title">We are a tiny team of three awesome humans aiming at providing you the smartest itinerary solutions.</div>
 						<hr id="Division" class="sexy_line">
-						
+
 							<div class="row">
 								<div id="intro" class="Intro col-sm-12 col-md-6">
 									<img class="Pic" src="img/Chris.jpg">
@@ -259,7 +261,7 @@
 									<p class="description">Chris processed back-end databases and oversaw the entire project to guarantee we are doing great. When Chris is not processing data, people can usually find him chasing tornados across American midwest.</p>
 								</div>
 							</div>
-	
+
 							<div class="row">
 								<div id="intro" class="Intro col-sm-12 col-md-6">
 									<img class="Pic" src="img/Xinyi.jpg">
@@ -270,7 +272,7 @@
 									<p class="description">Xinyi created the interactive map and made sure the map is fully functional and responsive to users' demands. When Xinyi is not developing maps, people can usually find her walking around parks or shopping inside malls.</p>
 								</div>
 							</div>
-							
+
 							<div class="row">
 								<div id="intro" class="Intro col-sm-12 col-md-6">
 									<img class="Pic" src="img/Beichen.jpg">
@@ -281,14 +283,14 @@
 									<p class="description">Beichen designed the interface and map aesthetics to provide users an impressive user experience. When Beichen is not designing maps and interface, people can usually find him cooking delicious Asian food including dumplings, baos, buns, suhsi, and pokes.</p>
 								</div>
 							</div>
-							
+
 					</div>
 					<div class="modal-footer">
 						<button type="button" class="btn btn-default" data-dismiss="modal">Click Here to Back to the Map</button>
 					</div>
 				</div>
 			</div>
-		</div>		
+		</div>
 		<!--codes for tutorial box-->
 		<!-- Modal3 -->
 		<div class="modal fade" id="myModal3" role="dialog">
@@ -321,8 +323,8 @@
 		<img id="Spirit" class="IconImage" src="img/AirlineIcons/Spirit.png">
 		<img id="United" class="IconImage" src="img/AirlineIcons/United.png">
 		<img id="Virgin" class="IconImage" src="img/AirlineIcons/Virgin.png">
-		
-		<!--put your external script links here-->	
+
+		<!--put your external script links here-->
 		<script type="text/javascript" src="lib/jquery-3.1.1.js"></script>
 		<script type="text/javascript" src="lib/jRange/jquery.range.js"></script>
 		<script type="text/javascript" src="js/bootstrap.min.js"></script>
@@ -332,11 +334,12 @@
 		<script type="text/javascript" src="lib/topojson/topojson.js"></script>
 		<script type="text/javascript" src="lib/d3-geo-projection/d3-geo-projection.js"></script>
 		<script type="text/javascript" src="lib/d3-extended.min.js"></script>
+		<script type="text/javascript" src="lib/d3-legend.min.js"></script>
 		<script type="text/javascript" src="lib/awesomplete.min.js"></script>
 		<script type="text/javascript" src="lib/simple-statistics.min.js"></script>
 		<!--script type="text/javascript" src="lib/FlipClock/compiled/flipclock.js"></script-->
 		<script type="text/javascript" src="lib/jquery.splitflap.js"></script>
 		<script type="text/javascript" src="js/main.js"></script>
 </body>
-	
+
 </html>
