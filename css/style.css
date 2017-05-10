@@ -177,11 +177,8 @@ ul li:hover{
 	border-top:none;
 }
 
-
-
 #airlineTable td{
 	text-align:right;
-
     height: 100%;
     vertical-align: middle;
     border-top:0px;
