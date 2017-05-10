@@ -70,11 +70,11 @@
 							<div id="proportion-panel">
 								<h3 class="title">Symbolize By:</h3>
 								<div>
-									<input type="radio" id="percentage" name="proportional_symbol" value=1 checked>
+									<input type="radio" id="percentage" name="proportional_symbol" value=1 checked class="radioButton">
 									<label for="percentage">Percentage of Delay Flights</label>
 								</div>
 								<div>
-									<input type="radio" id="time" name="proportional_symbol" value=0>
+									<input type="radio" id="time" name="proportional_symbol" value=0 class="radioButton">
 									<label for="time">Average Delay Time</label>
 								</div>
 								<!--div class="resetter return_default1" title="Reset">
@@ -109,24 +109,27 @@
 						<div id="delay-panel" class="col-sm-3 col-md-12">
 							<h3 class="title">Show Types of Delay:</h3>
 							<div id="radioDelay">
-								<input type="radio" id="carrier" value="weather" name="delay">
+								<input type="radio" id="carrier" value="weather" name="delay" class="radioButton">
 								<label for="carrier">Air Carrier</label><br>
 
-								<input type="radio" id="weather" value="weather"  name="delay">
+							
+								<input type="radio" id="weather" value="weather" name="delay" class="radioButton">
 								<label for="weather">Weather</label><br>
+							
 
-								<input type="radio" id="security" value="security" name="delay">
+								<input type="radio" id="security" value="security" name="delay" class="radioButton">
 								<label for="security">Security</label><br>
 							</div>
 
 							<div id="radioDelay">
-								<input type="radio" id="aviation" value="nas" name="delay">
+								<input type="radio" id="aviation" value="nas" name="delay" class="radioButton">
 								<label for="aviation">National Aviation System</label><br>
 
-								<input type="radio" id="arriving_late" value="arriving_late" name="delay">
+							
+								<input type="radio" id="arriving_late" value="arriving_late" name="delay" class="radioButton">
 								<label for="arriving_late">Aircraft Arriving Late</label><br>
-
-								<input type="radio" id="all" name="delay" value="all" checked="checked">
+								
+								<input type="radio" id="all" name="delay" value="all" checked="checked" class="radioButton">
 								<label for="arriving_late">Show All</label><br>
 							</div>
 
@@ -140,42 +143,42 @@
 						<div id="airline-panel" class="col-sm-3 col-md-12">
 							<h3 class="title">Filter Airline(s):</h3>
 							<div id="checkboxAirline">
-								<input type="checkbox" id="19930 box" name="airline" value="19930" checked="checked">
+								<input type="checkbox" id="19930" name="airline" value="19930" checked="checked" class="box">
 								<label for="19930">Alaska</label><br>
-
-								<input type="checkbox" id="19805 box" name="airline" value="19805" checked="checked">
+							
+								<input type="checkbox" id="19805" name="airline" value="19805" checked="checked" class="box">
 								<label for="19805">American</label><br>
-
-								<input type="checkbox" id="19790 box" name="airline" value="19790" checked="checked">
+							
+								<input type="checkbox" id="19790" name="airline" value="19790" checked="checked" class="box">
 								<label for="19790">Delta</label><br>
-
-								<input type="checkbox" id="20398 box" name="airline" value="20398" checked="checked">
+							
+								<input type="checkbox" id="20398" name="airline" value="20398" checked="checked" class="box">
 								<label for="20398">Envoy</label><br>
-
-								<input type="checkbox" id="20366 box" name="airline" value="20366" checked="checked">
+							
+								<input type="checkbox" id="20366" name="airline" value="20366" checked="checked" class="box">
 								<label for="20366">ExpressJet</label><br>
-
-								<input type="checkbox" id="20436 box" name="airline" value="20436" checked="checked">
+							
+								<input type="checkbox" id="20436" name="airline" value="20436" checked="checked" class="box">
 								<label for="20436">Frontier</label><br>
 
-								<input type="checkbox" id="20409 box" name="airline" value="20409" checked="checked">
+								<input type="checkbox" id="20409 box" name="airline" value="20409" checked="checked" class="box">
 								<label for="20409">JetBlue</label><br>
 							</div>
 
 							<div id="checkboxAirline">
-								<input type="checkbox" id="20304 box" name="airline" value="20304" checked="checked">
+								<input type="checkbox" id="20304" name="airline" value="20304" checked="checked" class="box">
 								<label for="20304">SkyWest</label><br>
 
-								<input type="checkbox" id="19393 box" name="airline" value="19393" checked="checked">
+								<input type="checkbox" id="19393" name="airline" value="19393" checked="checked" class="box">
 								<label for="19393">Southwest</label><br>
-
-								<input type="checkbox" id="20416 box" name="airline" value="20416" checked="checked">
+							
+								<input type="checkbox" id="20416" name="airline" value="20416" checked="checked" class="box">
 								<label for="20416">Spirit</label><br>
-
-								<input type="checkbox" id="19977 box" name="airline" value="19977" checked="checked">
+							
+								<input type="checkbox" id="19977" name="airline" value="19977" checked="checked" class="box">
 								<label for="19977">United</label><br>
 
-								<input type="checkbox" id="21171 box" name="airline" value="21171" checked="checked">
+								<input type="checkbox" id="21171 box" name="airline" value="21171" checked="checked" class="box">
 								<label for="21171">Virgin America</label><br>
 
 								<input type="button" name="checkBtn" class="check" value="Uncheck All" id="checkAllBox" style="color:white">

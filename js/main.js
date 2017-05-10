@@ -1041,6 +1041,17 @@ $(".range-slider3").jRange({
 	snap:true
 })
 
+function activateButtons(){
+	$("button[name=submitBtn]").addClass("activated")
+	$("button[name=submitBtn]").removeClass("deactivated")
+	
+	$("button[name=resetBtn]").addClass("activated")
+	$("button[name=resetBtn]").removeClass("deactivated")
+}
+
+$(".pointer").on("click",activateButtons)
+$(".slider-container").on("click",activateButtons)
+
 //airline checkboxes
 $(document).ready(function() {
 	var checkBoxes = $("input[name=airline]");
@@ -1054,6 +1065,10 @@ $(".check").click(function() {
 		$(this).val("Check All")}
 	});
 });
+
+$(".check").on("click",activateButtons)
+$(".box").on("click",activateButtons)
+$(".radioButton").on("click",activateButtons)
 
 //create grayout background
 d3.select(".container2")

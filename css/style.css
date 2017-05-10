@@ -395,24 +395,29 @@ p.description{
 }
 
 /*styling for submit and reset buttons*/
+.activated{
+	background:linear-gradient(#6497b1,#005b96);
+}
+.activated:hover{
+	background:linear-gradient(#005b96,#6497b1);
+	cursor:pointer;
+}
+.deactivated{
+	background:gray;
+	opacity:0.65;
+}
+.deactivated:hover{
+	cursor:not-allowed;
+}
+
 #submit{
 	position:relative;
 	width:40%;
-	background:linear-gradient(#6497b1,#005b96);
-}
-
-#submit:hover{
-	background:linear-gradient(#005b96,#6497b1);
 }
 
 #return_default{
 	position:relative;
-	width:40%;	
-	background:linear-gradient(#6497b1,#005b96);
-}
-
-#return_default:hover{
-	background:linear-gradient(#005b96,#6497b1);
+	width:40%;
 }
 /*styling for submit and reset buttons ends*/
 
