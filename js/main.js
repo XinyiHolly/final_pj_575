@@ -22,31 +22,33 @@ function setMap(){
 	  , height = width * mapRatio;
 
 	function resize() {
-    // adjust things when the window size changes
-    width = $("#mapDiv").innerWidth();
-    width = width //- margin.left - margin.right;
-    height = width * mapRatio;
+	    // adjust things when the window size changes
+	    width = $("#mapDiv").innerWidth();
+	    width = width //- margin.left - margin.right;
+	    height = width * mapRatio;
 
-    // update projection
-    projection
-        .translate([width/2 , height/2])
-        .scale(width+300);
+	    // update projection
+	    projection
+	        .translate([width/2 , height/2])
+	        .scale(width+250);
 
-    // resize the map container
-    map
-        .style('width', width + 'px')
-        .style('height', height + 'px');
+	    // resize the map container
+	    map
+	        .style('width', width + 'px')
+	        .style('height', height + 'px')
+	        .style('overflow', 'visible');
 
-    // resize the map
-    map.selectAll('.states').attr('d', path);
-		if (cur_routes != null) {
-			lines(cur_routes);
-		}
-		if (cur_airports != null) {
-			updateAirportDelays(cur_airports);
-			clicked(cur_airport);
-		}
-  }
+
+	    // resize the map
+	    map.selectAll('.states').attr('d', path);
+			if (cur_routes != null) {
+				lines(cur_routes);
+			}
+			if (cur_airports != null) {
+				updateAirportDelays(cur_airports);
+				clicked(cur_airport);
+			}
+	}
 
     //map frame dimensions
     // var width = $("#mapDiv").innerWidth(),
@@ -87,7 +89,7 @@ function setMap(){
         //setFilterChangeEvents()
         populateAutocomplete();
         callAirports ();
-				resize();
+		resize();
 
         $("button[name=submitBtn]" ).on("click",function(){
         	console.log("here")

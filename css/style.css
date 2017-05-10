@@ -441,6 +441,7 @@ p.description{
 .map{
 	/*width:100%;*/
 	fill: #7f9db7;
+	overflow:visible;
 }
 
 /*.states{
