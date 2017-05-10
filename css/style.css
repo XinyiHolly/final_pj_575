@@ -441,18 +441,21 @@ p.description{
 	/*width:100%;*/
 }
 
-.states{
+/*.states{
     fill-opacity: 0;
     stroke: #666666;
 	stroke-width: 0.4px;
 	stroke-linecap:round;
 	stroke:rgb(0,0,0,0.6);
-}
+}*/
 
-.regions {
-    stroke:#fcfcfc;
-    stroke-width: 0.5px;
-    stroke-linecap: round;
+.states{
+	fill: #e5e5e5;
+    fill-opacity: 1;
+    stroke: #ffffff;
+	stroke-width: 0.4px;
+	stroke-linecap:round;
+	stroke:rgb(0,0,0,0.6);
 }
 
 #resultsFiltersDiv {

@@ -273,12 +273,12 @@ function updateAirportDelays(airports){
 				}
 			})
 			// .style("fill",'blue')
-			.style("fill-opacity",'0.2')
+			.style("fill-opacity",'0.9')
 			//Add airport events for click and highlight
 			.on("click", function (d) {
-        clicked(d);
+        		clicked(d);
 				callRoutes(d.origincode);
-				updatePanel(d)
+				updatePanel(d);
 			})
 			.on("mouseover", function(d){
 				highlightAirport(d);
@@ -492,31 +492,6 @@ function updatePanel(airports){
 };
 */
 
-//Returns the radius given predefined classes
-function scaleAirportDelay(val){
-	if (params.type == 1){ //Percent delayed
-		if (val <= 25){
-			return 4;
-		}else if(val <= 50){
-			return 8;
-		}else if(val <= 75){
-			return 16;
-		}else{
-			return 32;
-		}
-	}else{//Avg delay time
-		if (val <= 10){
-			return 4;
-		}else if(val <= 30){
-			return 8;
-		}else if(val <= 60){
-			return 16;
-		}else{
-			return 32;
-		}
-	}
-}
-
 //function to highlight enumeration units and bars
 function highlightAirport(prop){
 	  var opacity = "0.9";
@@ -527,10 +502,8 @@ function highlightAirport(prop){
 	  }
     //change stroke
     var selected = d3.selectAll(".airports_" + prop.origincode)
-        // .style("fill", function(){
-        //     return getStyle(this, "fill")
-        // })
-				.style("fill-opacity", opacity)
+		//.style("fill-opacity", opacity)
+		.attr('stroke-width', 10)
         .moveToFront();
 
     //call set label
@@ -605,7 +578,7 @@ function clicked(data){
 			.remove();
 
 	var selected = d3.selectAll("circle")
-			.style("fill-opacity", "0.3")
+			.style("fill-opacity", "0.9")
 		  .append("desc")
 			  .attr("class", function(d) { return ("click_" + d.origincode)})
 		    .text('{"clicked": "false"}');
@@ -627,7 +600,7 @@ function clicked(data){
 
 //function to reset the element style on mouseout
 function dehighlightAirport(code){
-	  var opacity = "0.3";
+	  var opacity = "0.9";
 	  d3.select(".infolabel")
 			  .remove();
 	  var clickedText = d3.selectAll(".click_" + code).text();
@@ -637,10 +610,8 @@ function dehighlightAirport(code){
 	  }
 
 		var selected = d3.selectAll(".airports_" + code)
-				// .style("fill", function(){
-				//     return getStyle(this, "fill")
-				// })
-				.style("fill-opacity", opacity);
+				//.style("fill-opacity", opacity);
+				.attr('r',7);
 
 		function getStyle(element, styleName){
 				var styleText = d3.select(element)
