@@ -74,6 +74,10 @@
     }
 /*loader codes end*/
 
+.defaultL{
+	width:180%;
+}
+
 #main-element{
 	font-family:Gill Sans MT;
 }
@@ -454,6 +458,7 @@ p.description{
 	fill: #7f9db7;
 	overflow:visible;
 	color:black;
+
 }
 
 /*.states{

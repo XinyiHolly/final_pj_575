@@ -44,9 +44,7 @@ function setMap(){
 			if (cur_routes != null) {
 				lines(cur_routes);
 			}
-			if (cur_airports != null) {
-				updateAirportDelays(cur_airports);
-			}			
+			updateAirportDelays(cur_airports);	
 			if (cur_airport != null) {
 				clicked(cur_airport);
 			}
@@ -323,6 +321,7 @@ function updatePanel(prop){
 		token = "Average";
 	}
 
+
 	windowAttribute += "<h4>" + token + " delayed: " + prop.stats.delayed + datatype + "</h4></b><table id='airlineTable' class='table'>";
 
 	for (i=0; i<airlineArray.length; i++) {
@@ -430,6 +429,10 @@ function unclickedAll(){
 
 	d3.selectAll(".arcs")
 			.remove();
+
+  
+  
+ 
 	d3.select(".infolabel")
 			.remove();
 	d3.select(".infowindow")
@@ -445,29 +448,6 @@ function unclickedAll(){
 			.style("stroke-width",1.3)
 			.style("stroke-opacity",'0.6')
 			.attr('r', 7)
-			.append("desc")
-			  .attr("class", function(d) { return ("click_" + d.origincode)})
-			  .text('{"clicked": "false"}');
-}
-
-//clicked one airport
-function clicked(data){
-	var airlineArray;
-	for (var i=0; i<cur_routes; i++) {
-		airlineArray[i] = cur_routes[i].name;
-	}
-	var selected = d3.selectAll("circle")
-			// .style("fill-opacity", function(d) {
-      //   if (airlineArray.include(d.originname)) {
-			// 		return 0.9;
-			// 	}
-			// 	else return 0.2;
-			// })
-			.style("fill-opacity",0.9)
-			.style("stroke",'#ffffff')
-			.style("stroke-width",1.3)
-			.style("stroke-opacity",'0.6')
-			.attr('r', 7);
 
   cur_airport = data;
 	d3.select(".infolabel")
@@ -705,6 +685,7 @@ function makeColorScale(data){
 //Make legend
 function legend(colorScale){
 	d3.select("#legend").remove()
+
 	// d3.select("#legend-panel")
 	// 		.append("svg")
 	// 		.attr("class", "legend-svg")
@@ -725,8 +706,7 @@ function legend(colorScale){
 	}
 	svg.append("g")
 	 	.attr("class", "legend")
-	  	.attr("transform", "translate(20,"+h+")")
-
+	  .attr("transform", "translate(20,"+h+")")
 
 
 	var legend = d3.legendColor()
@@ -896,9 +876,12 @@ d3.select(".container2")
 		$(window).on("resize",function(){
 			if ($(window).width()<992){
 				$("#side-panel").appendTo("#bottom");
-				//console.log("HERE")
+				$("#side-panel-right").appendTo("#top");
+				$("#airport_search").removeClass("defaultL");
+				$("#airport_search").width("135%");
 			} else{
 				$("#side-panel").prependTo("#bottom");
+				$("#side-panel-right").prependTo("#top");
 			}
 		})
 	})
