@@ -170,9 +170,15 @@ function requestAirports(){
 	}).get();
 
     callAirports();
+		if (cur_airports != null) {
+			updateAirportDelays(cur_airports);
+		}
 		if (cur_routes != null) {
 			callRoutes(cur_airport.origincode);
 			lines(cur_routes);
+		}		
+		if (cur_airport != null) {
+			clicked(cur_airport);
 		}
 }
 
@@ -337,8 +343,41 @@ function updatePanel(prop){
 		token = "Average";
 	}
 
+	var number;
 
-	windowAttribute += "<h4>" + token + " delayed: " + prop.stats.delayed + datatype + "</h4></b><table id='airlineTable' class='table'>";
+	if (params.delay == 'carrier'){
+		number = prop.stats.carrierd;
+		airlineArray.sort(function(a, b) {
+		    return parseFloat(a.carrierd) - parseFloat(b.carrierd);
+		});
+	}else if(params.delay == 'weather'){
+		number = prop.stats.weatherd;
+		airlineArray.sort(function(a, b) {
+		    return parseFloat(a.weatherd) - parseFloat(b.weatherd);
+		});
+	}else if(params.delay == 'security'){
+		number = prop.stats.securityd;
+		airlineArray.sort(function(a, b) {
+		    return parseFloat(a.securityd) - parseFloat(b.securityd);
+		});
+	}else if(params.delay == 'nas'){
+		number = prop.stats.nasd;
+		airlineArray.sort(function(a, b) {
+		    return parseFloat(a.nasd) - parseFloat(b.nasd);
+		});
+	}else if(params.delay == 'lateaircraft'){
+		number = prop.stats.lateaircraftd;
+		airlineArray.sort(function(a, b) {
+		    return parseFloat(a.lateaircraftd) - parseFloat(b.lateaircraftd);
+		});
+	}else{
+		number = prop.stats.delayed;
+		airlineArray.sort(function(a, b) {
+		    return parseFloat(a.delayed) - parseFloat(b.delayed);
+		});
+	}
+
+	windowAttribute += "<h4>" + token + " delayed: " + number + datatype + "</h4></b><table id='airlineTable' class='table'>";
 
 	for (i=0; i<airlineArray.length; i++) {
 		var airline = airlineArray[i].name;
@@ -430,16 +469,6 @@ function retrieveInforPanel(prop){
         .attr("id", prop.origincode + "_label")
         .html(labelAttribute);
 };
-
-function contains(obj) {
-	var i = this.length;
-    while (i--) {
-      if (this[i] == obj) {
-        return true;
-      }
-    }
-  return false;
-}
 
 function unclickedAll(){
 
