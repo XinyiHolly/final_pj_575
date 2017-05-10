@@ -377,15 +377,13 @@ function updatePanel(prop){
 		});
 	}
 
-	windowAttribute += "<h4>" + token + " delayed: " + number + datatype + "</h4></b><table id='airlineTable' class='table'>";
-
+	windowAttribute += "<h4>" + token + " delayed: " + prop.stats.delayed + datatype + "</h4></b><div id='update-panel'>";
+	
 	for (i=0; i<airlineArray.length; i++) {
 		var airline = airlineArray[i].name;
-		windowAttribute += "<h5><tr><td><img class='IconImage' title='" + airline + "' src='img/AirlineIcons/" + airline + ".png'></td>" + "<td>" + airlineArray[i].delayed + datatype + "&nbsp" + "delayed</td></tr>";
+		windowAttribute += "<h5><div class='row col-sm-1 col-md-12' style='margin-top:5%;margin-left:3%;'><div id='AirlineIcons' class='col-sm-12 col-md-6'><img class='IconImage' title='" + airline + "' src='img/AirlineIcons/" + airline + ".png'></div>" + "<div id='DelayMinutes' class='col-sm-12 col-md-6'>" + airlineArray[i].delayed + datatype + "&nbsp" + "delayed</div></div>";
 	}
-	windowAttribute += "</h5></table><b></b>"
-
-	$("img").fadeIn(350)
+	windowAttribute += "</h5></div><b></b>"
 
 	//create info label div
 	var infowindow = d3.select("#update-panel")
@@ -701,10 +699,10 @@ function makeColorScale(data){
         // "#fdae6b",
         // "#fd8d3c",
         // "#e6550d",
-        "#fef0d9",
-        "#fdcc8a",
-        "#fc8d59",
-        "#d7301f"
+		"#fecc5c",
+		"#fd8d3c",
+		"#f03b20",
+		"#bd0026"
     ];
 
     //create color scale generator
@@ -945,7 +943,7 @@ d3.select(".container2")
 				$("#airport_search").width("135%");
 			} else{
 				$("#side-panel").prependTo("#bottom");
-				$("#side-panel-right").prependTo("#top");
+				$("#side-panel-right").appendTo("#bottom");
 			}
 		})
 	})
