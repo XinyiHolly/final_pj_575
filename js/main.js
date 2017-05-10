@@ -46,7 +46,7 @@ function setMap(){
 			}
 			if (cur_airports != null) {
 				updateAirportDelays(cur_airports);
-			}			
+			}
 			if (cur_airport != null) {
 				clicked(cur_airport);
 			}
@@ -136,6 +136,7 @@ function populateAutocomplete(){
 	//Add events for displaying routes and clearing search window
 	input.addEventListener('awesomplete-selectcomplete', function (e) {
 		callRoutes(e.target.value);
+		callAirport(e.target.value);
 		e.target.value = null;
 	}, false);
 }
@@ -173,6 +174,17 @@ function requestAirports(){
 			callRoutes(cur_airport.origincode);
 			lines(cur_routes);
 		}
+}
+
+function callAirport (dest){
+	//Do ajax call
+	for (var i=0; i<cur_airports.length; i++) {
+		if (cur_airports[i].origincode == dest) {
+			cur_airport = cur_airports[i];
+			break;
+		}
+	}
+	updatePanel(cur_airport);
 }
 
 function callAirports (){
