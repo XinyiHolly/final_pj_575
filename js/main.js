@@ -510,7 +510,7 @@ function highlightColor(code){
 				.style("stroke",'#ffffff')
 				.style("stroke-width",1.3)
 				.style("stroke-opacity",'0.6')
-				.style('r', 10)
+				.attr('r', 10)
         .moveToFront();
 };
 
@@ -572,24 +572,26 @@ function clicked(data){
 	var click_desc = d3.selectAll("desc")
 			.remove();
 
-	var selected = d3.selectAll("circle")
-			//.style("fill-opacity", "0.9")
-		  .append("desc")
-			  .attr("class", function(d) { return ("click_" + d.origincode)})
-		    .text('{"clicked": "false"}');
+  if (data != null) {
+		var selected = d3.selectAll("circle")
+				//.style("fill-opacity", "0.9")
+			  .append("desc")
+				  .attr("class", function(d) { return ("click_" + d.origincode)})
+			    .text('{"clicked": "false"}');
 
-	d3.selectAll(".click_" + data.origincode)
-	    .remove();
+		d3.selectAll(".click_" + data.origincode)
+		    .remove();
 
-	d3.selectAll(".airports_" + data.origincode)
-			.append("desc")
-			  .attr("class", "click_" + data.origincode)
-				.text('{"clicked": "true"}');
+		d3.selectAll(".airports_" + data.origincode)
+				.append("desc")
+				  .attr("class", "click_" + data.origincode)
+					.text('{"clicked": "true"}');
 
-	var clickedText = d3.selectAll(".click_" + data.origincode).text();
-	var clickedObj = JSON.parse(clickedText);
-	if (clickedObj["clicked"] == "true") {
-			highlightColor(data.origincode);
+		var clickedText = d3.selectAll(".click_" + data.origincode).text();
+		var clickedObj = JSON.parse(clickedText);
+		if (clickedObj["clicked"] == "true") {
+				highlightColor(data.origincode);
+		}
 	}
 }
 
