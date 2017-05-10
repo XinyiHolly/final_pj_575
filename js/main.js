@@ -301,7 +301,8 @@ function updateAirportDelays(airports){
 	circles.selectAll("circle")
     .append("desc")
 		.attr("class", function(d) { return ("style_" + d.origincode)})
-		.text('{"fill": "' + originColor + '", "stroke-width": "0.5px", "stroke-opacity": "0.65"}');
+		.text('{"fill": "' + originColor + '", "stroke-width": "0.5px", "stroke-opacity": "0.65"}')
+		.text('{"clicked": "false"}');
 }
 
 //Update the panel with airport delay information
@@ -724,7 +725,7 @@ function legend(colorScale){
 	svg.append("g")
 	 	.attr("class", "legend")
 	  	.attr("transform", "translate(20,"+h+")")
-	
+
 
 
 	var legend = d3.legendColor()
