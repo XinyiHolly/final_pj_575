@@ -135,7 +135,7 @@ function populateAutocomplete(){
 	});
 	//Add events for displaying routes and clearing search window
 	input.addEventListener('awesomplete-selectcomplete', function (e) {
-		callRoutes(e.target.value);
+		//callRoutes(e.target.value);
 		callAirport(e.target.value);
 		e.target.value = null;
 	}, false);
@@ -184,6 +184,8 @@ function callAirport (dest){
 			break;
 		}
 	}
+	clicked(cur_airport);
+	callRoutes(dest);
 	updatePanel(cur_airport);
 }
 
