@@ -4,6 +4,7 @@
 var map,projection;
 var params = {}; //object for storing filter params
 var autocomplete; //used for updating the list
+var cur_airports, cur_routes, cur_airport;
 //Delay APIs
 var airportsURL = 'http://144.92.235.47:4040/airports'
 var routesURL = 'http://144.92.235.47:4040/routes'
@@ -38,8 +39,14 @@ function setMap(){
 
     // resize the map
     map.selectAll('.states').attr('d', path);
-    map.selectAll('.circles').attr('d', path);
-}
+		if (cur_routes != null) {
+			lines(cur_routes);
+		}
+		if (cur_airports != null) {
+			updateAirportDelays(cur_airports);
+			clicked(cur_airport);
+		}
+  }
 
     //map frame dimensions
     // var width = $("#mapDiv").innerWidth(),
@@ -76,16 +83,17 @@ function setMap(){
         setStateOverlay(states_topo, map, path);
         setParams();
         d3.select(window).on('resize', resize);
-        resize()
+        //resize()
         //setFilterChangeEvents()
         populateAutocomplete();
         callAirports ();
+				resize();
 
         $("button[name=submitBtn]" ).on("click",function(){
         	console.log("here")
         	$(".loader").show();
         	requestAirports();
-			
+
 		});
 
 		$("button[name=resetBtn]").on("click",function(){
@@ -171,8 +179,9 @@ function callAirports (){
         },
         dataType: 'json',
         success: function(data,prop) {
-            updateAirportDelays(data.data,params.delay,prop);
+            updateAirportDelays(data.data);
             autocomplete.list = data.data;
+						cur_airports = data.data;
 			$('.loader').fadeOut(800);
         },
         type: 'GET'
@@ -198,14 +207,15 @@ function callRoutes(destination){
 		},
 		dataType: 'json',
 		success: function(data) {
-			drawLinesOut();
-			lines(data.data,params.delay)
+			lines(data.data);
+			cur_routes = data.data;
 		},
 		type: 'GET'
 	});
 }
 
-function updateAirportDelays(airports,delayType,prop){
+function updateAirportDelays(airports){
+	var delayType = params.delay;
 	for (i = 0; i < airports.length; i++) {
 		var location = [+airports[i].lng, +airports[i].lat];
 		var position = projection(location);
@@ -269,7 +279,6 @@ function updateAirportDelays(airports,delayType,prop){
         clicked(d);
 				callRoutes(d.origincode);
 				updatePanel(d)
-
 			})
 			.on("mouseover", function(d){
 				highlightAirport(d);
@@ -589,7 +598,7 @@ function retrieveInforPanel(prop){
 
 //dehighlight all airports
 function clicked(data){
-
+  cur_airport = data;
 	d3.select(".infolabel")
 			.remove();
 	var click_desc = d3.selectAll("desc")
@@ -672,7 +681,9 @@ function drawLinesOut(){
 	d3.selectAll(".arc").remove();
 };
 
-function lines(routes,delayType){
+function lines(routes){
+	var delayType = params.delay;
+	drawLinesOut();
 	//Make color scale
 	var colorScale = makeColorScale(routes)
 	//what follows is based on: http://bl.ocks.org/enoex/6201948
