@@ -74,6 +74,10 @@
     }
 /*loader codes end*/
 
+.defaultL{
+	width:180%;
+}
+
 #main-element{
 	font-family:Gill Sans MT;
 }
@@ -167,19 +171,23 @@ ul li:hover{
 
 /*hide all the airline icon images by default*/
 .IconImage{
-	width:70%;
-	height:70%;
+    height: auto;
+    width:auto;
+    max-height: 50px;
+    max-width:50px;
+}
+/*
+#airlineTable{
+	border-top:none;
 }
 
-#tableRow1{
-	text-align:center;
-	width:30%;
+#airlineTable td{
+	text-align:right;
+    height: 100%;
+    vertical-align: middle;
+    border-top:0px;
 }
-
-#tableRow2{
-	text-align:left;
-	width:50%;
-}
+*/
 
 #navbar{
 	margin-bottom:0;
@@ -443,24 +451,30 @@ p.description{
 	/*margin-top:-10%;*/
 	/*left:-5%;*/
 	margin-top:1%;
+	background-color: white;
 }
 
 .map{
 	/*width:100%;*/
+	fill: #7f9db7;
+	overflow:visible;
 }
 
-.states{
+/*.states{
     fill-opacity: 0;
     stroke: #666666;
 	stroke-width: 0.4px;
 	stroke-linecap:round;
 	stroke:rgb(0,0,0,0.6);
-}
+}*/
 
-.regions {
-    stroke:#fcfcfc;
-    stroke-width: 0.5px;
-    stroke-linecap: round;
+.states{
+	fill: #dcdcdc;
+    fill-opacity: 1;
+    stroke: #ffffff;
+	stroke-width: 0.75px;
+	stroke-linecap:round;
+	stroke:rgb(0,0,0,0.6);
 }
 
 #resultsFiltersDiv {
@@ -497,23 +511,24 @@ p.description{
 .arc {
     fill: none;
     stroke: #252525;
-	stroke-opacity: 0.5;
+	stroke-opacity: 0.7;
     stroke-linejoin: round;
     cursor: pointer;
 }
 
 .infolabel {
     position: absolute;
-    min-height: 50px;
-    min-width: 100px;
+    min-height: 20px;
+    min-width: 50px;
     max-width: 200px;
     border: solid thin black;
     border-radius: 10px;
     color: black;
     background-color: white;
     opacity:0.9;
-    padding: 5px 10px;
+    padding: 2px 2px;
     top: -75px;
+    text-align: center;
 }
 
 .h4 {

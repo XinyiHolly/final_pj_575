@@ -22,35 +22,33 @@ function setMap(){
 	  , height = width * mapRatio;
 
 	function resize() {
-    // adjust things when the window size changes
-    width = $("#mapDiv").innerWidth();
-    width = width //- margin.left - margin.right;
-    height = width * mapRatio;
+	    // adjust things when the window size changes
+	    width = $("#mapDiv").innerWidth();
+	    width = width //- margin.left - margin.right;
+	    height = width * mapRatio;
 
-    // update projection
-    projection
-        .translate([width/2 , height/2])
-        .scale(width+300);
+	    // update projection
+	    projection
+	        .translate([width/2 , height/2])
+	        .scale(width+250);
 
-    // resize the map container
-    map
-        .style('width', width + 'px')
-        .style('height', height + 'px');
+	    // resize the map container
+	    map
+	        .style('width', width + 'px')
+	        .style('height', height + 'px')
+	        .style('overflow', 'visible');
 
-    // resize the map
-    map.selectAll('.states').attr('d', path);
-		if (cur_routes != null) {
-			lines(cur_routes);
-		}
-		if (cur_airports != null) {
-			updateAirportDelays(cur_airports);
-			clicked(cur_airport);
-		}
-  }
 
-    //map frame dimensions
-    // var width = $("#mapDiv").innerWidth(),
-    //     height =850;
+	    // resize the map
+	    map.selectAll('.states').attr('d', path);
+			if (cur_routes != null) {
+				lines(cur_routes);
+			}
+			if (cur_airports != null) {
+				updateAirportDelays(cur_airports);
+				clicked(cur_airport);
+			}
+	}
 
     //create new svg container for the map
     map = d3.select("#mapDiv")
@@ -236,21 +234,7 @@ function updateAirportDelays(airports){
 			.attr("class", function(d) { return ("airports_" + d.origincode)})
 			.attr('cx', function(d) { return d.position[0]})
 			.attr('cy', function(d) { return d.position[1]})
-			.attr("r", 7)//function(d) {
-				// if (delayType == 'carrierd'){
-				// 	return scaleAirportDelay(d.stats.carrierd);
-				// }else if(delayType == 'weatherd'){
-				// 	return scaleAirportDelay(d.stats.weatherd);
-				// }else if(delayType == 'securityd'){
-				// 	return scaleAirportDelay(d.stats.securityd);
-				// }else if(delayType == 'nasd'){
-				// 	return scaleAirportDelay(d.stats.nasd);
-				// }else if(delayType == 'lateaircraftd'){
-				// 	return scaleAirportDelay(d.stats.lateaircraftd);
-				// }else{
-				// 	return scaleAirportDelay(d.stats.delayed);
-				// }
-			//})
+			.attr("r", 7)
 			.style("fill",function(d){
 				if (delayType == 'carrierd'){
 					originColor = colorScale(d.stats.carrierd);
@@ -272,11 +256,14 @@ function updateAirportDelays(airports){
 					return originColor;
 				}
 			})
-			// .style("fill",'blue')
-			.style("fill-opacity",'0.2')
+			.style("fill-opacity",'0.9')
+			.style("stroke",'#ffffff')
+			.style("stroke-width",1.3)
+			.style("stroke-opacity",'0.6')
+
 			//Add airport events for click and highlight
 			.on("click", function (d) {
-        clicked(d);
+				clicked(d);
 				callRoutes(d.origincode);
 				updatePanel(d);
 			})
@@ -287,19 +274,19 @@ function updateAirportDelays(airports){
 				$(this).css("cursor","pointer");
 			})
 			.on("mouseout", function(d){
-        dehighlightAirport(d.origincode);
+				dehighlightAirport(d.origincode);
 				// else highlightColor(d);
 			})
-      .on("mousemove", moveLabel)
-      // append explaining desc
+			.on("mousemove", moveLabel)
+      		// append explaining desc
 			.append("desc")
 			    .attr("class", function(d) { return ("click_" + d.origincode)})
-          .text('{"clicked": "false"}')
+			.text('{"clicked": "false"}')
 
 	circles.selectAll("circle")
     .append("desc")
-	  .attr("class", function(d) { return ("style_" + d.origincode)})
-    .text('{"fill": "' + originColor + '", "stroke-width": "0.5px", "stroke-opacity": "0.65"}');
+		.attr("class", function(d) { return ("style_" + d.origincode)})
+		.text('{"fill": "' + originColor + '", "stroke-width": "0.5px", "stroke-opacity": "0.65"}');
 }
 
 //Update the panel with airport delay information
@@ -320,17 +307,13 @@ function updatePanel(prop){
 		token = "Average";
 	}
 
-	windowAttribute += "<h4>" + token + " delayed: " + prop.stats.delayed + datatype + "</h4></b>";
+	windowAttribute += "<h4>" + token + " delayed: " + prop.stats.delayed + datatype + "</h4></b><div id='update-panel' class='col-sm-1 col-md-12'>";
 
 	for (i=0; i<airlineArray.length; i++) {
 		var airline = airlineArray[i].name;
-		windowAttribute += "<table id='airlineTable'><h5><tr><td id='tableRow1'><img class='IconImage' title='" + airline + "' src='img/AirlineIcons/" + airline + ".png'></td>" + "<td id='tableRow2'>" + airlineArray[i].delayed + datatype + "&nbsp" + "delayed</td></tr></h5></table><b></b>";
-		/*
-		windowAttribute += "<h5><div><img class='IconImage' src='img/AirlineIcons/" + airline + ".png'></div>" + airlineArray[i].name + ":&nbsp" + airlineArray[i].delayed + datatype + "&nbsp" + "delayed</h5><b></b>";
-		*/
+		windowAttribute += "<div class='row'><h5><div class='col-md-6'><img class='IconImage' title='" + airline + "' src='img/AirlineIcons/" + airline + ".png'></div>" + "<div class='col-md-6'>" + airlineArray[i].delayed + datatype + "&nbsp" + "delayed</div></div>";
 	}
-	
-	$("img").fadeIn(350)
+	windowAttribute += "</h5></div><b></b>"
 	
 	//create info label div
 	var infowindow = d3.select("#update-panel")
@@ -338,137 +321,6 @@ function updatePanel(prop){
 			.attr("class", "infowindow")
 			.html(windowAttribute);
 };
-
-	/*
-	for (i=0; i<airlineArray.length; i++) {
-		if (airlineArray[i].name=="Alaska"){
-			updateContent+="<div id='AirlineIcons' class='FadeContent'><img class='IconImage' src='img/AirlineIcons/Alaska.png'></div>";
-			updateContent+="<div id='DelayMinutes' class='FlipContent'>airlineArray[i].delayed + datatype + '&nbsp' + 'delayed'</div>";
-			$(".FadeContent").fadeIn(350);
-			$(".FlipContent").splitFlap();
-		}
-		else if (airlineArray[i].name=="American"){
-			updateContent+="<div id='AirlineIcons' class='FadeContent'><img class='IconImage' src='img/AirlineIcons/American.png'></div>";
-			updateContent+="<div id='DelayMinutes' class='FlipContent'>airlineArray[i].delayed + datatype + '&nbsp' + 'delayed'</div>";
-			$(".FadeContent").fadeIn(350);
-			$(".FlipContent").splitFlap();
-		}
-		else if (airlineArray[i].name=="Delta"){
-			updateContent+="<div id='AirlineIcons' class='FadeContent'><img class='IconImage' src='img/AirlineIcons/Delta.png'></div>";
-			updateContent+="<div id='DelayMinutes' class='FlipContent'>airlineArray[i].delayed + datatype + '&nbsp' + 'delayed'</div>";
-			$(".FadeContent").fadeIn(350);
-			$(".FlipContent").splitFlap();
-		}
-		else if (airlineArray[i].name=="Envoy"){
-			updateContent+="<div id='AirlineIcons' class='FadeContent'><img class='IconImage' src='img/AirlineIcons/Envoy.png'></div>";
-			updateContent+="<div id='DelayMinutes' class='FlipContent'>airlineArray[i].delayed + datatype + '&nbsp' + 'delayed'</div>";
-			$(".FadeContent").fadeIn(350);
-			$(".FlipContent").splitFlap();
-		}
-		else if (airlineArray[i].name=="ExpressJet"){
-			updateContent+="<div id='AirlineIcons' class='FadeContent'><img class='IconImage' src='img/AirlineIcons/ExpressJet.png'></div>";
-			updateContent+="<div id='DelayMinutes' class='FlipContent'>airlineArray[i].delayed + datatype + '&nbsp' + 'delayed'</div>";
-			$(".FadeContent").fadeIn(350);
-			$(".FlipContent").splitFlap();
-		}
-		else if (airlineArray[i].name=="Frontier"){
-			updateContent+="<div id='AirlineIcons' class='FadeContent'><img class='IconImage' src='img/AirlineIcons/Frontier.png'></div>";
-			updateContent+="<div id='DelayMinutes' class='FlipContent'>airlineArray[i].delayed + datatype + '&nbsp' + 'delayed'</div>";
-			$(".FadeContent").fadeIn(350);
-			$(".FlipContent").splitFlap();
-		}
-		else if (airlineArray[i].name=="Jetblue"){
-			updateContent+="<div id='AirlineIcons' class='FadeContent'><img class='IconImage' src='img/AirlineIcons/Jetblue.png'></div>";
-			updateContent+="<div id='DelayMinutes' class='FlipContent'>airlineArray[i].delayed + datatype + '&nbsp' + 'delayed'</div>";
-			$(".FadeContent").fadeIn(350);
-			$(".FlipContent").splitFlap();
-		}
-		else if (airlineArray[i].name=="Skywest"){
-			updateContent+="<div id='AirlineIcons' class='FadeContent'><img class='IconImage' src='img/AirlineIcons/Skywest.png'></div>";
-			updateContent+="<div id='DelayMinutes' class='FlipContent'>airlineArray[i].delayed + datatype + '&nbsp' + 'delayed'</div>";
-			$(".FadeContent").fadeIn(350);
-			$(".FlipContent").splitFlap();
-		}
-		else if (airlineArray[i].name=="Southwest"){
-			updateContent+="<div id='AirlineIcons' class='FadeContent'><img class='IconImage' src='img/AirlineIcons/Southwest.png'></div>";
-			updateContent+="<div id='DelayMinutes' class='FlipContent'>airlineArray[i].delayed + datatype + '&nbsp' + 'delayed'</div>";
-			$(".FadeContent").fadeIn(350);
-			$(".FlipContent").splitFlap();
-		}
-		else if (airlineArray[i].name=="Spirit"){
-			updateContent+="<div id='AirlineIcons' class='FadeContent'><img class='IconImage' src='img/AirlineIcons/Spirit.png'></div>";
-			updateContent+="<div id='DelayMinutes' class='FlipContent'>airlineArray[i].delayed + datatype + '&nbsp' + 'delayed'</div>";
-			$(".FadeContent").fadeIn(350);
-			$(".FlipContent").splitFlap();
-		}
-		else if (airlineArray[i].name=="United"){
-			updateContent+="<div id='AirlineIcons' class='FadeContent'><img class='IconImage' src='img/AirlineIcons/United.png'></div>";
-			updateContent+="<div id='DelayMinutes' class='FlipContent'>airlineArray[i].delayed + datatype + '&nbsp' + 'delayed'</div>";
-			$(".FadeContent").fadeIn(350);
-			$(".FlipContent").splitFlap();
-		}
-		else if (airlineArray[i].name=="Virgin"){
-			updateContent+="<div id='AirlineIcons' class='FadeContent'><img class='IconImage' src='img/AirlineIcons/Virgin.png'></div>";
-			updateContent+="<div id='DelayMinutes' class='FlipContent'>airlineArray[i].delayed + datatype + '&nbsp' + 'delayed'</div>";
-			$(".FadeContent").fadeIn(350);
-			$(".FlipContent").splitFlap();
-		}
-	}
-	*/
-
-
-	/*
-	for (i=0; i<airlineArray.length; i++) {
-		if (airlineArray[i].name=="Alaska"){
-			$("#AirlineIcons").append("<img class='IconImage' src='img/AirlineIcons/Alaska.png'>").fadeIn(350);
-			$("#DelayMinutes").append(airlineArray[i].delayed + datatype + "&nbsp" + "delayed").splitFlap();
-		}
-		else if (airlineArray[i].name=="American"){
-			$("#AirlineIcons").append("<img class='IconImage' src='img/AirlineIcons/American.png'>").fadeIn(350);
-			$("#DelayMinutes").append(airlineArray[i].delayed + datatype + "&nbsp" + "delayed").splitFlap();
-		}
-		else if (airlineArray[i].name=="Delta"){
-			$("#AirlineIcons").append("<img class='IconImage' src='img/AirlineIcons/Delta.png'>").fadeIn(350);
-			$("#DelayMinutes").append(airlineArray[i].delayed + datatype + "&nbsp" + "delayed").splitFlap();
-		}
-		else if (airlineArray[i].name=="Envoy"){
-			$("#AirlineIcons").append("<img class='IconImage' src='img/AirlineIcons/Envoy.png'>").fadeIn(350);
-			$("#DelayMinutes").append(airlineArray[i].delayed + datatype + "&nbsp" + "delayed").splitFlap();
-		}
-		else if (airlineArray[i].name=="ExpressJet"){
-			$("#AirlineIcons").append("<img class='IconImage' src='img/AirlineIcons/ExpressJet.png'>").fadeIn(350);
-			$("#DelayMinutes").append(airlineArray[i].delayed + datatype + "&nbsp" + "delayed").splitFlap();
-		}
-		else if (airlineArray[i].name=="Frontier"){
-			$("#AirlineIcons").append("<img class='IconImage' src='img/AirlineIcons/Frontier.png'>").fadeIn(350);
-			$("#DelayMinutes").append(airlineArray[i].delayed + datatype + "&nbsp" + "delayed").splitFlap();
-		}
-		else if (airlineArray[i].name=="Jetblue"){
-			$("#AirlineIcons").append("<img class='IconImage' src='img/AirlineIcons/Jetblue.png'>").fadeIn(350);
-			$("#DelayMinutes").append(airlineArray[i].delayed + datatype + "&nbsp" + "delayed").splitFlap();
-		}
-		else if (airlineArray[i].name=="Skywest"){
-			$("#AirlineIcons").append("<img class='IconImage' src='img/AirlineIcons/Skywest.png'>").fadeIn(350);
-			$("#DelayMinutes").append(airlineArray[i].delayed + datatype + "&nbsp" + "delayed").splitFlap();
-		}
-		else if (airlineArray[i].name=="Southwest"){
-			$("#AirlineIcons").append("<img class='IconImage' src='img/AirlineIcons/Southwest.png'>").fadeIn(350);
-			$("#DelayMinutes").append(airlineArray[i].delayed + datatype + "&nbsp" + "delayed").splitFlap();
-		}
-		else if (airlineArray[i].name=="Spirit"){
-			$("#AirlineIcons").append("<img class='IconImage' src='img/AirlineIcons/Spirit.png'>").fadeIn(350);
-			$("#DelayMinutes").append(airlineArray[i].delayed + datatype + "&nbsp" + "delayed").splitFlap();
-		}
-		else if (airlineArray[i].name=="United"){
-			$("#AirlineIcons").append("<img class='IconImage' src='img/AirlineIcons/United.png'>").fadeIn(350);
-			$("#DelayMinutes").append(airlineArray[i].delayed + datatype + "&nbsp" + "delayed").splitFlap();
-		}
-		else if (airlineArray[i].name=="Virgin"){
-			$("#AirlineIcons").append("<img class='IconImage' src='img/AirlineIcons/Virgin.png'>").fadeIn(350);
-			$("#DelayMinutes").append(airlineArray[i].delayed + datatype + "&nbsp" + "delayed").splitFlap();
-		}
-	}
-	*/
 
 	//create info label div
     /*var infolabel = d3.select("body")
@@ -486,56 +338,20 @@ function updatePanel(prop){
 		$("#DelayMinutes").append(airlineArray[i].delayed + datatype + "&nbsp" + "delayed").splitFlap();
 	}*/
 
-
-/*
-//Update the panel with airport delay information
-function updatePanel(airports){
-    var content = "<div id='panelTitle'><h2><img src='images/anchor.png'>Port of "+feature.properties.port+"<img src='images/"+feature.properties.country+".svg'></h2></div>";
-    content += "<div id='panelPic'><img src='"+airports.properties.img+"' align='middle'></div>";
-    content += "<div id='panelDesc'><p>"+airports.properties.desc+"</p></div>";
-    $("#update-panel").html(content);
-};
-*/
-
-//Returns the radius given predefined classes
-function scaleAirportDelay(val){
-	if (params.type == 1){ //Percent delayed
-		if (val <= 25){
-			return 4;
-		}else if(val <= 50){
-			return 8;
-		}else if(val <= 75){
-			return 16;
-		}else{
-			return 32;
-		}
-	}else{//Avg delay time
-		if (val <= 10){
-			return 4;
-		}else if(val <= 30){
-			return 8;
-		}else if(val <= 60){
-			return 16;
-		}else{
-			return 32;
-		}
-	}
-}
-
 //function to highlight enumeration units and bars
 function highlightAirport(prop){
-	  var opacity = "0.9";
-	  var clickedText = d3.selectAll(".click_" + prop.origincode).text();
-	  var clickedObj = JSON.parse(clickedText);
-	  if (clickedObj["clicked"] == "true") {
-			  opacity = "1.0";
-	  }
+	  // var clickedText = d3.selectAll(".click_" + prop.origincode).text();
+	  // var clickedObj = JSON.parse(clickedText);
+	  // if (clickedObj["clicked"] == "true") {
+		// 	  stroke = "#DED630";
+	  // }
     //change stroke
     var selected = d3.selectAll(".airports_" + prop.origincode)
-        // .style("fill", function(){
-        //     return getStyle(this, "fill")
-        // })
-				.style("fill-opacity", opacity)
+		    //.style("fill-opacity", opacity)
+		    .attr('r', 10)
+				.style("stroke",'#ffffff')
+				.style("stroke-width",1.3)
+				.style("stroke-opacity",'0.6')
         .moveToFront();
 
     //call set label
@@ -549,25 +365,24 @@ function highlightAirport(prop){
 function highlightColor(code){
     //change stroke
     var selected = d3.selectAll(".airports_" + code)
-				.style("fill-opacity", "0.9")
+				//.style("fill-opacity", "0.9")
+				.style("stroke",'#ffffff')
+				.style("stroke-width",1.3)
+				.style("stroke-opacity",'0.6')
+				.attr('r', 10)
         .moveToFront();
 };
 
 //function to get information window
 function retrieveInfor(prop){
     //label content
-    var labelAttribute = "<h4>" + prop.originname + "</h4><b></b>" +
-                         "<h5>airport code: " + prop.origincode + "</h5><b></b>";
-    var airlineAttribute;
-    var airlineArray = prop.airline;
-    var datatype = "%";
-    var token = "Percent";
-    if (params.type == 0) {
-      datatype = "min";
-      token = "Average";
+    var labelAttribute = "<h4>" + prop.originname + " ("+prop.origincode+")</h4>"
+    if (params.type == 1){
+    	labelAttribute += "<h5><b>"+prop.stats.delayed+"%</b> of flights delayed</h5>";
+    }else{
+    	labelAttribute += "<h5><b>"+prop.stats.delayed+" min</b> average delay</h5>";
     }
 
-    labelAttribute += "<h4>" + token + " delayed: " + prop.stats.delayed + datatype + "</h4></b>";
     //create info label div
     var infolabel = d3.select("body")
         .append("div")
@@ -603,49 +418,59 @@ function retrieveInforPanel(prop){
 
 //dehighlight all airports
 function clicked(data){
+	var selected = d3.selectAll("circle")
+			.style("fill-opacity", "0.9")
+			.style("stroke",'#ffffff')
+			.style("stroke-width",1.3)
+			.style("stroke-opacity",'0.6')
+			.attr('r', 7);
+
   cur_airport = data;
 	d3.select(".infolabel")
 			.remove();
 	var click_desc = d3.selectAll("desc")
 			.remove();
 
-	var selected = d3.selectAll("circle")
-			.style("fill-opacity", "0.3")
-		  .append("desc")
-			  .attr("class", function(d) { return ("click_" + d.origincode)})
-		    .text('{"clicked": "false"}');
+  if (data != null) {
+		var selected = d3.selectAll("circle")
+				//.style("fill-opacity", "0.9")
+			  .append("desc")
+				  .attr("class", function(d) { return ("click_" + d.origincode)})
+			    .text('{"clicked": "false"}');
 
-	d3.selectAll(".click_" + data.origincode)
-	    .remove();
+		d3.selectAll(".click_" + data.origincode)
+		    .remove();
 
-	d3.selectAll(".airports_" + data.origincode)
-			.append("desc")
-			  .attr("class", "click_" + data.origincode)
-				.text('{"clicked": "true"}');
+		d3.selectAll(".airports_" + data.origincode)
+				.append("desc")
+				  .attr("class", "click_" + data.origincode)
+					.text('{"clicked": "true"}');
 
-	var clickedText = d3.selectAll(".click_" + data.origincode).text();
-	var clickedObj = JSON.parse(clickedText);
-	if (clickedObj["clicked"] == "true") {
-			highlightColor(data.origincode);
+		var clickedText = d3.selectAll(".click_" + data.origincode).text();
+		var clickedObj = JSON.parse(clickedText);
+		if (clickedObj["clicked"] == "true") {
+				highlightColor(data.origincode);
+		}
 	}
 }
 
 //function to reset the element style on mouseout
 function dehighlightAirport(code){
-	  var opacity = "0.3";
+	  var stroke = 0;
+		var r = 7;
 	  d3.select(".infolabel")
 			  .remove();
 	  var clickedText = d3.selectAll(".click_" + code).text();
 	  var clickedObj = JSON.parse(clickedText);
 	  if (clickedObj["clicked"] == "true") {
-		    opacity = "0.9";
+				r = 10;
 	  }
-
 		var selected = d3.selectAll(".airports_" + code)
-				// .style("fill", function(){
-				//     return getStyle(this, "fill")
-				// })
-				.style("fill-opacity", opacity);
+				//.style("fill-opacity", opacity);
+				.attr('r',r)
+				.style("stroke",'#ffffff')
+				.style("stroke-width",1.3)
+				.style("stroke-opacity",'0.6');
 
 		function getStyle(element, styleName){
 				var styleText = d3.select(element)
@@ -784,10 +609,14 @@ function lines(routes){
 //function to create color scale generator
 function makeColorScale(data){
     var colorClasses = [
-        "#fdd0a2",
-        "#fdae6b",
-        "#fd8d3c",
-        "#e6550d",
+        // "#fdd0a2",
+        // "#fdae6b",
+        // "#fd8d3c",
+        // "#e6550d",
+        "#fef0d9",
+        "#fdcc8a",
+        "#fc8d59",
+        "#d7301f"
     ];
 
     //create color scale generator
@@ -822,8 +651,6 @@ function makeColorScale(data){
 			}
 		}
 
-
-
     //assign two-value array as scale domain
     colorScale.domain(thresholds);
 		//create legend
@@ -833,20 +660,22 @@ function makeColorScale(data){
 
 //Make legend
 function legend(colorScale){
+	d3.select("#legend").remove()
 	d3.select("#legend-panel")
 			.append("svg")
-			.attr("class", "legend-svg");
+			.attr("class", "legend-svg")
+			.attr("id","legend");
 			//.attr("width", width)
 			//.attr("height", height);
 	var svg = d3.select(".legend-svg");
-	var titleText = "Percentage of delay (%)";
+	var titleText = "Percent of delayed flights (%)";
 	if (params.type == 0) {
 		titleText = "Average delay time (min)";
 	}
 
 	svg.append("g")
 	 	.attr("class", "legend")
-	  	.attr("transform", "translate(50,30)")
+	  	.attr("transform", "translate(0,20)")
 
 	var legend = d3.legendColor()
 		.title(titleText)
@@ -886,20 +715,21 @@ function highlightRoute(prop){
 //function to get information window
 function retrieveRoute(prop){
     //label content
-    var labelAttribute = "<h4>Origin: " + prop.originname + "</h4><b></b>" +
-                         "<h5>airport code: " + prop.origincode + "</h5><b></b>";
+    var labelAttribute = "<h4>" + prop.originname + " to "+ prop.destname + "</h4>"
     var airlineAttribute;
     var airlineArray = prop.airline;
-    var datatype = "%";
-    var token = "Percent";
-    if (params.type == 0) {
-      datatype = "min";
-      token = "Average";
+
+    if (params.type == 1){
+    	labelAttribute += "<b>"+prop.stats.delayed+"%</b> of flights delayed</h5>";
+		for (i=0; i<airlineArray.length; i++) {
+      		labelAttribute += "<h5>" + airlineArray[i].name + ": " + airlineArray[i].delayed + "%</h5><b></b>";
+    	}
+    }else{
+    	labelAttribute += "<b>"+prop.stats.delayed+" min</b> average delay</h5>";
+    	for (i=0; i<airlineArray.length; i++) {
+      		labelAttribute += "<h5>" + airlineArray[i].name + ": " + airlineArray[i].delayed+ " min</h5><b></b>";
+    	}
     }
-    for (i=0; i<airlineArray.length; i++) {
-      labelAttribute += "<h5>" + airlineArray[i].name + ":&nbsp" + airlineArray[i].delayed + datatype + "&nbsp" + "delayed</h5><b></b>";
-    }
-    labelAttribute += "<h4>" + token + " delayed: " + prop.stats.delayed + datatype + "</h4></b>";
 
     //create info label div
     var infolabel = d3.select("body")
@@ -968,7 +798,7 @@ $(".range-slider3").jRange({
 function activateButtons(){
 	$("button[name=submitBtn]").addClass("activated")
 	$("button[name=submitBtn]").removeClass("deactivated")
-	
+
 	$("button[name=resetBtn]").addClass("activated")
 	$("button[name=resetBtn]").removeClass("deactivated")
 }
@@ -1014,9 +844,12 @@ d3.select(".container2")
 		$(window).on("resize",function(){
 			if ($(window).width()<992){
 				$("#side-panel").appendTo("#bottom");
-				//console.log("HERE")
+				$("#side-panel-right").appendTo("#top");
+				$("#airport_search").removeClass("defaultL");
+				$("#airport_search").width("135%");
 			} else{
 				$("#side-panel").prependTo("#bottom");
+				$("#side-panel-right").prependTo("#top");
 			}
 		})
 	})
