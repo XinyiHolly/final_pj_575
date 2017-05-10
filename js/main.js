@@ -156,6 +156,10 @@ function requestAirports(){
 	}).get();
 
     callAirports();
+		if (cur_routes != null) {
+			callRoutes(cur_airport.origincode);
+			lines(cur_routes);
+		}
 }
 
 function callAirports (){
@@ -296,8 +300,7 @@ function updatePanel(prop){
 	    window.remove();
 	}
 	//label content
-	var windowAttribute = "<h4>" + prop.originname + "</h4><b></b>" +
-											 "<h5>airport code: " + prop.origincode + "</h5><b></b>";
+	var windowAttribute = "<h4>" + prop.originname + " (" + prop.origincode + ")" + "</h5><b></b>";
 	var airlineAttribute;
 	var airlineArray = prop.airline;
 	var datatype = "%";
@@ -312,14 +315,11 @@ function updatePanel(prop){
 	for (i=0; i<airlineArray.length; i++) {
 		var airline = airlineArray[i].name;
 		windowAttribute += "<h5><tr><td><img class='IconImage' title='" + airline + "' src='img/AirlineIcons/" + airline + ".png'></td>" + "<td>" + airlineArray[i].delayed + datatype + "&nbsp" + "delayed</td></tr>";
-		/*
-		windowAttribute += "<h5><div><img class='IconImage' src='img/AirlineIcons/" + airline + ".png'></div>" + airlineArray[i].name + ":&nbsp" + airlineArray[i].delayed + datatype + "&nbsp" + "delayed</h5><b></b>";
-		*/
 	}
 	windowAttribute += "</h5></table><b></b>"
-	
+
 	$("img").fadeIn(350)
-	
+
 	//create info label div
 	var infowindow = d3.select("#update-panel")
 			.append("div")
