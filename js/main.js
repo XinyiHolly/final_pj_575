@@ -307,15 +307,16 @@ function updatePanel(prop){
 		token = "Average";
 	}
 
-	windowAttribute += "<h4>" + token + " delayed: " + prop.stats.delayed + datatype + "</h4></b>";
+	windowAttribute += "<h4>" + token + " delayed: " + prop.stats.delayed + datatype + "</h4></b><table id='airlineTable' class='table'>";
 
 	for (i=0; i<airlineArray.length; i++) {
 		var airline = airlineArray[i].name;
-		windowAttribute += "<table id='airlineTable'><h5><tr><td id='tableRow1'><img class='IconImage' title='" + airline + "' src='img/AirlineIcons/" + airline + ".png'></td>" + "<td id='tableRow2'>" + airlineArray[i].delayed + datatype + "&nbsp" + "delayed</td></tr></h5></table><b></b>";
+		windowAttribute += "<h5><tr><td><img class='IconImage' title='" + airline + "' src='img/AirlineIcons/" + airline + ".png'></td>" + "<td>" + airlineArray[i].delayed + datatype + "&nbsp" + "delayed</td></tr>";
 		/*
 		windowAttribute += "<h5><div><img class='IconImage' src='img/AirlineIcons/" + airline + ".png'></div>" + airlineArray[i].name + ":&nbsp" + airlineArray[i].delayed + datatype + "&nbsp" + "delayed</h5><b></b>";
 		*/
 	}
+	windowAttribute += "</h5></table><b></b>"
 	
 	$("img").fadeIn(350)
 	
