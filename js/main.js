@@ -5,6 +5,7 @@ var map,projection;
 var params = {}; //object for storing filter params
 var autocomplete; //used for updating the list
 var cur_airports, cur_routes, cur_airport;
+var h;
 //Delay APIs
 var airportsURL = 'http://144.92.235.47:4040/airports'
 var routesURL = 'http://144.92.235.47:4040/routes'
@@ -26,7 +27,7 @@ function setMap(){
 	    width = $("#mapDiv").innerWidth();
 	    width = width //- margin.left - margin.right;
 	    height = width * mapRatio;
-
+	    h =height-(.20*height);
 	    // update projection
 	    projection
 	        .translate([width/2 , height/2])
@@ -668,21 +669,29 @@ function makeColorScale(data){
 //Make legend
 function legend(colorScale){
 	d3.select("#legend").remove()
-	d3.select("#legend-panel")
-			.append("svg")
-			.attr("class", "legend-svg")
-			.attr("id","legend");
+	// d3.select("#legend-panel")
+	// 		.append("svg")
+	// 		.attr("class", "legend-svg")
+	// 		.attr("id","legend")
+	// 		.style("max-width",$('#side-panel-right').innerWidth());
 			//.attr("width", width)
 			//.attr("height", height);
-	var svg = d3.select(".legend-svg");
-	var titleText = "Percent of delayed flights (%)";
-	if (params.type == 0) {
-		titleText = "Average delay time (min)";
-	}
+	d3.select(".map")
+			.append("svg")
+			.attr("class", "legend-svg")
+			.attr("id","legend")
+			.style("max-width",$('#side-panel-right').innerWidth());
 
+	var svg = d3.select(".legend-svg");
+	var titleText = "Delayed flights (%)";
+	if (params.type == 0) {
+		titleText = "Average delay (min)";
+	}
 	svg.append("g")
 	 	.attr("class", "legend")
-	  	.attr("transform", "translate(0,20)")
+	  	.attr("transform", "translate(20,"+h+")")
+	
+
 
 	var legend = d3.legendColor()
 		.title(titleText)
