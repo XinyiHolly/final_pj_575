@@ -274,9 +274,12 @@ function updateAirportDelays(airports){
 			})
 			// .style("fill",'blue')
 			.style("fill-opacity",'0.9')
+			.style("stroke",'#ffffff')
+			.style("stroke-width",1.3)
+			.style("stroke-opacity",'0.6')
 			//Add airport events for click and highlight
 			.on("click", function (d) {
-        		clicked(d);
+        clicked(d);
 				callRoutes(d.origincode);
 				updatePanel(d);
 			})
@@ -494,16 +497,18 @@ function updatePanel(airports){
 
 //function to highlight enumeration units and bars
 function highlightAirport(prop){
-	  var opacity = "0.9";
 	  var clickedText = d3.selectAll(".click_" + prop.origincode).text();
 	  var clickedObj = JSON.parse(clickedText);
 	  if (clickedObj["clicked"] == "true") {
-			  opacity = "1.0";
+			  stroke = "#DED630";
 	  }
     //change stroke
     var selected = d3.selectAll(".airports_" + prop.origincode)
-		//.style("fill-opacity", opacity)
-		.attr('stroke-width', 10)
+		    //.style("fill-opacity", opacity)
+		    .attr('r', 10)
+				.style("stroke",'#ffffff')
+				.style("stroke-width",1.3)
+				.style("stroke-opacity",'0.6')
         .moveToFront();
 
     //call set label
@@ -517,7 +522,11 @@ function highlightAirport(prop){
 function highlightColor(code){
     //change stroke
     var selected = d3.selectAll(".airports_" + code)
-				.style("fill-opacity", "0.9")
+				//.style("fill-opacity", "0.9")
+				.style("stroke",'#ffffff')
+				.style("stroke-width",1.3)
+				.style("stroke-opacity",'0.6')
+				.style('r', 10)
         .moveToFront();
 };
 
@@ -573,7 +582,7 @@ function clicked(data){
 			.remove();
 
 	var selected = d3.selectAll("circle")
-			.style("fill-opacity", "0.9")
+			//.style("fill-opacity", "0.9")
 		  .append("desc")
 			  .attr("class", function(d) { return ("click_" + d.origincode)})
 		    .text('{"clicked": "false"}');
@@ -595,18 +604,21 @@ function clicked(data){
 
 //function to reset the element style on mouseout
 function dehighlightAirport(code){
-	  var opacity = "0.9";
+	  var stroke = 0;
+		var r = 7;
 	  d3.select(".infolabel")
 			  .remove();
 	  var clickedText = d3.selectAll(".click_" + code).text();
 	  var clickedObj = JSON.parse(clickedText);
 	  if (clickedObj["clicked"] == "true") {
-		    opacity = "0.9";
+				r = 10;
 	  }
-
 		var selected = d3.selectAll(".airports_" + code)
 				//.style("fill-opacity", opacity);
-				.attr('r',7);
+				.attr('r',r)
+				.style("stroke",'#ffffff')
+				.style("stroke-width",1.3)
+				.style("stroke-opacity",'0.6');
 
 		function getStyle(element, styleName){
 				var styleText = d3.select(element)
@@ -934,7 +946,7 @@ $(".range-slider3").jRange({
 function activateButtons(){
 	$("button[name=submitBtn]").addClass("activated")
 	$("button[name=submitBtn]").removeClass("deactivated")
-	
+
 	$("button[name=resetBtn]").addClass("activated")
 	$("button[name=resetBtn]").removeClass("deactivated")
 }
