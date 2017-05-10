@@ -236,7 +236,7 @@ function updateAirportDelays(airports){
 			.attr("class", function(d) { return ("airports_" + d.origincode)})
 			.attr('cx', function(d) { return d.position[0]})
 			.attr('cy', function(d) { return d.position[1]})
-			.attr("r", 10)//function(d) {
+			.attr("r", 7)//function(d) {
 				// if (delayType == 'carrierd'){
 				// 	return scaleAirportDelay(d.stats.carrierd);
 				// }else if(delayType == 'weatherd'){
