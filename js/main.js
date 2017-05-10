@@ -50,10 +50,6 @@ function setMap(){
 			}
 	}
 
-    //map frame dimensions
-    // var width = $("#mapDiv").innerWidth(),
-    //     height =850;
-
     //create new svg container for the map
     map = d3.select("#mapDiv")
         .append("svg")
@@ -238,21 +234,7 @@ function updateAirportDelays(airports){
 			.attr("class", function(d) { return ("airports_" + d.origincode)})
 			.attr('cx', function(d) { return d.position[0]})
 			.attr('cy', function(d) { return d.position[1]})
-			.attr("r", 7)//function(d) {
-				// if (delayType == 'carrierd'){
-				// 	return scaleAirportDelay(d.stats.carrierd);
-				// }else if(delayType == 'weatherd'){
-				// 	return scaleAirportDelay(d.stats.weatherd);
-				// }else if(delayType == 'securityd'){
-				// 	return scaleAirportDelay(d.stats.securityd);
-				// }else if(delayType == 'nasd'){
-				// 	return scaleAirportDelay(d.stats.nasd);
-				// }else if(delayType == 'lateaircraftd'){
-				// 	return scaleAirportDelay(d.stats.lateaircraftd);
-				// }else{
-				// 	return scaleAirportDelay(d.stats.delayed);
-				// }
-			//})
+			.attr("r", 7)
 			.style("fill",function(d){
 				if (delayType == 'carrierd'){
 					originColor = colorScale(d.stats.carrierd);
@@ -274,14 +256,14 @@ function updateAirportDelays(airports){
 					return originColor;
 				}
 			})
-			// .style("fill",'blue')
 			.style("fill-opacity",'0.9')
 			.style("stroke",'#ffffff')
 			.style("stroke-width",1.3)
 			.style("stroke-opacity",'0.6')
+
 			//Add airport events for click and highlight
 			.on("click", function (d) {
-        clicked(d);
+				clicked(d);
 				callRoutes(d.origincode);
 				updatePanel(d);
 			})
@@ -292,19 +274,19 @@ function updateAirportDelays(airports){
 				$(this).css("cursor","pointer");
 			})
 			.on("mouseout", function(d){
-        dehighlightAirport(d.origincode);
+				dehighlightAirport(d.origincode);
 				// else highlightColor(d);
 			})
-      .on("mousemove", moveLabel)
-      // append explaining desc
+			.on("mousemove", moveLabel)
+      		// append explaining desc
 			.append("desc")
 			    .attr("class", function(d) { return ("click_" + d.origincode)})
-          .text('{"clicked": "false"}')
+			.text('{"clicked": "false"}')
 
 	circles.selectAll("circle")
     .append("desc")
-	  .attr("class", function(d) { return ("style_" + d.origincode)})
-    .text('{"fill": "' + originColor + '", "stroke-width": "0.5px", "stroke-opacity": "0.65"}');
+		.attr("class", function(d) { return ("style_" + d.origincode)})
+		.text('{"fill": "' + originColor + '", "stroke-width": "0.5px", "stroke-opacity": "0.65"}');
 }
 
 //Update the panel with airport delay information
