@@ -156,6 +156,10 @@ function requestAirports(){
 	}).get();
 
     callAirports();
+		if (cur_routes != null) {
+			callRoutes(cur_airport.origincode);
+			lines(cur_routes);
+		}
 }
 
 function callAirports (){
