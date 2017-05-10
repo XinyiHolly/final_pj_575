@@ -780,11 +780,34 @@ function makeColorScale(data){
 
     var thresholds = []
 
-
-
-		if (params.type == 1) {
-			thresholds = [ 0, 10, 20, 30, 40, 50, 60, 70 ];
+    if (params.delay == 'carrierd'){
+			for (i = 0; i < data.length; i++) {
+				thresholds.push(data[i].stats.carrierd);
+			}
+		}else if(params.delay == 'weatherd'){
+			for (i = 0; i < data.length; i++) {
+				thresholds.push(data[i].stats.weatherd);
+			}
+		}else if(params.delay == 'securityd'){
+			for (i = 0; i < data.length; i++) {
+				thresholds.push(data[i].stats.securityd);
+			}
+		}else if(params.delay == 'nasd'){
+			for (i = 0; i < data.length; i++) {
+				thresholds.push(data[i].stats.nasd);
+			}
+		}else if(params.delay == 'lateaircraftd'){
+			for (i = 0; i < data.length; i++) {
+				thresholds.push(data[i].stats.lateaircraftd);
+			}
+		}else{
+			for (i = 0; i < data.length; i++) {
+				thresholds.push(data[i].stats.delayed);
+			}
 		}
+
+
+
     //assign two-value array as scale domain
     colorScale.domain(thresholds);
 		//create legend
@@ -812,7 +835,6 @@ function legend(colorScale){
 	var legend = d3.legendColor()
 		.title(titleText)
 	    .labelFormat(d3.format("d"))
-	    .labels(d3.legendHelpers.thresholdLabels)
 	    .useClass(false)
 	    .scale(colorScale);
 
