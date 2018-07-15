@@ -7,8 +7,8 @@ var autocomplete; //used for updating the list
 var cur_airports, cur_routes, cur_airport;
 var h;
 //Delay APIs
-var airportsURL = 'http://144.92.235.47:4040/airports'
-var routesURL = 'http://144.92.235.47:4040/routes'
+var airportsURL = 'https://144.92.235.47:4040/airports'
+var routesURL = 'https://144.92.235.47:4040/routes'
 
 //begin script when window loads
 window.onload = setMap();
